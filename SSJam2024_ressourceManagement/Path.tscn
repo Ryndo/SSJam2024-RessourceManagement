@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://debrgenupet11"]
+[gd_scene load_steps=7 format=3 uid="uid://debrgenupet11"]
 
 [ext_resource type="Texture2D" uid="uid://djjjskmgu61jy" path="res://Sprites/PathTest.jpg" id="1_0nmnd"]
+[ext_resource type="Script" path="res://Scripts/Entities/Ennemies/Ennemy.gd" id="2_0ci58"]
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/EnnemyMovement.gd" id="2_81n6e"]
 [ext_resource type="Texture2D" uid="uid://csehygnxnyey2" path="res://icon.svg" id="2_omflm"]
 [ext_resource type="Script" path="res://Scripts/Entities/EntityStats.gd" id="3_xxrgd"]
@@ -19,22 +20,24 @@ position = Vector2(577, 325.5)
 scale = Vector2(1.28, 0.956973)
 texture = ExtResource("1_0nmnd")
 
-[node name="Path2D" type="Path2D" parent="."]
+[node name="Level path" type="Path2D" parent="."]
 position = Vector2(0, 7.68697)
 scale = Vector2(1, 0.982609)
 curve = SubResource("Curve2D_28qlu")
 
-[node name="Ennemy" type="PathFollow2D" parent="Path2D" node_paths=PackedStringArray("Stats")]
+[node name="Ennemy" type="PathFollow2D" parent="Level path" node_paths=PackedStringArray("Stats", "Movement")]
 position = Vector2(0, 434.876)
-script = ExtResource("2_81n6e")
+script = ExtResource("2_0ci58")
 Stats = NodePath("Stats")
+Movement = NodePath("Movement")
 
-[node name="Stats" type="Node" parent="Path2D/Ennemy"]
+[node name="Stats" type="Node" parent="Level path/Ennemy"]
 script = ExtResource("3_xxrgd")
 MovementSpeed = 27.785
 
-[node name="Sprite2D" type="Sprite2D" parent="Path2D/Ennemy"]
+[node name="Sprite2D" type="Sprite2D" parent="Level path/Ennemy"]
 scale = Vector2(0.171875, 0.171875)
 texture = ExtResource("2_omflm")
 
-[node name="Line2D" type="Line2D" parent="Path2D"]
+[node name="Movement" type="Node2D" parent="Level path/Ennemy"]
+script = ExtResource("2_81n6e")

@@ -1,8 +1,9 @@
-extends PathFollow2D
+extends Node2D
 
 class_name EntityMovement
 
-@export var Stats : EntityStats
-
 func _process(delta):
+	pass
+
+func CalculateMovement(speed) :
 	pass
