@@ -1,9 +1,6 @@
 extends Entity
 
 func _process(delta):
-	CalculateNextPosition(delta)
+	super._process(delta)
 	
-	
-func CalculateNextPosition(delta) :
-	var movementAmount = Movement.CalculateMovement(Stats.MovementSpeed * delta) 
-	progress += movementAmount
+

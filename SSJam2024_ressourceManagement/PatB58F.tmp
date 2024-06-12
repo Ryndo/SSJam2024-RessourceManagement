@@ -1,0 +1,113 @@
+[gd_scene load_steps=14 format=3 uid="uid://debrgenupet11"]
+
+[ext_resource type="Texture2D" uid="uid://djjjskmgu61jy" path="res://Sprites/PathTest.jpg" id="1_0nmnd"]
+[ext_resource type="Script" path="res://Scripts/Entities/Ennemies/Ennemy.gd" id="2_0ci58"]
+[ext_resource type="Script" path="res://Scripts/Entities/Ennemies/EnnemyMovement.gd" id="2_81n6e"]
+[ext_resource type="Texture2D" uid="uid://csehygnxnyey2" path="res://icon.svg" id="2_omflm"]
+[ext_resource type="Script" path="res://Scripts/Entities/EntityStats.gd" id="3_xxrgd"]
+[ext_resource type="Script" path="res://Scripts/Entities/Ennemies/EnnemyCombat.gd" id="6_4bpae"]
+[ext_resource type="Script" path="res://Scripts/Entities/EntityTargeting.gd" id="7_ct367"]
+[ext_resource type="Script" path="res://Scripts/Entities/Allies/Ally.gd" id="8_50qpg"]
+[ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyMovement.gd" id="9_6t24i"]
+[ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyCombat.gd" id="10_1878m"]
+
+[sub_resource type="Curve2D" id="Curve2D_28qlu"]
+bake_interval = 0.01
+_data = {
+"points": PackedVector2Array(0, 0, 0.575, 0, 0, 434.876, -57.0623, -1.81538, 57.0623, 1.81538, 159, 439.965, -22.2838, 57.7651, 22.2838, -57.7651, 452, 391.115, -8.82941, 30.9246, 8.82941, -30.9246, 481, 258.814, -40.7835, -2.13945, 40.7835, 2.13945, 575, 204.876, -24.386, -25.6734, 24.386, 25.6734, 662, 238.46, -29.8518, -15.8319, 29.8518, 15.8319, 735, 357.531, -60.965, -28.2407, 60.965, 28.2407, 901, 382.973, -60.1241, -9.41358, 60.1241, 9.41358, 1012, 438.947, 0, 0, 0, 0, 1156, 440.982)
+}
+point_count = 10
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vfdoq"]
+radius = 48.28
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f6pxt"]
+radius = 19.57
+
+[node name="Path" type="Node2D"]
+
+[node name="PathTest" type="Sprite2D" parent="."]
+position = Vector2(577, 325.5)
+scale = Vector2(1.28, 0.956973)
+texture = ExtResource("1_0nmnd")
+
+[node name="Level path" type="Path2D" parent="."]
+position = Vector2(0, 7.68697)
+scale = Vector2(1, 0.982609)
+curve = SubResource("Curve2D_28qlu")
+
+[node name="Ennemy" type="PathFollow2D" parent="Level path" node_paths=PackedStringArray("Stats", "Movement", "Combat")]
+position = Vector2(0, 434.876)
+script = ExtResource("2_0ci58")
+Stats = NodePath("Stats")
+Movement = NodePath("Movement")
+Combat = NodePath("Combat")
+
+[node name="Stats" type="Node" parent="Level path/Ennemy"]
+script = ExtResource("3_xxrgd")
+MovementSpeed = 27.785
+
+[node name="Sprite2D" type="Sprite2D" parent="Level path/Ennemy"]
+scale = Vector2(0.171875, 0.171875)
+texture = ExtResource("2_omflm")
+
+[node name="Movement" type="Node2D" parent="Level path/Ennemy"]
+script = ExtResource("2_81n6e")
+
+[node name="Combat" type="Node2D" parent="Level path/Ennemy" node_paths=PackedStringArray("targeting")]
+script = ExtResource("6_4bpae")
+targeting = NodePath("Target")
+
+[node name="Target" type="Area2D" parent="Level path/Ennemy/Combat"]
+collision_layer = 4
+script = ExtResource("7_ct367")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level path/Ennemy/Combat/Target"]
+shape = SubResource("CircleShape2D_vfdoq")
+
+[node name="Ennemy Collider" type="Area2D" parent="Level path/Ennemy"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="shape" type="CollisionShape2D" parent="Level path/Ennemy/Ennemy Collider"]
+shape = SubResource("CircleShape2D_f6pxt")
+debug_color = Color(0.870588, 0.184314, 0.737255, 0.419608)
+
+[node name="Ally" type="PathFollow2D" parent="Level path" node_paths=PackedStringArray("Stats", "Movement", "Combat")]
+position = Vector2(109.037, 438.368)
+rotation = 0.0320479
+progress = 109.093
+script = ExtResource("8_50qpg")
+Stats = NodePath("Stats")
+Movement = NodePath("Movement")
+Combat = NodePath("Combat")
+
+[node name="Stats" type="Node" parent="Level path/Ally"]
+script = ExtResource("3_xxrgd")
+MovementSpeed = 27.785
+
+[node name="Movement" type="Node2D" parent="Level path/Ally"]
+script = ExtResource("9_6t24i")
+
+[node name="Combat" type="Node2D" parent="Level path/Ally" node_paths=PackedStringArray("targeting")]
+script = ExtResource("10_1878m")
+targeting = NodePath("Targeting")
+
+[node name="Targeting" type="Area2D" parent="Level path/Ally/Combat"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("7_ct367")
+
+[node name="shape" type="CollisionShape2D" parent="Level path/Ally/Combat/Targeting"]
+shape = SubResource("CircleShape2D_vfdoq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level path/Ally"]
+scale = Vector2(0.171875, 0.171875)
+texture = ExtResource("2_omflm")
+
+[node name="Collider" type="Area2D" parent="Level path/Ally"]
+collision_mask = 0
+
+[node name="shape" type="CollisionShape2D" parent="Level path/Ally/Collider"]
+shape = SubResource("CircleShape2D_f6pxt")
+debug_color = Color(0.870588, 0.184314, 0.737255, 0.419608)

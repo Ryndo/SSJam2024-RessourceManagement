@@ -1,6 +1,7 @@
 extends Node
 
 class_name EntityStats
+@export var AggroRange : float 
 @export var AttackRange : float 
 @export var MovementSpeed : float 
 @export var AttackDamage : float
