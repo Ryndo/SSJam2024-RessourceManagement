@@ -28,7 +28,6 @@ func CalculateNewTarget() :
 			closestEntity = entity
 	if currentTarget == closestEntity :
 		return
-	print(closestEntity)
 	currentTarget = closestEntity
 	targetChanged.emit(currentTarget)
 
@@ -43,12 +42,11 @@ func _on_body_exited(body):
 		return
 	entitiesInRange.remove_at(index)
 
-
 func ResetTargeting() :
 	currentTarget = null
 	resetTargetingTimer.start()
 	isTargetingOff = true
-
+	targetChanged.emit(currentTarget)
 
 func TargetingResetTimerEnded():
 	isTargetingOff = false

@@ -15,11 +15,6 @@ run/main_scene="res://Scenes/pathFinding.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://Sprites/icon.svg"
 
-[autoload]
-
-CustomNavigationServer="*res://Prefabs/NavigationServer.tscn"
-CustomSignals="*res://Scripts/Systems/CustomSignals.gd"
-
 [dotnet]
 
 project/assembly_name="SummerSlowJams2024_ResourceManagement"
@@ -42,6 +37,9 @@ MoveAlly={
 2d_physics/layer_1="Obstacle"
 2d_physics/layer_2="Ennemy"
 2d_physics/layer_3="Ally"
+avoidance/layer_1="Obstacles"
+avoidance/layer_2="Ennemy"
+avoidance/layer_3="Ally"
 
 [navigation]
 

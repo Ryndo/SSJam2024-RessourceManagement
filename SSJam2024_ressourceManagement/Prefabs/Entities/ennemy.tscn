@@ -15,7 +15,7 @@ radius = 22.41
 [sub_resource type="CircleShape2D" id="CircleShape2D_ft7rd"]
 radius = 59.65
 
-[node name="Ennemy" type="Node2D" node_paths=PackedStringArray("Stats", "Movement", "Combat", "Targeting", "PathFinding")]
+[node name="Ennemy" type="Node2D" node_paths=PackedStringArray("Stats", "Movement", "Combat", "Targeting", "PathFinding", "Agent")]
 position = Vector2(973, 392)
 script = ExtResource("1_0y0wc")
 Stats = NodePath("Stats")
@@ -23,20 +23,20 @@ Movement = NodePath("Movement")
 Combat = NodePath("Movement/EntityCombat")
 Targeting = NodePath("Movement/EntityTargeting")
 PathFinding = NodePath("Pathfinding")
+Agent = NodePath("Movement/NavigationAgent2D")
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("2_byfjq")
-AggroRange = 20.0
-AttackRange = 15.0
 MovementSpeed = 150.0
 
-[node name="Movement" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Raycasts", "FrontRay", "timer")]
+[node name="Movement" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Raycasts", "FrontRay", "timer", "Agent")]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("3_nvi4w")
 Raycasts = NodePath("Raycasts")
 FrontRay = NodePath("Raycasts/Raycast front")
 timer = NodePath("Stationnary timer")
+Agent = NodePath("NavigationAgent2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Movement"]
 shape = SubResource("CircleShape2D_exii8")
@@ -88,8 +88,19 @@ rangeShape = NodePath("aggro range")
 shape = SubResource("CircleShape2D_ft7rd")
 debug_color = Color(0.94902, 0, 0.278431, 0.419608)
 
-[node name="Pathfinding" type="Node" parent="."]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Movement"]
+avoidance_enabled = true
+max_speed = 600.0
+avoidance_layers = 2
+avoidance_mask = 3
+
+[node name="Pathfinding" type="Node" parent="." node_paths=PackedStringArray("refreshTargetPathTimer", "Agent")]
 script = ExtResource("6_iywmj")
+refreshTargetPathTimer = NodePath("RefreshPathTimer")
+Agent = NodePath("../Movement/NavigationAgent2D")
+
+[node name="RefreshPathTimer" type="Timer" parent="Pathfinding"]
+wait_time = 0.5
 
 [connection signal="timeout" from="Movement/Stationnary timer" to="Movement" method="_on_stationnary_timer_timeout"]
 [connection signal="isInRangeOfAttack" from="Movement/EntityCombat" to="." method="_on_entity_combat_is_in_range_of_attack"]
@@ -99,3 +110,6 @@ script = ExtResource("6_iywmj")
 [connection signal="body_entered" from="Movement/EntityTargeting" to="Movement/EntityTargeting" method="_on_body_entered"]
 [connection signal="body_exited" from="Movement/EntityTargeting" to="Movement/EntityTargeting" method="_on_body_exited"]
 [connection signal="targetChanged" from="Movement/EntityTargeting" to="." method="_on_entity_targeting_target_changed"]
+[connection signal="velocity_computed" from="Movement/NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="velocity_computed" from="Movement/NavigationAgent2D" to="Movement" method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="timeout" from="Pathfinding/RefreshPathTimer" to="Pathfinding" method="RefreshPath"]

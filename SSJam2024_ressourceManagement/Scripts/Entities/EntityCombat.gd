@@ -18,18 +18,15 @@ func Setup(_collider, attackRange) :
 	shapeRange.shape.radius = attackRange
 	
 func Attack(attackRange) :
-
 	pass
 	
-
-func _on_area_2d_body_entered(body):
+func EntityEnterAttackRange(body):
 	if collider == body :
 		return
 	entitiesInArea.append(body)
 	isInRangeOfAttack.emit(body)
 
-
-func _on_area_2d_body_exited(body):
+func EntityExitAttackRange(body):
 	if collider == body :
 		return
 	entitiesInArea.remove_at(entitiesInArea.find(body))

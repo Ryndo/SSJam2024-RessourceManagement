@@ -604,3 +604,15 @@ position = Vector2(1033, 325)
 
 [node name="Ally" parent="." instance=ExtResource("9_26c0i")]
 position = Vector2(797, 464)
+
+[node name="Ally2" parent="." instance=ExtResource("9_26c0i")]
+position = Vector2(597, 474)
+
+[node name="Ally3" parent="." instance=ExtResource("9_26c0i")]
+position = Vector2(691, 593)
+
+[node name="Ally4" parent="." instance=ExtResource("9_26c0i")]
+position = Vector2(799, 529)
+
+[node name="Ally5" parent="." instance=ExtResource("9_26c0i")]
+position = Vector2(698, 502)

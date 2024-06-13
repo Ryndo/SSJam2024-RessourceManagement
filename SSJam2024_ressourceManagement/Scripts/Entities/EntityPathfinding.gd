@@ -2,29 +2,35 @@ extends Node
 
 class_name EntityPathfinding
 
-var navigationServer : NavigationServer
-var navigationPath : PackedVector2Array
-var distanceTreshold = 12
+@export var refreshTargetPathTimer : Timer
+@export var Agent : NavigationAgent2D
 
-func _ready():
-	CustomSignals.OnServerSetuped.connect(getServer)
-	#navigationServer = get_node("/root/CustomNavigationServer")
+var currentTarget
+
+func _process(delta):
+	if refreshTargetPathTimer.time_left > 0:
+		return
+	if currentTarget == null :
+		return
+	refreshTargetPathTimer.start()
+	CalculatePath()
 	
-func CalculatePath(position, targetPosition) :
-	navigationPath = navigationServer.GetPath(position,targetPosition)
+func SetTarget(target) :
+	currentTarget = target
 	
-func IsPathEmpty() :
-	return navigationPath == null or navigationPath.size() == 0
+func CalculatePath() :
+	Agent.target_position = currentTarget.global_position
 	
+func CalculatePathWithPosition(position) :
+	Agent.target_position = position
+
 func GetNextPathPoint() :
-	return navigationPath[0]
+	if Agent.target_position == null :
+		return null
+	return Agent.get_next_path_position()
 	
-func RemoveNextPathPoint() :
-	navigationPath.remove_at(0)
-
-func IsCloseEnough(position) :
-	var distanceToNextPoint = position.distance_to(GetNextPathPoint())
-	return distanceToNextPoint < distanceTreshold
-
-func getServer(server) :
-	navigationServer = server
+#on timer time out refresh path with new target position
+func RefreshPath():
+	if currentTarget == null :
+		return
+	CalculatePath()

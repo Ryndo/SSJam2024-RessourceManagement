@@ -14,7 +14,6 @@ var entitiesInArea : Array[Node2D]
 
 func Setup(followRange,positionToHold,ally) :
 	collider = ally
-	print(FollowArea == null)
 	FollowArea.shape.radius = followRange
 	holdPosition = positionToHold
 
