@@ -2,13 +2,14 @@ extends Node
 
 class_name EntityPathfinding
 
-var target : Vector2
 var navigationServer : NavigationServer
 var navigationPath : PackedVector2Array
-
 var distanceTreshold = 12
 
-
+func _ready():
+	CustomSignals.OnServerSetuped.connect(getServer)
+	#navigationServer = get_node("/root/CustomNavigationServer")
+	
 func CalculatePath(position, targetPosition) :
 	navigationPath = navigationServer.GetPath(position,targetPosition)
 	
@@ -25,6 +26,5 @@ func IsCloseEnough(position) :
 	var distanceToNextPoint = position.distance_to(GetNextPathPoint())
 	return distanceToNextPoint < distanceTreshold
 
-
-func _on_server_server_setuped(server):
+func getServer(server) :
 	navigationServer = server

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://vm3mlnl1awpi"]
+
+[ext_resource type="Script" path="res://Scripts/Navigation/NavigationServer.gd" id="1_7r34h"]
+
+[node name="Server" type="Node2D" node_paths=PackedStringArray("line")]
+script = ExtResource("1_7r34h")
+line = NodePath("Line2D")
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 2.0
+default_color = Color(0.686275, 0.32549, 0.329412, 1)

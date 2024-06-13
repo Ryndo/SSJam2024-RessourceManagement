@@ -3,11 +3,13 @@ extends Area2D
 class_name EntityTargeting;
 
 @export var rangeShape : CollisionShape2D
+@export var resetTargetingTimer : Timer
 
 var collider #character body
 var entitiesInRange : Array[Node2D]
 var currentTarget
 
+var isTargetingOff = false
 signal targetChanged(target)
 
 func Setup(body,range) :
@@ -15,6 +17,8 @@ func Setup(body,range) :
 	rangeShape.shape.radius = range
 	
 func _process(delta):
+	if isTargetingOff :
+		return
 	CalculateNewTarget()
 	
 func CalculateNewTarget() :
@@ -24,6 +28,7 @@ func CalculateNewTarget() :
 			closestEntity = entity
 	if currentTarget == closestEntity :
 		return
+	print(closestEntity)
 	currentTarget = closestEntity
 	targetChanged.emit(currentTarget)
 
@@ -37,3 +42,13 @@ func _on_body_exited(body):
 	if index == -1 :
 		return
 	entitiesInRange.remove_at(index)
+
+
+func ResetTargeting() :
+	currentTarget = null
+	resetTargetingTimer.start()
+	isTargetingOff = true
+
+
+func TargetingResetTimerEnded():
+	isTargetingOff = false

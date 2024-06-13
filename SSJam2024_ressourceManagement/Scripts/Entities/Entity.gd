@@ -8,12 +8,11 @@ class_name Entity
 @export var Targeting : EntityTargeting
 @export var PathFinding : EntityPathfinding
 
-@export var navigation2D : NavigationServer
 
 func _ready():
 	Targeting.Setup(Movement,Stats.AggroRange)
 	Combat.Setup(Movement,Stats.AttackRange)
-	pass
+
 func _process(delta):
 	if Input.is_action_just_pressed("MoveUnit") :
 		PathFinding.CalculatePath(Movement.global_position,get_global_mouse_position())
@@ -21,10 +20,12 @@ func _process(delta):
 func _physics_process(delta):
 	if Combat.isAttacking :
 		return
-	var newVelocity = CalculateNewVelocity(delta)
+	if Targeting.currentTarget != null and !Combat.IsInAttackRange(Targeting.currentTarget) :
+		ChaseTarget()
+	var newVelocity = CalculateNewVelocity()
 	Movement.Move(newVelocity)
 
-func CalculateNewVelocity(delta) :
+func CalculateNewVelocity() :
 	var newVelocity = Vector2.ZERO
 	if !PathFinding.IsPathEmpty() :
 		var nextPathPoint = PathFinding.GetNextPathPoint()
@@ -37,14 +38,23 @@ func CalculateNewVelocity(delta) :
 			newVelocity = Movement.global_position.direction_to(nextPathPoint) * Stats.MovementSpeed
 	return newVelocity
 
-func _on_entity_targeting_target_changed(target) :
+func TargetingTargetChanged(target) :
 	if target == null :
 		return
 	PathFinding.CalculatePath(Movement.global_position,target.global_position)
 
 
-func _on_entity_combat_is_in_range_of_attack(entity):
-	print(str(entity.name) + " in range")
+func EntityInRangeOfAttack(entity):
 	if entity == Targeting.currentTarget : 
 		Combat.isAttacking = true
 		Movement.StopMoving()
+
+
+func OutOfAttackRange(entity):
+	print("out of attack range")
+	if Targeting.currentTarget != null and entity == Targeting.currentTarget : 
+		ChaseTarget()
+
+func ChaseTarget() :
+	Combat.isAttacking = false
+	PathFinding.CalculatePath(Movement.global_position,Targeting.currentTarget.global_position)

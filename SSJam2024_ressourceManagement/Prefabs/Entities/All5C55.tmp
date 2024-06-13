@@ -1,0 +1,113 @@
+[gd_scene load_steps=12 format=3 uid="uid://c5v6yh6ynhp25"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/Allies/Ally.gd" id="1_racca"]
+[ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyStats.gd" id="2_5lslk"]
+[ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyMovement.gd" id="2_qea6e"]
+[ext_resource type="Script" path="res://Scripts/Entities/EntityTargeting.gd" id="3_885no"]
+[ext_resource type="Script" path="res://Scripts/Entities/EntityPathfinding.gd" id="5_fk8mt"]
+[ext_resource type="Script" path="res://Prefabs/Entities/Follow range.gd" id="6_n5rf5"]
+[ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyCombat.gd" id="7_o65pa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_exii8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ft7rd"]
+radius = 59.65
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u8kge"]
+radius = 16.21
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cfkwg"]
+radius = 140.33
+
+[node name="Ally" type="Node2D" node_paths=PackedStringArray("FollowRange", "Stats", "Movement", "Combat", "Targeting", "PathFinding")]
+script = ExtResource("1_racca")
+FollowRange = NodePath("Follow range")
+Stats = NodePath("Stats")
+Movement = NodePath("Movement")
+Combat = NodePath("Movement/Combat")
+Targeting = NodePath("Movement/EntityTargeting")
+PathFinding = NodePath("Pathfinding")
+
+[node name="Stats" type="Node" parent="."]
+script = ExtResource("2_5lslk")
+FollowRange = 350.0
+AggroRange = 100.0
+AttackRange = 50.0
+MovementSpeed = 150.0
+
+[node name="Movement" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Raycasts", "FrontRay", "timer")]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("2_qea6e")
+Raycasts = NodePath("Raycasts")
+FrontRay = NodePath("Raycasts/Raycast front")
+timer = NodePath("Stationnary timer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Movement"]
+shape = SubResource("CircleShape2D_exii8")
+debug_color = Color(0.705882, 0.556863, 0, 0.419608)
+
+[node name="Raycasts" type="Node2D" parent="Movement"]
+
+[node name="Raycast front" type="RayCast2D" parent="Movement/Raycasts"]
+modulate = Color(0.858824, 0, 0.501961, 1)
+target_position = Vector2(40, 0)
+collision_mask = 3
+
+[node name="Raycast right" type="RayCast2D" parent="Movement/Raycasts"]
+rotation = 0.785398
+target_position = Vector2(40, 0)
+collision_mask = 3
+
+[node name="Raycast right2" type="RayCast2D" parent="Movement/Raycasts"]
+rotation = 1.5708
+target_position = Vector2(40, 0)
+collision_mask = 3
+
+[node name="Raycast left" type="RayCast2D" parent="Movement/Raycasts"]
+rotation = -0.785398
+target_position = Vector2(40, 0)
+collision_mask = 3
+
+[node name="Raycast left2" type="RayCast2D" parent="Movement/Raycasts"]
+rotation = -1.5708
+target_position = Vector2(40, 0)
+collision_mask = 3
+
+[node name="Stationnary timer" type="Timer" parent="Movement"]
+wait_time = 0.3
+one_shot = true
+
+[node name="EntityTargeting" type="Area2D" parent="Movement" node_paths=PackedStringArray("rangeShape")]
+collision_layer = 0
+collision_mask = 6
+script = ExtResource("3_885no")
+rangeShape = NodePath("aggro range")
+
+[node name="aggro range" type="CollisionShape2D" parent="Movement/EntityTargeting"]
+shape = SubResource("CircleShape2D_ft7rd")
+debug_color = Color(0, 0.619608, 0.219608, 0.419608)
+
+[node name="Combat" type="Node2D" parent="Movement" node_paths=PackedStringArray("shapeRange")]
+script = ExtResource("7_o65pa")
+shapeRange = NodePath("Attack range/CollisionShape2D")
+
+[node name="Attack range" type="Area2D" parent="Movement/Combat"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Movement/Combat/Attack range"]
+shape = SubResource("CircleShape2D_u8kge")
+debug_color = Color(0.964706, 0, 0.482353, 0.419608)
+
+[node name="Pathfinding" type="Node" parent="."]
+script = ExtResource("5_fk8mt")
+
+[node name="Follow range" type="Area2D" parent="." node_paths=PackedStringArray("FollowArea")]
+script = ExtResource("6_n5rf5")
+FollowArea = NodePath("shape")
+
+[node name="shape" type="CollisionShape2D" parent="Follow range"]
+shape = SubResource("CircleShape2D_cfkwg")
+
+[connection signal="timeout" from="Movement/Stationnary timer" to="Movement" method="_on_stationnary_timer_timeout"]
+[connection signal="body_entered" from="Movement/EntityTargeting" to="Movement/EntityTargeting" method="_on_body_entered"]
+[connection signal="body_exited" from="Movement/EntityTargeting" to="Movement/EntityTargeting" method="_on_body_exited"]

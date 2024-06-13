@@ -13,7 +13,7 @@ func _ready():
 
 func custom_setup() :
 	map  = get_world_2d().get_navigation_map()
-	serverSetuped.emit(self)
+	CustomSignals.OnServerSetuped.emit(self)
 
 
 func getMap() :

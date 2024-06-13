@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="SummerSlowJams2024_ResourceManagement"
+run/main_scene="res://Scenes/pathFinding.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://Sprites/icon.svg"
+
+[autoload]
+
+CustomNavigationServer="*res://Prefabs/NavigationServer.tscn"
+CustomSignals="*res://Scripts/Systems/CustomSignals.gd"
 
 [dotnet]
 
@@ -23,6 +29,11 @@ project/assembly_name="SummerSlowJams2024_ResourceManagement"
 MoveUnit={
 "deadzone": 0.5,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(97, 23),"global_position":Vector2(101, 64),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+MoveAlly={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(192, 16),"global_position":Vector2(196, 57),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 

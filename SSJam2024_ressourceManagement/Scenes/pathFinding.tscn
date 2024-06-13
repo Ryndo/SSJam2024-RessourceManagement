@@ -1,15 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://brnv337xh3kle"]
+[gd_scene load_steps=7 format=3 uid="uid://brnv337xh3kle"]
 
 [ext_resource type="Texture2D" uid="uid://tay0yusu3pd4" path="res://Sprites/Tile sheets/tilesheet_complete.png" id="1_3b3ia"]
-[ext_resource type="Script" path="res://Scripts/Entities/EntityTargeting.gd" id="4_1lwwo"]
-[ext_resource type="Script" path="res://Scripts/Navigation/NavigationServer.gd" id="4_vbmrj"]
-[ext_resource type="Script" path="res://Scripts/Entities/Entity.gd" id="6_p3mcp"]
-[ext_resource type="Script" path="res://Scripts/Entities/EntityStats.gd" id="7_st71x"]
-[ext_resource type="Script" path="res://Scripts/Entities/EntityCombat.gd" id="8_6oqmq"]
-[ext_resource type="Script" path="res://Scripts/Entities/Allies/Ally.gd" id="8_in82c"]
-[ext_resource type="Script" path="res://Scripts/Entities/EntityMovement.gd" id="8_ww56v"]
-[ext_resource type="Script" path="res://Scripts/Entities/EntityPathfinding.gd" id="9_mgifj"]
-[ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyMovement.gd" id="9_yp03o"]
+[ext_resource type="PackedScene" uid="uid://k12wgaoarf73" path="res://Prefabs/Entities/ennemy.tscn" id="8_2sm1y"]
+[ext_resource type="PackedScene" uid="uid://c5v6yh6ynhp25" path="res://Prefabs/Entities/Ally.tscn" id="9_26c0i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jss41"]
 texture = ExtResource("1_3b3ia")
@@ -583,17 +576,6 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(213, -339, -340, -27, -
 source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 18.46
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_57k4j"]
-radius = 29.3
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_exii8"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ft7rd"]
-radius = 59.65
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_iuxgv"]
-radius = 22.41
-
 [node name="PathFinding" type="Node2D"]
 
 [node name="TileMap2" type="TileMap" parent="."]
@@ -617,207 +599,8 @@ navigation_polygon = SubResource("NavigationPolygon_u37gj")
 [node name="target" type="Node2D" parent="."]
 position = Vector2(1092, 306)
 
-[node name="Server" type="Node2D" parent="." node_paths=PackedStringArray("line")]
-script = ExtResource("4_vbmrj")
-line = NodePath("Line2D")
+[node name="Ennemy" parent="." instance=ExtResource("8_2sm1y")]
+position = Vector2(1033, 325)
 
-[node name="Line2D" type="Line2D" parent="Server"]
-width = 2.0
-default_color = Color(0.686275, 0.32549, 0.329412, 1)
-
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2(637, 17)
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("4_1lwwo")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_57k4j")
-
-[node name="Entity" type="Node2D" parent="." node_paths=PackedStringArray("Stats", "Movement", "Combat", "Targeting", "PathFinding", "navigation2D")]
-position = Vector2(658, 523)
-script = ExtResource("6_p3mcp")
-Stats = NodePath("Stats")
-Movement = NodePath("Movement")
-Combat = NodePath("Movement/EntityCombat")
-Targeting = NodePath("Movement/EntityTargeting")
-PathFinding = NodePath("Pathfinding")
-navigation2D = NodePath("../Server")
-
-[node name="Stats" type="Node" parent="Entity"]
-script = ExtResource("7_st71x")
-AggroRange = 100.0
-AttackRange = 50.0
-MovementSpeed = 150.0
-
-[node name="Movement" type="CharacterBody2D" parent="Entity" node_paths=PackedStringArray("Raycasts", "FrontRay", "timer")]
-collision_layer = 2
-script = ExtResource("8_ww56v")
-Raycasts = NodePath("Raycasts")
-FrontRay = NodePath("Raycasts/Raycast front")
-timer = NodePath("Stationnary timer")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entity/Movement"]
-shape = SubResource("CircleShape2D_exii8")
-
-[node name="Raycasts" type="Node2D" parent="Entity/Movement"]
-
-[node name="Raycast front" type="RayCast2D" parent="Entity/Movement/Raycasts"]
-modulate = Color(0.858824, 0, 0.501961, 1)
-target_position = Vector2(40, 0)
-
-[node name="Raycast right" type="RayCast2D" parent="Entity/Movement/Raycasts"]
-rotation = 0.785398
-target_position = Vector2(40, 0)
-
-[node name="Raycast right2" type="RayCast2D" parent="Entity/Movement/Raycasts"]
-rotation = 1.5708
-target_position = Vector2(40, 0)
-
-[node name="Raycast left" type="RayCast2D" parent="Entity/Movement/Raycasts"]
-rotation = -0.785398
-target_position = Vector2(40, 0)
-
-[node name="Raycast left2" type="RayCast2D" parent="Entity/Movement/Raycasts"]
-rotation = -1.5708
-target_position = Vector2(40, 0)
-
-[node name="Stationnary timer" type="Timer" parent="Entity/Movement"]
-wait_time = 0.3
-one_shot = true
-
-[node name="EntityTargeting" type="Area2D" parent="Entity/Movement" node_paths=PackedStringArray("rangeShape")]
-collision_layer = 0
-collision_mask = 6
-script = ExtResource("4_1lwwo")
-rangeShape = NodePath("aggro range")
-
-[node name="aggro range" type="CollisionShape2D" parent="Entity/Movement/EntityTargeting"]
-shape = SubResource("CircleShape2D_ft7rd")
-debug_color = Color(0.94902, 0, 0.278431, 0.419608)
-
-[node name="EntityCombat" type="Node2D" parent="Entity/Movement" node_paths=PackedStringArray("shapeRange")]
-script = ExtResource("8_6oqmq")
-shapeRange = NodePath("Area2D/attack range")
-
-[node name="Area2D" type="Area2D" parent="Entity/Movement/EntityCombat"]
-collision_mask = 6
-
-[node name="attack range" type="CollisionShape2D" parent="Entity/Movement/EntityCombat/Area2D"]
-shape = SubResource("CircleShape2D_iuxgv")
-debug_color = Color(0.137255, 0.498039, 0, 0.419608)
-
-[node name="Pathfinding" type="Node" parent="Entity"]
-script = ExtResource("9_mgifj")
-
-[node name="Ally" type="Node2D" parent="." node_paths=PackedStringArray("Stats", "Movement", "PathFinding")]
-position = Vector2(658, 523)
-script = ExtResource("8_in82c")
-Stats = NodePath("Stats")
-Movement = NodePath("Movement")
-PathFinding = NodePath("Pathfinding")
-
-[node name="Movement" type="CharacterBody2D" parent="Ally" node_paths=PackedStringArray("Raycasts", "FrontRay", "timer")]
-position = Vector2(184, -65)
-collision_layer = 4
-script = ExtResource("9_yp03o")
-Raycasts = NodePath("Raycasts")
-FrontRay = NodePath("Raycasts/Raycast front")
-timer = NodePath("Stationnary timer")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ally/Movement"]
-shape = SubResource("CircleShape2D_exii8")
-
-[node name="Raycasts" type="Node2D" parent="Ally/Movement"]
-
-[node name="Raycast front" type="RayCast2D" parent="Ally/Movement/Raycasts"]
-modulate = Color(0.858824, 0, 0.501961, 1)
-target_position = Vector2(40, 0)
-
-[node name="Raycast right" type="RayCast2D" parent="Ally/Movement/Raycasts"]
-rotation = 0.785398
-target_position = Vector2(40, 0)
-
-[node name="Raycast right2" type="RayCast2D" parent="Ally/Movement/Raycasts"]
-rotation = 1.5708
-target_position = Vector2(40, 0)
-
-[node name="Raycast left" type="RayCast2D" parent="Ally/Movement/Raycasts"]
-rotation = -0.785398
-target_position = Vector2(40, 0)
-
-[node name="Raycast left2" type="RayCast2D" parent="Ally/Movement/Raycasts"]
-rotation = -1.5708
-target_position = Vector2(40, 0)
-
-[node name="Stationnary timer" type="Timer" parent="Ally/Movement"]
-wait_time = 0.3
-one_shot = true
-
-[node name="Stats" type="Node" parent="Ally"]
-script = ExtResource("7_st71x")
-MovementSpeed = 150.0
-
-[node name="Pathfinding" type="Node" parent="Ally"]
-script = ExtResource("9_mgifj")
-
-[node name="Ally2" type="Node2D" parent="." node_paths=PackedStringArray("Stats", "Movement", "PathFinding")]
-position = Vector2(603, 596)
-script = ExtResource("8_in82c")
-Stats = NodePath("../Ally/Stats")
-Movement = NodePath("../Ally/Movement")
-PathFinding = NodePath("../Ally/Pathfinding")
-
-[node name="Movement" type="CharacterBody2D" parent="Ally2" node_paths=PackedStringArray("Raycasts", "FrontRay", "timer")]
-position = Vector2(184, -65)
-collision_layer = 4
-script = ExtResource("9_yp03o")
-Raycasts = NodePath("../../Ally/Movement/Raycasts")
-FrontRay = NodePath("../../Ally/Movement/Raycasts/Raycast front")
-timer = NodePath("../../Ally/Movement/Stationnary timer")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ally2/Movement"]
-shape = SubResource("CircleShape2D_exii8")
-
-[node name="Raycasts" type="Node2D" parent="Ally2/Movement"]
-
-[node name="Raycast front" type="RayCast2D" parent="Ally2/Movement/Raycasts"]
-modulate = Color(0.858824, 0, 0.501961, 1)
-target_position = Vector2(40, 0)
-
-[node name="Raycast right" type="RayCast2D" parent="Ally2/Movement/Raycasts"]
-rotation = 0.785398
-target_position = Vector2(40, 0)
-
-[node name="Raycast right2" type="RayCast2D" parent="Ally2/Movement/Raycasts"]
-rotation = 1.5708
-target_position = Vector2(40, 0)
-
-[node name="Raycast left" type="RayCast2D" parent="Ally2/Movement/Raycasts"]
-rotation = -0.785398
-target_position = Vector2(40, 0)
-
-[node name="Raycast left2" type="RayCast2D" parent="Ally2/Movement/Raycasts"]
-rotation = -1.5708
-target_position = Vector2(40, 0)
-
-[node name="Stationnary timer" type="Timer" parent="Ally2/Movement"]
-wait_time = 0.3
-one_shot = true
-
-[node name="Stats" type="Node" parent="Ally2"]
-script = ExtResource("7_st71x")
-MovementSpeed = 150.0
-
-[node name="Pathfinding" type="Node" parent="Ally2"]
-script = ExtResource("9_mgifj")
-
-[connection signal="serverSetuped" from="Server" to="Entity/Pathfinding" method="_on_server_server_setuped"]
-[connection signal="timeout" from="Entity/Movement/Stationnary timer" to="Entity/Movement" method="_on_stationnary_timer_timeout"]
-[connection signal="body_entered" from="Entity/Movement/EntityTargeting" to="Entity/Movement/EntityTargeting" method="_on_body_entered"]
-[connection signal="body_exited" from="Entity/Movement/EntityTargeting" to="Entity/Movement/EntityTargeting" method="_on_body_exited"]
-[connection signal="targetChanged" from="Entity/Movement/EntityTargeting" to="Entity" method="_on_entity_targeting_target_changed"]
-[connection signal="isInRangeOfAttack" from="Entity/Movement/EntityCombat" to="Entity" method="_on_entity_combat_is_in_range_of_attack"]
-[connection signal="body_entered" from="Entity/Movement/EntityCombat/Area2D" to="Entity/Movement/EntityCombat" method="_on_area_2d_body_entered"]
-[connection signal="timeout" from="Ally/Movement/Stationnary timer" to="Ally/Movement" method="_on_stationnary_timer_timeout"]
-[connection signal="timeout" from="Ally2/Movement/Stationnary timer" to="Ally2/Movement" method="_on_stationnary_timer_timeout"]
+[node name="Ally" parent="." instance=ExtResource("9_26c0i")]
+position = Vector2(797, 464)
