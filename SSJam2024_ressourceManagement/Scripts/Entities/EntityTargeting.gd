@@ -47,6 +47,11 @@ func ResetTargeting() :
 	resetTargetingTimer.start()
 	isTargetingOff = true
 	targetChanged.emit(currentTarget)
-
+	
+func DropCurrentTarget() :
+	currentTarget = null
+	targetChanged.emit(currentTarget)
+	
+	
 func TargetingResetTimerEnded():
 	isTargetingOff = false

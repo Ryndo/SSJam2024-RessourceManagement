@@ -33,3 +33,4 @@ func TargetingTargetChanged(target) :
 
 func ReturnToHoldPosition() :
 	PathFinding.CalculatePathWithPosition(followRange.holdPosition)
+

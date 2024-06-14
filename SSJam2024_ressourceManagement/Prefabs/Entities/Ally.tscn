@@ -32,49 +32,20 @@ Agent = NodePath("Movement/NavigationAgent2D")
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("2_5lslk")
 FollowRange = 150.0
-AggroRange = 120.0
-AttackRange = 18.0
 MovementSpeed = 80.0
+AttackDamage = 1.0
+AttackSpeed = 1.0
+Health = 6.0
 
-[node name="Movement" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Raycasts", "FrontRay", "timer", "Agent")]
+[node name="Movement" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Agent")]
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("2_qea6e")
-Raycasts = NodePath("Raycasts")
-FrontRay = NodePath("Raycasts/Raycast front")
-timer = NodePath("Stationnary timer")
 Agent = NodePath("NavigationAgent2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Movement"]
 shape = SubResource("CircleShape2D_exii8")
 debug_color = Color(0.705882, 0.556863, 0, 0.419608)
-
-[node name="Raycasts" type="Node2D" parent="Movement"]
-
-[node name="Raycast front" type="RayCast2D" parent="Movement/Raycasts"]
-modulate = Color(0.858824, 0, 0.501961, 1)
-target_position = Vector2(40, 0)
-collision_mask = 3
-
-[node name="Raycast right" type="RayCast2D" parent="Movement/Raycasts"]
-rotation = 0.785398
-target_position = Vector2(40, 0)
-collision_mask = 3
-
-[node name="Raycast right2" type="RayCast2D" parent="Movement/Raycasts"]
-rotation = 1.5708
-target_position = Vector2(40, 0)
-collision_mask = 3
-
-[node name="Raycast left" type="RayCast2D" parent="Movement/Raycasts"]
-rotation = -0.785398
-target_position = Vector2(40, 0)
-collision_mask = 3
-
-[node name="Raycast left2" type="RayCast2D" parent="Movement/Raycasts"]
-rotation = -1.5708
-target_position = Vector2(40, 0)
-collision_mask = 3
 
 [node name="Stationnary timer" type="Timer" parent="Movement"]
 wait_time = 0.3
@@ -94,9 +65,10 @@ debug_color = Color(0, 0.619608, 0.219608, 0.160784)
 [node name="reset targeting timer" type="Timer" parent="Movement/EntityTargeting"]
 wait_time = 0.6
 
-[node name="Combat" type="Node2D" parent="Movement" node_paths=PackedStringArray("shapeRange")]
+[node name="Combat" type="Node2D" parent="Movement" node_paths=PackedStringArray("shapeRange", "attackCooldown")]
 script = ExtResource("7_o65pa")
 shapeRange = NodePath("Attack range/CollisionShape2D")
+attackCooldown = NodePath("Attack cooldown")
 
 [node name="Attack range" type="Area2D" parent="Movement/Combat"]
 collision_layer = 0
@@ -105,6 +77,9 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Movement/Combat/Attack range"]
 shape = SubResource("CircleShape2D_u8kge")
 debug_color = Color(0.964706, 0, 0.482353, 0.2)
+
+[node name="Attack cooldown" type="Timer" parent="Movement/Combat"]
+one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="Movement"]
 avoidance_enabled = true
@@ -123,6 +98,7 @@ Agent = NodePath("../Movement/NavigationAgent2D")
 
 [node name="RefreshPathTimer" type="Timer" parent="Pathfinding"]
 wait_time = 0.1
+autostart = true
 
 [node name="Follow range" type="Area2D" parent="." node_paths=PackedStringArray("FollowArea")]
 collision_layer = 0
@@ -141,8 +117,10 @@ debug_color = Color(0, 0.596078, 0.698039, 0)
 [connection signal="timeout" from="Movement/EntityTargeting/reset targeting timer" to="Movement/EntityTargeting" method="TargetingResetTimerEnded"]
 [connection signal="isInRangeOfAttack" from="Movement/Combat" to="." method="EntityInRangeOfAttack"]
 [connection signal="isOutofRangeOfAttack" from="Movement/Combat" to="." method="OutOfAttackRange"]
+[connection signal="takeDamage" from="Movement/Combat" to="." method="OnDamageTaken"]
 [connection signal="body_entered" from="Movement/Combat/Attack range" to="Movement/Combat" method="EntityEnterAttackRange"]
 [connection signal="body_exited" from="Movement/Combat/Attack range" to="Movement/Combat" method="EntityExitAttackRange"]
+[connection signal="timeout" from="Movement/Combat/Attack cooldown" to="Movement/Combat" method="AttackCooldownEnded"]
 [connection signal="velocity_computed" from="Movement/NavigationAgent2D" to="Movement" method="_on_navigation_agent_2d_velocity_computed"]
 [connection signal="timeout" from="Pathfinding/RefreshPathTimer" to="Pathfinding" method="RefreshPath"]
 [connection signal="EnterFollowRange" from="Follow range" to="." method="EnterFollowRange"]

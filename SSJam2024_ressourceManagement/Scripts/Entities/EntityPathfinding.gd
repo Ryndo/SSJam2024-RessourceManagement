@@ -7,14 +7,6 @@ class_name EntityPathfinding
 
 var currentTarget
 
-func _process(delta):
-	if refreshTargetPathTimer.time_left > 0:
-		return
-	if currentTarget == null :
-		return
-	refreshTargetPathTimer.start()
-	CalculatePath()
-	
 func SetTarget(target) :
 	currentTarget = target
 	
@@ -34,3 +26,6 @@ func RefreshPath():
 	if currentTarget == null :
 		return
 	CalculatePath()
+
+func CancelPath() :
+	currentTarget = null
