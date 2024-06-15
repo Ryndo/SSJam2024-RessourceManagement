@@ -1,10 +1,8 @@
-extends CharacterBody2D
+extends CharacterBody3D
 
 class_name EntityMovement
 
-@export var Agent : NavigationAgent2D
-
-var movementTreshold = .2
+@export var Agent : NavigationAgent3D
 
 var timerStarted = false
 
@@ -13,8 +11,13 @@ func Move(nextPathPoint,speed) :
 	Agent.velocity = direction * speed
 	
 func StopMoving():
-	Agent.set_velocity_forced(Vector2.ZERO)
+	Agent.velocity  = Vector3.ZERO
+
+func ForceStop() :
+	print("force stop")
+	Agent.set_velocity_forced(Vector3.ZERO)
+	Agent.velocity = Vector3.ZERO
 	
-func _on_navigation_agent_2d_velocity_computed(safe_velocity):
+func AgentVelocityComputed(safe_velocity):
 	velocity = safe_velocity
 	move_and_slide()

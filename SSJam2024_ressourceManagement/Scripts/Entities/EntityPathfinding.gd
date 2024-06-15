@@ -3,21 +3,26 @@ extends Node
 class_name EntityPathfinding
 
 @export var refreshTargetPathTimer : Timer
-@export var Agent : NavigationAgent2D
+@export var Agent : NavigationAgent3D
 
 var currentTarget
+var pathCancelled = false
 
 func SetTarget(target) :
+	print("path : " + str(target))
 	currentTarget = target
 	
 func CalculatePath() :
+	pathCancelled = false
 	Agent.target_position = currentTarget.global_position
 	
 func CalculatePathWithPosition(position) :
+	currentTarget = null
 	Agent.target_position = position
+	pathCancelled = false
 
 func GetNextPathPoint() :
-	if Agent.target_position == null :
+	if Agent.target_position == null or pathCancelled:
 		return null
 	return Agent.get_next_path_position()
 	
@@ -29,3 +34,4 @@ func RefreshPath():
 
 func CancelPath() :
 	currentTarget = null
+	pathCancelled = true

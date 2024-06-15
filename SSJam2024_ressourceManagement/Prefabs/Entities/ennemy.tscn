@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://k12wgaoarf73"]
+[gd_scene load_steps=11 format=3 uid="uid://k12wgaoarf73"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/Ennemy.gd" id="1_0y0wc"]
 [ext_resource type="Script" path="res://Scripts/Entities/EntityStats.gd" id="2_byfjq"]
@@ -7,92 +7,105 @@
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/EnnemyCombat.gd" id="5_gwwej"]
 [ext_resource type="Script" path="res://Scripts/Entities/EntityPathfinding.gd" id="6_iywmj"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_exii8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5812g"]
+albedo_color = Color(0.8, 0, 0.207843, 1)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_iuxgv"]
-radius = 22.41
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_76t3y"]
+height = 5.0
+radius = 2.5
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ft7rd"]
-radius = 59.65
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6lwy8"]
+height = 5.0
 
-[node name="Ennemy" type="Node2D" node_paths=PackedStringArray("Stats", "Movement", "Combat", "Targeting", "PathFinding", "Agent")]
-position = Vector2(973, 392)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7qoh4"]
+height = 5.0
+
+[node name="Ennemy" type="Node3D" node_paths=PackedStringArray("Stats", "Movement", "Combat", "Targeting", "PathFinding")]
 script = ExtResource("1_0y0wc")
 Stats = NodePath("Stats")
 Movement = NodePath("Movement")
 Combat = NodePath("Movement/EntityCombat")
 Targeting = NodePath("Movement/EntityTargeting")
 PathFinding = NodePath("Pathfinding")
-Agent = NodePath("Movement/Navigation")
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("2_byfjq")
-AggroRange = 100.0
-AttackRange = 50.0
-MovementSpeed = 150.0
+AggroRange = 120.0
+AttackRange = 99.0
+MovementSpeed = 50.0
 AttackDamage = 5.0
 AttackSpeed = 5.0
 Health = 3.0
 
-[node name="Movement" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Agent")]
+[node name="Movement" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Agent")]
 collision_layer = 2
 collision_mask = 7
-motion_mode = 1
 script = ExtResource("3_nvi4w")
-Agent = NodePath("Navigation")
+Agent = NodePath("Agent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Movement"]
-shape = SubResource("CircleShape2D_exii8")
+[node name="CSGBox3D" type="CSGBox3D" parent="Movement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+size = Vector3(5, 5, 5)
+material = SubResource("StandardMaterial3D_5812g")
 
-[node name="EntityCombat" type="Node2D" parent="Movement" node_paths=PackedStringArray("shapeRange", "attackCooldown")]
+[node name="Collider" type="CollisionShape3D" parent="Movement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.51553, 0)
+shape = SubResource("CylinderShape3D_76t3y")
+
+[node name="EntityCombat" type="Node3D" parent="Movement" node_paths=PackedStringArray("shapeRange", "attackCooldown")]
 script = ExtResource("5_gwwej")
-shapeRange = NodePath("Area2D/attack range")
+shapeRange = NodePath("Attack range/attack range")
 attackCooldown = NodePath("Attack cooldown")
 
-[node name="Area2D" type="Area2D" parent="Movement/EntityCombat"]
+[node name="Attack range" type="Area3D" parent="Movement/EntityCombat"]
 collision_layer = 0
 collision_mask = 4
 
-[node name="attack range" type="CollisionShape2D" parent="Movement/EntityCombat/Area2D"]
-shape = SubResource("CircleShape2D_iuxgv")
-debug_color = Color(0.137255, 0.498039, 0, 0.419608)
+[node name="attack range" type="CollisionShape3D" parent="Movement/EntityCombat/Attack range"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("CylinderShape3D_6lwy8")
 
 [node name="Attack cooldown" type="Timer" parent="Movement/EntityCombat"]
 one_shot = true
 
-[node name="EntityTargeting" type="Area2D" parent="Movement" node_paths=PackedStringArray("rangeShape")]
+[node name="EntityTargeting" type="Area3D" parent="Movement" node_paths=PackedStringArray("rangeShape", "resetTargetingTimer")]
 collision_layer = 0
 collision_mask = 4
 script = ExtResource("4_rhsq8")
 rangeShape = NodePath("aggro range")
+resetTargetingTimer = NodePath("reset targeting timer")
 
-[node name="aggro range" type="CollisionShape2D" parent="Movement/EntityTargeting"]
-shape = SubResource("CircleShape2D_ft7rd")
-debug_color = Color(0.94902, 0, 0.278431, 0.419608)
+[node name="aggro range" type="CollisionShape3D" parent="Movement/EntityTargeting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("CylinderShape3D_7qoh4")
 
-[node name="Navigation" type="NavigationAgent2D" parent="Movement"]
+[node name="reset targeting timer" type="Timer" parent="Movement/EntityTargeting"]
+wait_time = 0.6
+
+[node name="Agent" type="NavigationAgent3D" parent="Movement"]
+path_desired_distance = 2.0
 avoidance_enabled = true
 max_speed = 600.0
 avoidance_layers = 2
 avoidance_mask = 3
+debug_enabled = true
 
 [node name="Pathfinding" type="Node" parent="." node_paths=PackedStringArray("refreshTargetPathTimer", "Agent")]
 script = ExtResource("6_iywmj")
 refreshTargetPathTimer = NodePath("RefreshPathTimer")
-Agent = NodePath("../Movement/Navigation")
+Agent = NodePath("../Movement/Agent")
 
 [node name="RefreshPathTimer" type="Timer" parent="Pathfinding"]
-wait_time = 0.1
+wait_time = 0.05
 autostart = true
 
 [connection signal="isInRangeOfAttack" from="Movement/EntityCombat" to="." method="EntityInRangeOfAttack"]
 [connection signal="isOutofRangeOfAttack" from="Movement/EntityCombat" to="." method="OutOfAttackRange"]
 [connection signal="takeDamage" from="Movement/EntityCombat" to="." method="OnDamageTaken"]
-[connection signal="body_entered" from="Movement/EntityCombat/Area2D" to="Movement/EntityCombat" method="EntityEnterAttackRange"]
-[connection signal="body_exited" from="Movement/EntityCombat/Area2D" to="Movement/EntityCombat" method="EntityExitAttackRange"]
+[connection signal="body_entered" from="Movement/EntityCombat/Attack range" to="Movement/EntityCombat" method="EntityEnterAttackRange"]
+[connection signal="body_exited" from="Movement/EntityCombat/Attack range" to="Movement/EntityCombat" method="EntityExitAttackRange"]
 [connection signal="body_entered" from="Movement/EntityTargeting" to="Movement/EntityTargeting" method="_on_body_entered"]
 [connection signal="body_exited" from="Movement/EntityTargeting" to="Movement/EntityTargeting" method="_on_body_exited"]
 [connection signal="targetChanged" from="Movement/EntityTargeting" to="." method="TargetingTargetChanged"]
-[connection signal="velocity_computed" from="Movement/Navigation" to="." method="_on_navigation_agent_2d_velocity_computed"]
-[connection signal="velocity_computed" from="Movement/Navigation" to="Movement" method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="velocity_computed" from="Movement/Agent" to="Movement" method="AgentVelocityComputed"]
 [connection signal="timeout" from="Pathfinding/RefreshPathTimer" to="Pathfinding" method="RefreshPath"]

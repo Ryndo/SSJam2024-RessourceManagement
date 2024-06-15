@@ -1,15 +1,15 @@
-extends Node2D
+extends Node3D
 
 class_name EntityCombat
 
-@export var shapeRange : CollisionShape2D
+@export var shapeRange : CollisionShape3D
 @export var attackCooldown : Timer
 
 var collider #character body
 var isAttacking = false
 var isInRangeOfTarget = false
 
-var entitiesInArea : Array[Node2D]
+var entitiesInArea : Array[Node3D]
 
 signal isInRangeOfAttack(entity)
 signal isOutofRangeOfAttack(entity)

@@ -1,16 +1,16 @@
-extends Area2D
+extends Area3D
 
 class_name EntityTargeting;
 
-@export var rangeShape : CollisionShape2D
+@export var rangeShape : CollisionShape3D
 @export var resetTargetingTimer : Timer
 
 var collider #character body
-var entitiesInRange : Array[Node2D]
+var entitiesInRange : Array[Node3D]
 var currentTarget
 
 var isTargetingOff = false
-signal targetChanged(target)
+signal targetChanged(oldTarget, newTarget)
 
 func Setup(body,range) :
 	collider = body
@@ -22,6 +22,7 @@ func _process(delta):
 	CalculateNewTarget()
 	
 func CalculateNewTarget() :
+	var oldTarget = currentTarget
 	var closestEntity
 	for entity in entitiesInRange :
 		if closestEntity == null or global_position.distance_to(entity.global_position) < global_position.distance_to(closestEntity.global_position) :
@@ -29,7 +30,7 @@ func CalculateNewTarget() :
 	if currentTarget == closestEntity :
 		return
 	currentTarget = closestEntity
-	targetChanged.emit(currentTarget)
+	targetChanged.emit(oldTarget,currentTarget)
 
 func _on_body_entered(body):
 	if body == collider :
@@ -43,14 +44,14 @@ func _on_body_exited(body):
 	entitiesInRange.remove_at(index)
 
 func ResetTargeting() :
+	targetChanged.emit(currentTarget, null)
 	currentTarget = null
 	resetTargetingTimer.start()
 	isTargetingOff = true
-	targetChanged.emit(currentTarget)
 	
 func DropCurrentTarget() :
+	targetChanged.emit(currentTarget,null)
 	currentTarget = null
-	targetChanged.emit(currentTarget)
 	
 	
 func TargetingResetTimerEnded():

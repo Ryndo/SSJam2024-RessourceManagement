@@ -10,7 +10,12 @@ func _ready():
 	
 func _process(delta):
 	if Input.is_action_just_pressed("MoveAlly") :
-		PathFinding.CalculatePathWithPosition(get_global_mouse_position())
+		var screenToWorld = get_viewport().get_camera_3d().project_position(get_viewport().get_mouse_position(),2000)
+		var rayOrigin =  get_viewport().get_camera_3d().project_ray_origin(get_viewport().get_mouse_position())
+		var rayEnd = rayOrigin + get_viewport().get_camera_3d().project_ray_normal(get_viewport().get_mouse_position()) * 2000
+		var rayArray = get_world_3d().direct_space_state.intersect_ray((PhysicsRayQueryParameters3D.create(rayOrigin, rayEnd)))
+		if rayArray.has("position") :
+			PathFinding.CalculatePathWithPosition(rayArray["position"])
 
 func EnterFollowRange(entity):
 	stopTargeting = false
@@ -24,13 +29,13 @@ func ExitFollowRange(entity):
 func DropCurrentTarget() :
 	Targeting.currentTarget = null
 	
-func TargetingTargetChanged(target) :
+func TargetingTargetChanged(oldTarget, newTarget) :
 	if !followRange.IsInFollowRange(Movement) :
 		DropCurrentTarget()
-	if target == null :
-		ReturnToHoldPosition()
-	super.TargetingTargetChanged(target)
+	if newTarget == null :
+		super.TargetingTargetChanged(oldTarget,followRange)
+		return
+	super.TargetingTargetChanged(oldTarget,newTarget)
 
 func ReturnToHoldPosition() :
-	PathFinding.CalculatePathWithPosition(followRange.holdPosition)
-
+	PathFinding.SetTarget(followRange)

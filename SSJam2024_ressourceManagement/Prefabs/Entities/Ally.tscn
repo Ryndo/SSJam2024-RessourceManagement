@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c5v6yh6ynhp25"]
+[gd_scene load_steps=13 format=3 uid="uid://c5v6yh6ynhp25"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Allies/Ally.gd" id="1_racca"]
 [ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyStats.gd" id="2_5lslk"]
@@ -8,18 +8,26 @@
 [ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyCombat.gd" id="7_o65pa"]
 [ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyFollowRange.gd" id="7_x2l42"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_exii8"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_56qqp"]
+height = 5.0
+radius = 2.5
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ft7rd"]
-radius = 102.25
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8uv3w"]
+height = 5.0
+radius = 2.5
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_u8kge"]
-radius = 16.21
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_iskeq"]
+height = 5.0
+radius = 2.5
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_cfkwg"]
-radius = 140.33
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbspl"]
+albedo_color = Color(0.243137, 0.639216, 0, 1)
 
-[node name="Ally" type="Node2D" node_paths=PackedStringArray("followRange", "Stats", "Movement", "Combat", "Targeting", "PathFinding", "Agent")]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_epkvn"]
+height = 5.0
+radius = 3.0
+
+[node name="Ally" type="Node3D" node_paths=PackedStringArray("followRange", "Stats", "Movement", "Combat", "Targeting", "PathFinding")]
 script = ExtResource("1_racca")
 followRange = NodePath("Follow range")
 Stats = NodePath("Stats")
@@ -27,90 +35,95 @@ Movement = NodePath("Movement")
 Combat = NodePath("Movement/Combat")
 Targeting = NodePath("Movement/EntityTargeting")
 PathFinding = NodePath("Pathfinding")
-Agent = NodePath("Movement/NavigationAgent2D")
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("2_5lslk")
 FollowRange = 150.0
+AggroRange = 70.0
+AttackRange = 60.0
 MovementSpeed = 80.0
-AttackDamage = 1.0
+AttackDamage = 8.0
 AttackSpeed = 1.0
 Health = 6.0
 
-[node name="Movement" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Agent")]
+[node name="Movement" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Agent")]
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("2_qea6e")
-Agent = NodePath("NavigationAgent2D")
+Agent = NodePath("Agent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Movement"]
-shape = SubResource("CircleShape2D_exii8")
-debug_color = Color(0.705882, 0.556863, 0, 0.419608)
+[node name="Collider" type="CollisionShape3D" parent="Movement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("CylinderShape3D_56qqp")
 
 [node name="Stationnary timer" type="Timer" parent="Movement"]
 wait_time = 0.3
 one_shot = true
 
-[node name="EntityTargeting" type="Area2D" parent="Movement" node_paths=PackedStringArray("rangeShape", "resetTargetingTimer")]
+[node name="EntityTargeting" type="Area3D" parent="Movement" node_paths=PackedStringArray("rangeShape", "resetTargetingTimer")]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3_885no")
 rangeShape = NodePath("aggro range")
 resetTargetingTimer = NodePath("reset targeting timer")
 
-[node name="aggro range" type="CollisionShape2D" parent="Movement/EntityTargeting"]
-shape = SubResource("CircleShape2D_ft7rd")
-debug_color = Color(0, 0.619608, 0.219608, 0.160784)
+[node name="aggro range" type="CollisionShape3D" parent="Movement/EntityTargeting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("CylinderShape3D_8uv3w")
 
 [node name="reset targeting timer" type="Timer" parent="Movement/EntityTargeting"]
 wait_time = 0.6
 
-[node name="Combat" type="Node2D" parent="Movement" node_paths=PackedStringArray("shapeRange", "attackCooldown")]
+[node name="Combat" type="Node3D" parent="Movement" node_paths=PackedStringArray("shapeRange", "attackCooldown")]
 script = ExtResource("7_o65pa")
-shapeRange = NodePath("Attack range/CollisionShape2D")
+shapeRange = NodePath("Attack range/area")
 attackCooldown = NodePath("Attack cooldown")
 
-[node name="Attack range" type="Area2D" parent="Movement/Combat"]
+[node name="Attack range" type="Area3D" parent="Movement/Combat"]
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Movement/Combat/Attack range"]
-shape = SubResource("CircleShape2D_u8kge")
-debug_color = Color(0.964706, 0, 0.482353, 0.2)
+[node name="area" type="CollisionShape3D" parent="Movement/Combat/Attack range"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("CylinderShape3D_iskeq")
 
 [node name="Attack cooldown" type="Timer" parent="Movement/Combat"]
 one_shot = true
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Movement"]
+[node name="Agent" type="NavigationAgent3D" parent="Movement"]
 avoidance_enabled = true
 radius = 13.0
-neighbor_distance = 50.0
 time_horizon_agents = 0.2
 max_speed = 300.0
 avoidance_layers = 4
 avoidance_mask = 5
 debug_enabled = true
 
+[node name="CSGBox3D" type="CSGBox3D" parent="Movement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+size = Vector3(5, 5, 5)
+material = SubResource("StandardMaterial3D_jbspl")
+
 [node name="Pathfinding" type="Node" parent="." node_paths=PackedStringArray("refreshTargetPathTimer", "Agent")]
 script = ExtResource("5_fk8mt")
 refreshTargetPathTimer = NodePath("RefreshPathTimer")
-Agent = NodePath("../Movement/NavigationAgent2D")
+Agent = NodePath("../Movement/Agent")
 
 [node name="RefreshPathTimer" type="Timer" parent="Pathfinding"]
-wait_time = 0.1
+wait_time = 0.05
 autostart = true
 
-[node name="Follow range" type="Area2D" parent="." node_paths=PackedStringArray("FollowArea")]
+[node name="Follow range" type="Area3D" parent="." node_paths=PackedStringArray("FollowArea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 collision_layer = 0
 collision_mask = 6
 script = ExtResource("7_x2l42")
 FollowArea = NodePath("shape")
 
-[node name="shape" type="CollisionShape2D" parent="Follow range"]
-shape = SubResource("CircleShape2D_cfkwg")
-debug_color = Color(0, 0.596078, 0.698039, 0)
+[node name="shape" type="CollisionShape3D" parent="Follow range"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CylinderShape3D_epkvn")
 
-[connection signal="timeout" from="Movement/Stationnary timer" to="Movement" method="_on_stationnary_timer_timeout"]
 [connection signal="body_entered" from="Movement/EntityTargeting" to="Movement/EntityTargeting" method="_on_body_entered"]
 [connection signal="body_exited" from="Movement/EntityTargeting" to="Movement/EntityTargeting" method="_on_body_exited"]
 [connection signal="targetChanged" from="Movement/EntityTargeting" to="." method="TargetingTargetChanged"]
@@ -120,8 +133,7 @@ debug_color = Color(0, 0.596078, 0.698039, 0)
 [connection signal="takeDamage" from="Movement/Combat" to="." method="OnDamageTaken"]
 [connection signal="body_entered" from="Movement/Combat/Attack range" to="Movement/Combat" method="EntityEnterAttackRange"]
 [connection signal="body_exited" from="Movement/Combat/Attack range" to="Movement/Combat" method="EntityExitAttackRange"]
-[connection signal="timeout" from="Movement/Combat/Attack cooldown" to="Movement/Combat" method="AttackCooldownEnded"]
-[connection signal="velocity_computed" from="Movement/NavigationAgent2D" to="Movement" method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="velocity_computed" from="Movement/Agent" to="Movement" method="AgentVelocityComputed"]
 [connection signal="timeout" from="Pathfinding/RefreshPathTimer" to="Pathfinding" method="RefreshPath"]
 [connection signal="EnterFollowRange" from="Follow range" to="." method="EnterFollowRange"]
 [connection signal="ExitFollowRange" from="Follow range" to="." method="ExitFollowRange"]

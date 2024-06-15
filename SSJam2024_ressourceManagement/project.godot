@@ -35,8 +35,11 @@ MoveAlly={
 [layer_names]
 
 2d_physics/layer_1="Obstacle"
+3d_physics/layer_1="Obstacle"
 2d_physics/layer_2="Ennemy"
+3d_physics/layer_2="Ennemy"
 2d_physics/layer_3="Ally"
+3d_physics/layer_3="Ally"
 avoidance/layer_1="Obstacles"
 avoidance/layer_2="Ennemy"
 avoidance/layer_3="Ally"

@@ -1,8 +1,8 @@
-extends Area2D
+extends Area3D
 
 class_name AllyFollowRange
 
-@export var FollowArea : CollisionShape2D
+@export var FollowArea : CollisionShape3D
 
 var holdPosition 
 var collider
@@ -10,7 +10,7 @@ var collider
 signal EnterFollowRange(entity)
 signal ExitFollowRange(entity)
 
-var entitiesInArea : Array[Node2D]
+var entitiesInArea : Array[Node3D]
 
 func Setup(followRange,positionToHold,ally) :
 	collider = ally
