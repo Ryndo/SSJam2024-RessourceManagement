@@ -11,6 +11,7 @@ class_name Entity
 signal entityDied
 
 func _ready():
+	print(Targeting)
 	Targeting.Setup(Movement,Stats.AggroRange)
 	Combat.Setup(Movement,Stats.AttackRange,Stats.AttackSpeed)
 

@@ -30,6 +30,7 @@ PathFinding = NodePath("Pathfinding")
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("2_byfjq")
+EntityType = 1
 AggroRange = 120.0
 AttackRange = 99.0
 MovementSpeed = 50.0
