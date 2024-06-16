@@ -9,10 +9,10 @@ var currentTarget
 var pathCancelled = false
 
 func SetTarget(target) :
-	print("path : " + str(target))
 	currentTarget = target
 	
 func CalculatePath() :
+	print(currentTarget.global_position)
 	pathCancelled = false
 	Agent.target_position = currentTarget.global_position
 	

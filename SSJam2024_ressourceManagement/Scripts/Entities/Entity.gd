@@ -11,10 +11,13 @@ class_name Entity
 signal entityDied
 
 func _ready():
-	print(Targeting)
+	pass
+	
+func Setup() :
 	Targeting.Setup(Movement,Stats.AggroRange)
 	Combat.Setup(Movement,Stats.AttackRange,Stats.AttackSpeed)
-
+	Movement.Setup()
+	
 func _process(delta):
 	if Input.is_action_just_pressed("MoveUnit") :
 		var rayOrigin =  get_viewport().get_camera_3d().project_ray_origin(get_viewport().get_mouse_position())
@@ -40,7 +43,7 @@ func _physics_process(delta):
 func TargetingTargetChanged(oldTarget, newTarget) :
 	if oldTarget != null :
 		oldTarget.get_parent().entityDied.disconnect(DropTarget)
-	if newTarget !=null :
+	if newTarget !=null and newTarget.get_parent() is Entity:
 		newTarget.get_parent().entityDied.connect(DropTarget)
 	PathFinding.SetTarget(newTarget)
 

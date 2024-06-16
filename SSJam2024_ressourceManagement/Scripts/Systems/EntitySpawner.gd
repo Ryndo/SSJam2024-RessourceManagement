@@ -1,16 +1,19 @@
-class_name EntitySpawner extends Node
+class_name EntitySpawner extends Node3D
 
 @export var AllyEntity : PackedScene
 @export var EnnemyEntity : PackedScene
-@export var pos : Node3D
 
+var importedSpawnWaveInfos
 
-
-
-func SpawnEntity(entityType : GameData.EntityType ,position) :
-	var spawnedAlly = EnnemyEntity.instantiate()
-	add_child(spawnedAlly)
-	spawnedAlly.global_position = pos.global_position
+func _ready():
+	pass
+	
+func SpawnEntity(entityType : GameData.EntityType ,position,nodeReceiver) :
+	var spawnedEntity = PickEntityFromType(entityType).instantiate()
+	nodeReceiver.add_child(spawnedEntity)
+	spawnedEntity.set_owner(nodeReceiver)
+	spawnedEntity.position = position
+	return spawnedEntity
 
 func PickEntityFromType(type) :
 	match type :

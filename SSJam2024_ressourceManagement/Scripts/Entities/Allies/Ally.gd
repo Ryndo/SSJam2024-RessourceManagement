@@ -1,4 +1,4 @@
-extends Entity
+class_name Ally extends Entity
 
 @export var followRange : AllyFollowRange
 

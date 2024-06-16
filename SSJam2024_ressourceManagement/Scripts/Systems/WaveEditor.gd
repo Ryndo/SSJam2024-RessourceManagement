@@ -18,11 +18,12 @@ func _run():
 	AllyEntity = preload("res://Prefabs/Entities/Ally.tscn")
 	EnnemyEntity = preload("res://Prefabs/Entities/ennemy.tscn")
 	var jsonContent = Load()
-	var entitiesPlacements = WaveJsonTranslator.JsonToArray(json.data)
+	var entitiesPlacements = WaveJsonTranslator.JsonToArray(jsonContent)
+	print("enet " + str(entitiesPlacements))
 	if userChoices.Action == GameData.WaveEditorAction.Load :
 		LoadEntityPosition(entitiesPlacements[userChoices.Step])
 	else :
-		save(entitiesPlacements,RegisterEntityPosition())
+		save(entitiesPlacements,[RegisterEntityPosition(),userChoices.TimeBeforeNextStep])
 		
 func RegisterEntityPosition() :
 	var entitiesPlacement : Array
@@ -37,19 +38,10 @@ func RegisterEntityPosition() :
 	
 func save(array,waveStep) :
 	var updatedArray = WaveJsonTranslator.ArrayToJson(waveStep,array,userChoices.Step)
-	var file = FileAccess.open(path, FileAccess.WRITE)
-	file.store_string(json.stringify(updatedArray,"\t"))
-	file.close()
-	file = null
+	DataFileAccesser.saveFile(path,updatedArray)
 	
 func Load() :
-	var file
-	if !FileAccess.file_exists(path) :
-		file = FileAccess.open(path, FileAccess.WRITE)
-	else :
-		file = FileAccess.open(path, FileAccess.READ)
-	var stringContent = file.get_file_as_string(path)
-	return json.parse(stringContent)
+	return DataFileAccesser.LoadFile(path)
 	
 func LoadEntityPosition(entitiesPlacements) :
 	if entitiesPlacements == null :
@@ -57,13 +49,12 @@ func LoadEntityPosition(entitiesPlacements) :
 	var spawner = get_scene().get_node("Spawner")
 	for node in spawner.get_children() :
 		node.queue_free()
-	for placement in entitiesPlacements :
+	for placement in entitiesPlacements[0] :
 		var vector = str_to_var("Vector3" + placement[0]) as Vector3
 		SpawnEntity(GameData.EntityType[placement[1]],vector)
 		pass
+	userChoices.TimeBeforeNextStep = entitiesPlacements[1]
 	
-
-
 func SpawnEntity(entityType : GameData.EntityType ,position) :
 	var spawnedEntity = PickEntityFromType(entityType).instantiate()
 	get_scene().get_node("Spawner").add_child(spawnedEntity)

@@ -16,10 +16,10 @@ albedo_color = Color(0.0862745, 0.168627, 0, 1)
 [node name="PathFinding" type="Node3D"]
 
 [node name="Ally" parent="." instance=ExtResource("9_26c0i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.2932, 1.5, 46.1396)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 149.948, 1.5, -80.508)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.991671, 0.0602673, -0.113825, 0, 0.883766, 0.46793, 0.128796, -0.464033, 0.876405, 0, 100, 200)
+transform = Transform3D(0.817144, 0, -0.576432, 0, 1, 0, 0.576432, 0, 0.817145, -85.855, -7.765, 136.145)
 current = true
 fov = 70.0
 near = 0.001
@@ -64,25 +64,16 @@ distance_fade_length = 22.35
 omni_range = 107.872
 omni_attenuation = -0.5
 
-[node name="wave manager" type="Node" parent="." node_paths=PackedStringArray("entitySpawner", "spawningArea", "initialTotem", "delayBetweenStep")]
+[node name="wave manager" type="Node" parent="." node_paths=PackedStringArray("entitySpawner", "spawningArea")]
 script = ExtResource("4_ptjio")
 entitySpawner = NodePath("../Entity spawner")
 spawningArea = NodePath("../spawn area")
-initialTotem = NodePath("../Totem")
-delayBetweenStep = NodePath("Time bewteen wave steps")
-
-[node name="Time bewteen wave steps" type="Timer" parent="wave manager"]
 
 [node name="spawn area" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.302, 0.5, 68.024)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.302, 0, 68.024)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="spawn area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 visible = false
 flip_faces = true
 size = Vector3(10, 1, 10)
-
-[node name="Totem" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.044, 0, 86.7505)
-
-[connection signal="timeout" from="wave manager/Time bewteen wave steps" to="wave manager" method="SpawnStep"]

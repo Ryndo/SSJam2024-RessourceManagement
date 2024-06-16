@@ -13,7 +13,6 @@ var isTargetingOff = false
 signal targetChanged(oldTarget, newTarget)
 
 func Setup(body,range) :
-	print(rangeShape)
 	collider = body
 	rangeShape.shape.radius = range
 	

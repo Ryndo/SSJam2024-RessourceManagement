@@ -44,13 +44,14 @@ AttackRange = 60.0
 MovementSpeed = 80.0
 AttackDamage = 8.0
 AttackSpeed = 1.0
-Health = 6.0
+Health = 20.0
 
-[node name="Movement" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Agent")]
+[node name="Movement" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Agent", "collider")]
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("2_qea6e")
 Agent = NodePath("Agent")
+collider = NodePath("Collider")
 
 [node name="Collider" type="CollisionShape3D" parent="Movement"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
