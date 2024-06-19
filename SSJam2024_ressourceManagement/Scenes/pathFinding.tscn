@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://brnv337xh3kle"]
 
-[ext_resource type="Script" path="res://Scripts/Systems/EntitySpawner.gd" id="3_cpoqf"]
+[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateRound.gd" id="1_yiqul"]
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/OriginalTotem.gd" id="3_nd00a"]
 [ext_resource type="Script" path="res://Scripts/Systems/WaveManager.gd" id="4_ptjio"]
-[ext_resource type="PackedScene" uid="uid://k12wgaoarf73" path="res://Prefabs/Entities/ennemy.tscn" id="8_2sm1y"]
 [ext_resource type="PackedScene" uid="uid://c5v6yh6ynhp25" path="res://Prefabs/Entities/Ally.tscn" id="9_26c0i"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_rbaku"]
@@ -13,7 +13,16 @@ agent_radius = 10.0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h40kb"]
 albedo_color = Color(0.0862745, 0.168627, 0, 1)
 
-[node name="PathFinding" type="Node3D"]
+[node name="Round" type="Node3D"]
+script = ExtResource("1_yiqul")
+
+[node name="wave manager" type="Node" parent="." node_paths=PackedStringArray("spawningArea", "initialTotem", "delayBetweenStep")]
+script = ExtResource("4_ptjio")
+spawningArea = NodePath("../spawn area")
+initialTotem = NodePath("../Totem")
+delayBetweenStep = NodePath("Time bewteen wave steps")
+
+[node name="Time bewteen wave steps" type="Timer" parent="wave manager"]
 
 [node name="Ally" parent="." instance=ExtResource("9_26c0i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.2932, 1.5, 46.1396)
@@ -44,14 +53,6 @@ use_collision = true
 size = Vector3(100, 100, 100)
 material = SubResource("StandardMaterial3D_h40kb")
 
-[node name="Entity spawner" type="Node3D" parent="."]
-script = ExtResource("3_cpoqf")
-AllyEntity = ExtResource("9_26c0i")
-EnnemyEntity = ExtResource("8_2sm1y")
-
-[node name="Node3D" type="Node3D" parent="Entity spawner"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75.9607, 21.7594, 63.579)
-
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, -7.13948e-08, 1.59605e-07, 0, -0.912834, -0.408331, 1.74846e-07, 0.408331, -0.912834, 5, 5, 0)
 light_color = Color(0.776471, 0, 0.4, 1)
@@ -64,25 +65,27 @@ distance_fade_length = 22.35
 omni_range = 107.872
 omni_attenuation = -0.5
 
-[node name="wave manager" type="Node" parent="." node_paths=PackedStringArray("entitySpawner", "spawningArea", "initialTotem", "delayBetweenStep")]
-script = ExtResource("4_ptjio")
-entitySpawner = NodePath("../Entity spawner")
-spawningArea = NodePath("../spawn area")
-initialTotem = NodePath("../Totem")
-delayBetweenStep = NodePath("Time bewteen wave steps")
-
-[node name="Time bewteen wave steps" type="Timer" parent="wave manager"]
-
 [node name="spawn area" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.302, 0.5, 68.024)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="spawn area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-visible = false
 flip_faces = true
 size = Vector3(10, 1, 10)
 
 [node name="Totem" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.044, 0, 86.7505)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 154.259, 0, 86.7505)
+script = ExtResource("3_nd00a")
+Health = 10
 
+[node name="model" type="CSGCylinder3D" parent="Totem"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5, 0)
+use_collision = true
+collision_layer = 64
+collision_mask = 0
+radius = 6.0
+height = 20.0
+
+[connection signal="allEnnemiesAreDead" from="wave manager" to="." method="EnnemiesAreAllDead"]
 [connection signal="timeout" from="wave manager/Time bewteen wave steps" to="wave manager" method="SpawnStep"]
+[connection signal="OriginalTotemIsDead" from="Totem" to="." method="OriginalTotemIsDead"]

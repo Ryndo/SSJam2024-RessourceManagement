@@ -8,6 +8,7 @@ class_name Entity
 @export var Targeting : EntityTargeting
 @export var PathFinding : EntityPathfinding
 
+var disabled = true
 signal entityDied
 
 func _ready():
@@ -17,16 +18,28 @@ func Setup() :
 	Targeting.Setup(Movement,Stats.AggroRange)
 	Combat.Setup(Movement,Stats.AttackRange,Stats.AttackSpeed)
 	Movement.Setup()
+	disabled = false
+	
+func Disable() :
+	disabled = true
+	Targeting.Disable()
+	Combat.Disable()
+	Movement.Disable()
+	
 	
 func _process(delta):
-	if Input.is_action_just_pressed("MoveUnit") :
-		var rayOrigin =  get_viewport().get_camera_3d().project_ray_origin(get_viewport().get_mouse_position())
-		var rayEnd = rayOrigin + get_viewport().get_camera_3d().project_ray_normal(get_viewport().get_mouse_position()) * 2000
-		var rayArray = get_world_3d().direct_space_state.intersect_ray((PhysicsRayQueryParameters3D.create(rayOrigin, rayEnd)))
-		if rayArray.has("position") :
-			PathFinding.CalculatePathWithPosition(rayArray["position"])
-		
+	#if Input.is_action_just_pressed("MoveUnit") :
+		#print("eee")
+		#var rayOrigin =  get_viewport().get_camera_3d().project_ray_origin(get_viewport().get_mouse_position())
+		#var rayEnd = rayOrigin + get_viewport().get_camera_3d().project_ray_normal(get_viewport().get_mouse_position()) * 2000
+		#var rayArray = get_world_3d().direct_space_state.intersect_ray((PhysicsRayQueryParameters3D.create(rayOrigin, rayEnd)))
+		#if rayArray.has("position") :
+			#PathFinding.CalculatePathWithPosition(rayArray["position"])
+	pass
 func _physics_process(delta):
+	if disabled :
+		return
+		
 	if Combat.IsInAttackRange(Targeting.currentTarget) :
 		Combat.Attack(Targeting.currentTarget.get_parent(),Stats.AttackDamage)
 		if Targeting.currentTarget != null and Targeting.currentTarget.get_parent().IsAlive :
@@ -65,10 +78,10 @@ func OnDamageTaken(amount):
 	
 func OnHealthChanged() :
 	if !IsAlive() :
-		entityDied.emit()
 		KillEntity()
 
 func KillEntity() :
+	entityDied.emit()
 	queue_free()
 
 func IsAlive() :

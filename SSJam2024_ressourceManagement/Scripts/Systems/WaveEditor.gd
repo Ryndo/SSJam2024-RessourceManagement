@@ -19,7 +19,6 @@ func _run():
 	EnnemyEntity = preload("res://Prefabs/Entities/ennemy.tscn")
 	var jsonContent = Load()
 	var entitiesPlacements = WaveJsonTranslator.JsonToArray(jsonContent)
-	print("enet " + str(entitiesPlacements))
 	if userChoices.Action == GameData.WaveEditorAction.Load :
 		LoadEntityPosition(entitiesPlacements[userChoices.Step])
 	else :

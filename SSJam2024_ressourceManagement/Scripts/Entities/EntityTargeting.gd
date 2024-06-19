@@ -9,12 +9,20 @@ var collider #character body
 var entitiesInRange : Array[Node3D]
 var currentTarget
 
-var isTargetingOff = false
+var isTargetingOff = true
 signal targetChanged(oldTarget, newTarget)
 
 func Setup(body,range) :
 	collider = body
 	rangeShape.shape.radius = range
+	rangeShape.disabled = false
+	isTargetingOff = false
+	
+func Disable() :
+	isTargetingOff = true
+	rangeShape.disabled = true
+	currentTarget = null
+	entitiesInRange.clear()
 	
 func _process(delta):
 	if isTargetingOff :
@@ -25,7 +33,7 @@ func CalculateNewTarget() :
 	var oldTarget = currentTarget
 	var closestEntity
 	for entity in entitiesInRange :
-		if closestEntity == null or global_position.distance_to(entity.global_position) < global_position.distance_to(closestEntity.global_position) :
+		if closestEntity == null :
 			closestEntity = entity
 	if currentTarget == closestEntity :
 		return
@@ -52,7 +60,6 @@ func ResetTargeting() :
 func DropCurrentTarget() :
 	targetChanged.emit(currentTarget,null)
 	currentTarget = null
-	
 	
 func TargetingResetTimerEnded():
 	isTargetingOff = false

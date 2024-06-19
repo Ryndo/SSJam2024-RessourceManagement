@@ -1,0 +1,80 @@
+[gd_scene load_steps=6 format=3 uid="uid://q6l1yip2l4ap"]
+
+[ext_resource type="Script" path="res://Scripts/Systems/DragAndDrop.gd" id="1_3fxh1"]
+[ext_resource type="PackedScene" uid="uid://c5v6yh6ynhp25" path="res://Prefabs/Entities/Ally.tscn" id="2_ndibk"]
+[ext_resource type="Theme" uid="uid://bpqqpn1ptvlhw" path="res://Resources/CustomButton.tres" id="3_ygyqd"]
+[ext_resource type="Script" path="res://Scripts/UI/Inventory/Ally/InventoryAllyButton.gd" id="4_lil22"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_vi1ne"]
+
+[node name="DragAndDrop" type="Node3D" node_paths=PackedStringArray("startDraggingDelay")]
+script = ExtResource("1_3fxh1")
+startDraggingDelay = NodePath("Timer")
+
+[node name="Ally" parent="." instance=ExtResource("2_ndibk")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.720551, 0.378668, -0.580876, 0, 0.837719, 0.546102, 0.693402, -0.393494, 0.603619, -66.68, 52.864, 61.215)
+size = 88.649
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." groups=["Ground"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.83909, 0)
+use_collision = true
+collision_layer = 8
+size = Vector3(100, 1, 100)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.919135, 0.361268, -0.157084, 0, 0.398749, 0.91706, 0.393942, -0.842902, 0.366504, 0, 15.8758, 0)
+light_color = Color(0.47451, 0.00392157, 0.27451, 1)
+light_energy = 0.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.06
+one_shot = true
+
+[node name="Line2D" type="Line2D" parent="."]
+
+[node name="Control" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_top = 602.0
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0031
+anchor_bottom = 1.0031
+offset_top = -33.0062
+offset_right = 61.0
+offset_bottom = -2.00623
+grow_vertical = 0
+theme = ExtResource("3_ygyqd")
+action_mode = 0
+text = "UNIT"
+script = ExtResource("4_lil22")
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 62.0
+offset_top = -38.0
+offset_right = 102.0
+offset_bottom = 2.0
+grow_vertical = 0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.31092, 0)
+
+[node name="ground Boundary" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.46474, 0)
+shape = SubResource("WorldBoundaryShape3D_vi1ne")
+
+[connection signal="timeout" from="Timer" to="." method="ActivateDrag"]

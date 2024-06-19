@@ -19,7 +19,15 @@ func Setup(_collider, attackRange, attackSpeed) :
 	collider = _collider
 	shapeRange.shape.radius = attackRange
 	SetAttackSpeed(attackSpeed)
-
+	shapeRange.disabled = false
+	
+func Disable() :
+	shapeRange.disabled = true
+	entitiesInArea.clear()
+	isAttacking = false
+	isInRangeOfTarget = false
+	attackCooldown.stop()
+	
 func Attack(target : Entity, attackDamage) :
 	if !IsInAttackRange(target.Movement) :
 		return
@@ -33,6 +41,7 @@ func EntityEnterAttackRange(body):
 		return
 	entitiesInArea.append(body)
 	isInRangeOfAttack.emit(body)
+	
 
 func EntityExitAttackRange(body):
 	if collider == body :

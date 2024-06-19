@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://k12wgaoarf73"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/Ennemy.gd" id="1_0y0wc"]
-[ext_resource type="Script" path="res://Scripts/Entities/EntityStats.gd" id="2_byfjq"]
+[ext_resource type="Script" path="res://Scripts/Entities/Ennemies/EnnemyStats.gd" id="2_pueam"]
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/EnnemyMovement.gd" id="3_nvi4w"]
 [ext_resource type="Script" path="res://Scripts/Entities/EntityTargeting.gd" id="4_rhsq8"]
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/EnnemyCombat.gd" id="5_gwwej"]
@@ -29,10 +29,11 @@ Targeting = NodePath("Movement/EntityTargeting")
 PathFinding = NodePath("Pathfinding")
 
 [node name="Stats" type="Node" parent="."]
-script = ExtResource("2_byfjq")
+script = ExtResource("2_pueam")
+DamageToOriginalTotem = 1
 EntityType = 1
-AggroRange = 120.0
-AttackRange = 99.0
+AggroRange = 50.0
+AttackRange = 28.0
 MovementSpeed = 50.0
 AttackDamage = 5.0
 AttackSpeed = 5.0
@@ -62,7 +63,7 @@ attackCooldown = NodePath("Attack cooldown")
 
 [node name="Attack range" type="Area3D" parent="Movement/EntityCombat"]
 collision_layer = 0
-collision_mask = 4
+collision_mask = 68
 
 [node name="attack range" type="CollisionShape3D" parent="Movement/EntityCombat/Attack range"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)

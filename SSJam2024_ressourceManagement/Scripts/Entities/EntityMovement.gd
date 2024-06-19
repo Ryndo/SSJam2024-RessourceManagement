@@ -4,10 +4,18 @@ class_name EntityMovement
 
 @export var Agent : NavigationAgent3D
 @export var collider : CollisionShape3D
-var timerStarted = false
 
 func Setup() :
 	collider.disabled = false
+	Agent.avoidance_enabled = true
+	set_physics_process(true)
+	
+func Disable() :
+	set_physics_process(false)
+	collider.disabled = true
+	Agent.avoidance_enabled = false
+	Agent.velocity = Vector3.ZERO
+	velocity = Vector3.ZERO
 	
 func Move(nextPathPoint,speed) :
 	var direction = global_position.direction_to(nextPathPoint)

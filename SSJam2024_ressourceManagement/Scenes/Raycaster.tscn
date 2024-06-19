@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bslr48skb4qc3"]
+
+[ext_resource type="Script" path="res://Scripts/Systems/ScreenToWorldRaycaster.gd" id="1_h2jdl"]
+
+[node name="Raycaster" type="Node3D"]
+script = ExtResource("1_h2jdl")

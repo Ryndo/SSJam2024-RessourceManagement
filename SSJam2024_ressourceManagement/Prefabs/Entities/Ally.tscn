@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c5v6yh6ynhp25"]
+[gd_scene load_steps=14 format=3 uid="uid://c5v6yh6ynhp25"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Allies/Ally.gd" id="1_racca"]
 [ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyStats.gd" id="2_5lslk"]
@@ -23,6 +23,10 @@ radius = 2.5
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbspl"]
 albedo_color = Color(0.243137, 0.639216, 0, 1)
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_elnxb"]
+height = 11.1328
+radius = 4.25046
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_epkvn"]
 height = 5.0
 radius = 3.0
@@ -38,9 +42,6 @@ PathFinding = NodePath("Pathfinding")
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("2_5lslk")
-FollowRange = 150.0
-AggroRange = 70.0
-AttackRange = 60.0
 MovementSpeed = 80.0
 AttackDamage = 8.0
 AttackSpeed = 1.0
@@ -56,6 +57,7 @@ collider = NodePath("Collider")
 [node name="Collider" type="CollisionShape3D" parent="Movement"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 shape = SubResource("CylinderShape3D_56qqp")
+disabled = true
 
 [node name="Stationnary timer" type="Timer" parent="Movement"]
 wait_time = 0.3
@@ -92,8 +94,7 @@ shape = SubResource("CylinderShape3D_iskeq")
 one_shot = true
 
 [node name="Agent" type="NavigationAgent3D" parent="Movement"]
-avoidance_enabled = true
-radius = 13.0
+radius = 2.54
 time_horizon_agents = 0.2
 max_speed = 300.0
 avoidance_layers = 4
@@ -104,6 +105,14 @@ debug_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 size = Vector3(5, 5, 5)
 material = SubResource("StandardMaterial3D_jbspl")
+
+[node name="PickUp collider" type="StaticBody3D" parent="Movement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.63981, 0)
+collision_layer = 16
+collision_mask = 0
+
+[node name="Collider" type="CollisionShape3D" parent="Movement/PickUp collider"]
+shape = SubResource("CylinderShape3D_elnxb")
 
 [node name="Pathfinding" type="Node" parent="." node_paths=PackedStringArray("refreshTargetPathTimer", "Agent")]
 script = ExtResource("5_fk8mt")
