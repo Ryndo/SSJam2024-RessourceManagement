@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhycq6i13tw41"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_vi1ne"]
+
+[node name="Ground boundary" type="StaticBody3D"]
+collision_layer = 32
+
+[node name="ground Boundary" type="CollisionShape3D" parent="."]
+shape = SubResource("WorldBoundaryShape3D_vi1ne")

@@ -1,0 +1,117 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwi2cpc54aqn7"]
+
+[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateDefeat.gd" id="1_86dcm"]
+[ext_resource type="Texture2D" uid="uid://dyrid45fbmhky" path="res://Sprites/UI_Vector/Yellow/icon_outline_square.svg" id="2_wuapn"]
+[ext_resource type="Texture2D" uid="uid://dvpo6q2f58651" path="res://Sprites/UI_Vector/Extra/button_square_line.svg" id="3_c4lew"]
+
+[node name="DefeatScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_86dcm")
+
+[node name="Pop-up" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="Pop-up"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_wuapn")
+
+[node name="Label" type="Label" parent="Pop-up"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -154.0
+offset_right = 181.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 75
+text = "YOU LOST"
+
+[node name="TextureButton" type="TextureButton" parent="Pop-up"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -139.0
+offset_top = -10.0
+offset_right = 139.0
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("3_c4lew")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Pop-up/TextureButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 35
+text = "PLAY AGAIN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureButton2" type="TextureButton" parent="Pop-up"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -139.0
+offset_top = 99.0
+offset_right = 139.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("3_c4lew")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Pop-up/TextureButton2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 35
+text = "MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Pop-up/TextureButton" to="." method="StartNewGame"]
+[connection signal="pressed" from="Pop-up/TextureButton2" to="." method="ReturnToMenu"]

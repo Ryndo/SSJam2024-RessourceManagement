@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cqpq1e7o0h2jw"]
 
-[ext_resource type="Script" path="res://Scripts/Systems/EntitySpawner.gd" id="1_byi7v"]
+[ext_resource type="Script" path="res://Scripts/Systems/Wave/EntitySpawner.gd" id="1_byi7v"]
 [ext_resource type="PackedScene" uid="uid://c5v6yh6ynhp25" path="res://Prefabs/Entities/Ally.tscn" id="2_4ifrn"]
 [ext_resource type="PackedScene" uid="uid://k12wgaoarf73" path="res://Prefabs/Entities/ennemy.tscn" id="3_82srr"]
 

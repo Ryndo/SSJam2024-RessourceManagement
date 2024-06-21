@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://g7nux8bbfykr"]
+[gd_scene load_steps=5 format=3 uid="uid://g7nux8bbfykr"]
 
-[ext_resource type="Script" path="res://Scripts/Systems/WaveInfos.gd" id="1_cpcxl"]
-[ext_resource type="Script" path="res://Scripts/Systems/WaveEditor.gd" id="1_gkeja"]
+[ext_resource type="Script" path="res://Scripts/Systems/Wave/WaveInfos.gd" id="1_cpcxl"]
+[ext_resource type="Script" path="res://Scripts/Systems/Wave/WaveEditor.gd" id="1_gkeja"]
 [ext_resource type="PackedScene" uid="uid://k12wgaoarf73" path="res://Prefabs/Entities/ennemy.tscn" id="3_d0r6i"]
+[ext_resource type="Script" path="res://Scripts/Entities/Ennemies/Ennemy.gd" id="4_6qud3"]
 
 [node name="WaveEditor" type="Node"]
 script = ExtResource("1_cpcxl")
-Step = 1
-Action = 1
+Wave = 1
 TimeBeforeNextStep = 2.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -28,8 +28,20 @@ size = Vector3(10, 1, 10)
 [node name="Spawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 118.177)
 
-[node name="Ennemy" parent="Spawner" instance=ExtResource("3_d0r6i")]
+[node name="@Node3D@148532" type="Node3D" parent="Spawner" node_paths=PackedStringArray("Stats", "Movement", "Combat", "Targeting", "PathFinding") instance=ExtResource("3_d0r6i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.272694, 0, 13.4745)
+script = ExtResource("4_6qud3")
+Stats = NodePath("Stats")
+Movement = NodePath("Movement")
+Combat = NodePath("Movement/EntityCombat")
+Targeting = NodePath("Movement/EntityTargeting")
+PathFinding = NodePath("Pathfinding")
 
-[node name="@Node3D@35570" parent="Spawner" instance=ExtResource("3_d0r6i")]
+[node name="@Node3D@148533" type="Node3D" parent="Spawner" node_paths=PackedStringArray("Stats", "Movement", "Combat", "Targeting", "PathFinding") instance=ExtResource("3_d0r6i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.740055, 0, -19.5216)
+script = ExtResource("4_6qud3")
+Stats = NodePath("Stats")
+Movement = NodePath("Movement")
+Combat = NodePath("Movement/EntityCombat")
+Targeting = NodePath("Movement/EntityTargeting")
+PathFinding = NodePath("Pathfinding")

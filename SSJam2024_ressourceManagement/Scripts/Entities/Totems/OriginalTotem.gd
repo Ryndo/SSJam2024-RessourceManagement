@@ -4,10 +4,9 @@ class_name OriginalTotem extends Node
 
 signal OriginalTotemIsDead
 
-func _process(delta):
-	print(Health)
 		
 func TakeDamage(amount) :
+	print(Health)
 	Health -= amount
 	if Health > 0 :
 		return

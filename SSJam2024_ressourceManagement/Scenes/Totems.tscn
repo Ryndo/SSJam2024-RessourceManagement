@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://uvym6yvxpugj"]
+
+[ext_resource type="PackedScene" uid="uid://bevvxty3dkl32" path="res://Prefabs/Entities/base_totem.tscn" id="1_kycqr"]
+[ext_resource type="PackedScene" uid="uid://c5v6yh6ynhp25" path="res://Prefabs/Entities/Ally.tscn" id="5_71fts"]
+
+[node name="Totems" type="Node3D"]
+
+[node name="base Totem" parent="." instance=ExtResource("1_kycqr")]
+
+[node name="Ally" parent="." instance=ExtResource("5_71fts")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.23841, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.0697565, 0.239643, -0.968352, 0, 0.970716, 0.240228, 0.997564, -0.0167575, 0.0677138, -18.63, 7.035, 0)

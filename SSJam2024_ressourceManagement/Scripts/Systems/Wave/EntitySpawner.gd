@@ -8,8 +8,8 @@ var counter = 0
 func SpawnEntity(entityType : GameData.EntityType ,position,nodeReceiver) :
 	var spawnedEntity = PickEntityFromType(entityType).instantiate()
 	spawnedEntity.name = str(GameData.EntityType.find_key(entityType)) + str(counter)
-	nodeReceiver.add_child(spawnedEntity)
-	spawnedEntity.set_owner(nodeReceiver)
+	get_node("/root/EntitiesScene").add_child(spawnedEntity)
+	spawnedEntity.set_owner(get_node("/root/EntitiesScene"))
 	spawnedEntity.position = position
 	counter += 1
 	return spawnedEntity

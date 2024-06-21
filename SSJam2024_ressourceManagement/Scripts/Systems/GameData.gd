@@ -7,3 +7,5 @@ enum WaveEditorAction {Load,Save}
 enum  DragOrigin {UI,World}
 
 enum GameplayLoopState {MainMenu,Preparation,Round,EndRound,Victory,Defeat,GameClosed,_none}
+
+enum SoulType {blue,purple,yellow,green,red}

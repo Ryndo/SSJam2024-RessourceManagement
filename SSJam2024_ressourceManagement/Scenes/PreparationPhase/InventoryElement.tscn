@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp7l3i72yo7u6"]
+
+[ext_resource type="Script" path="res://Scripts/UI/InventoryElement.gd" id="1_jr0ra"]
+[ext_resource type="Texture2D" uid="uid://bwy7n2e0t13gm" path="res://Sprites/UI_Vector/Extra/button_square_depth_line.svg" id="2_37dy2"]
+[ext_resource type="Texture2D" uid="uid://h20mlf6j106b" path="res://Sprites/UI_Vector/Extra/icon_arrow_down_dark.svg" id="3_0sb84"]
+
+[node name="Unit" type="Control" node_paths=PackedStringArray("button", "background")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 1
+script = ExtResource("1_jr0ra")
+button = NodePath("TextureButton")
+background = NodePath("TextureRect")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_37dy2")
+expand_mode = 1
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+action_mode = 0
+texture_pressed = ExtResource("3_0sb84")
+ignore_texture_size = true
+stretch_mode = 5
+
+[connection signal="pressed" from="TextureButton" to="." method="Press"]

@@ -9,15 +9,22 @@ class_name Entity
 @export var PathFinding : EntityPathfinding
 
 var disabled = true
-signal entityDied
+
+signal entityDied(entity)
 
 func _ready():
 	pass
 	
 func Setup() :
+	Movement.collider.disabled = false
 	Targeting.Setup(Movement,Stats.AggroRange)
 	Combat.Setup(Movement,Stats.AttackRange,Stats.AttackSpeed)
 	Movement.Setup()
+
+func Activate() :
+	Targeting.Activate()
+	Combat.Activate()
+	Movement.Activate()
 	disabled = false
 	
 func Disable() :
@@ -27,15 +34,7 @@ func Disable() :
 	Movement.Disable()
 	
 	
-func _process(delta):
-	#if Input.is_action_just_pressed("MoveUnit") :
-		#print("eee")
-		#var rayOrigin =  get_viewport().get_camera_3d().project_ray_origin(get_viewport().get_mouse_position())
-		#var rayEnd = rayOrigin + get_viewport().get_camera_3d().project_ray_normal(get_viewport().get_mouse_position()) * 2000
-		#var rayArray = get_world_3d().direct_space_state.intersect_ray((PhysicsRayQueryParameters3D.create(rayOrigin, rayEnd)))
-		#if rayArray.has("position") :
-			#PathFinding.CalculatePathWithPosition(rayArray["position"])
-	pass
+
 func _physics_process(delta):
 	if disabled :
 		return
@@ -81,14 +80,18 @@ func OnHealthChanged() :
 		KillEntity()
 
 func KillEntity() :
-	entityDied.emit()
+	entityDied.emit(self)
+	call_deferred("Disable")
 	queue_free()
 
 func IsAlive() :
 	return Stats.Health > 0
 	
-func DropTarget() :
+func DropTarget(entity = null) :
 	PathFinding.CancelPath()
 	Movement.ForceStop()
 	Targeting.DropCurrentTarget()
 	Combat.isAttacking = false
+
+func ApplyBuff(stat : EntityStats.StatType, value , modificationType : EntityStats.ModificationType) :
+	Stats.UpdateStat(stat,value,modificationType)

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="SummerSlowJams2024_ResourceManagement"
-run/main_scene="res://Scenes/pathFinding.tscn"
+run/main_scene="res://Scenes/Gameplay.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://Sprites/icon.svg"
 
@@ -24,6 +24,18 @@ Raycaster="*res://Scenes/Raycaster.tscn"
 GameLoopSignals="*res://Scripts/Systems/Signals/GameLoopSignals.gd"
 GameLoop="*res://Scripts/Systems/Game loop/GameplayLoop.gd"
 EntitySpawner="*res://Scenes/EntitySpawner.tscn"
+EntityTypeToAsset="*res://Scenes/EntityTypeToAsset.tscn"
+PlayerItems="*res://Scripts/Game datas/PlayerItems.gd"
+DragAndDrop="*res://Scripts/Systems/DragAndDrop.gd"
+GameProgression="*res://Scripts/Game datas/GameProgression.gd"
+GameScenes="*res://Scenes/GameScenes.tscn"
+EntitiesScene="*res://Scenes/Entities.tscn"
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
+window/size/initial_position_type=2
 
 [dotnet]
 

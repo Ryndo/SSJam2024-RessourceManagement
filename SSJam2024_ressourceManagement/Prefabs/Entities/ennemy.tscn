@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://k12wgaoarf73"]
+[gd_scene load_steps=12 format=3 uid="uid://k12wgaoarf73"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/Ennemy.gd" id="1_0y0wc"]
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/EnnemyStats.gd" id="2_pueam"]
@@ -19,6 +19,10 @@ height = 5.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_7qoh4"]
 height = 5.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4nhmv"]
+height = 11.1328
+radius = 4.25046
 
 [node name="Ennemy" type="Node3D" node_paths=PackedStringArray("Stats", "Movement", "Combat", "Targeting", "PathFinding")]
 script = ExtResource("1_0y0wc")
@@ -93,6 +97,14 @@ max_speed = 600.0
 avoidance_layers = 2
 avoidance_mask = 3
 debug_enabled = true
+
+[node name="PickUp collider" type="StaticBody3D" parent="Movement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.63981, 0)
+collision_layer = 16
+collision_mask = 0
+
+[node name="Collider" type="CollisionShape3D" parent="Movement/PickUp collider"]
+shape = SubResource("CylinderShape3D_4nhmv")
 
 [node name="Pathfinding" type="Node" parent="." node_paths=PackedStringArray("refreshTargetPathTimer", "Agent")]
 script = ExtResource("6_iywmj")

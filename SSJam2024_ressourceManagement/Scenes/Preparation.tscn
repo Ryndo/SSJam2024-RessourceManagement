@@ -1,20 +1,19 @@
-[gd_scene load_steps=18 format=3 uid="uid://c85wabaulvp1t"]
+[gd_scene load_steps=17 format=3 uid="uid://c85wabaulvp1t"]
 
 [ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStatePreparation.gd" id="1_36ro4"]
 [ext_resource type="Texture2D" uid="uid://vr0ro3hw3aye" path="res://Sprites/UI_Vector/Blue/button_rectangle_gloss.svg" id="1_76jup"]
 [ext_resource type="Texture2D" uid="uid://b3e7j7kxatk7f" path="res://Sprites/UI_Vector/Red/button_rectangle_depth_flat.svg" id="1_yruc2"]
 [ext_resource type="Texture2D" uid="uid://csehygnxnyey2" path="res://Sprites/icon.svg" id="2_o1df4"]
-[ext_resource type="Texture2D" uid="uid://b8rkvadluhp08" path="res://Sprites/UI_Vector/Red/button_round_depth_border.svg" id="2_sk0gs"]
+[ext_resource type="Script" path="res://Scripts/UI/Inventory.gd" id="2_y0wr7"]
 [ext_resource type="Texture2D" uid="uid://c603kkka5dgwe" path="res://Sprites/UI_Vector/Green/button_rectangle_depth_flat.svg" id="3_ifbat"]
 [ext_resource type="Texture2D" uid="uid://dwmtqbq7k3ygd" path="res://Sprites/UI_Vector/Blue/button_square_depth_border.svg" id="3_p51am"]
+[ext_resource type="PackedScene" uid="uid://cp7l3i72yo7u6" path="res://Scenes/PreparationPhase/InventoryElement.tscn" id="4_fwo55"]
 [ext_resource type="Texture2D" uid="uid://c07oepnt4x60b" path="res://Sprites/UI_Vector/Yellow/button_square_flat.svg" id="5_mls6b"]
 [ext_resource type="Texture2D" uid="uid://5mgxv74kwxnr" path="res://Sprites/UI_Vector/Yellow/star.svg" id="6_iduf6"]
 [ext_resource type="Texture2D" uid="uid://cn72iktu1jlh7" path="res://Sprites/UI_Vector/Green/button_square_flat.svg" id="7_fitm1"]
 [ext_resource type="Texture2D" uid="uid://dla0mgvgqs5g3" path="res://Sprites/UI_Vector/Blue/button_rectangle_depth_flat.svg" id="8_pokyo"]
 [ext_resource type="Texture2D" uid="uid://da1abh8l70ss7" path="res://Sprites/UI_Vector/Blue/button_round_depth_line.svg" id="9_juhw4"]
 [ext_resource type="Texture2D" uid="uid://bu0brsoyqj4h6" path="res://Sprites/UI_Vector/Red/button_square_flat.svg" id="9_x5kgr"]
-[ext_resource type="Texture2D" uid="uid://8yraom2mlrhi" path="res://Sprites/UI_Vector/Yellow/button_square_depth_gloss.svg" id="13_4n0cs"]
-[ext_resource type="Texture2D" uid="uid://dacbnjqatg1qb" path="res://Sprites/UI_Vector/Yellow/star_outline.svg" id="14_p1j4c"]
 [ext_resource type="Texture2D" uid="uid://bhc4hn1h2o0r1" path="res://Sprites/UI_Vector/Red/button_square_line.svg" id="15_hlw1r"]
 [ext_resource type="Texture2D" uid="uid://bkaon2irl2k3y" path="res://Sprites/UI_Vector/Red/button_round_flat.svg" id="16_t7ahb"]
 
@@ -25,20 +24,24 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_36ro4")
 
-[node name="Inventory" type="Control" parent="."]
+[node name="Inventory" type="Control" parent="." node_paths=PackedStringArray("Elements")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -144.0
-offset_top = -73.0
-offset_right = 144.0
+offset_left = -275.0
+offset_top = -81.0
+offset_right = 275.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 1
+script = ExtResource("2_y0wr7")
+Elements = [NodePath("content/Elements/Unit"), NodePath("content/Elements/Unit2"), NodePath("content/Elements/Unit3"), NodePath("content/Elements/Unit4"), NodePath("content/Elements/Unit5"), NodePath("content/Elements/Unit6"), NodePath("content/Elements/Unit7"), NodePath("content/Elements/Unit8"), NodePath("content/Elements/Unit9"), NodePath("content/Elements/Unit10")]
 
 [node name="background" type="TextureRect" parent="Inventory"]
 layout_mode = 1
@@ -50,310 +53,74 @@ grow_vertical = 2
 texture = ExtResource("1_yruc2")
 expand_mode = 1
 
-[node name="Elements" type="GridContainer" parent="Inventory"]
+[node name="content" type="Control" parent="Inventory"]
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 10.0
-offset_top = -28.5
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 5.0
 offset_right = -12.0
-offset_bottom = 26.5
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Elements" type="GridContainer" parent="Inventory/content"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -259.0
+offset_top = -25.0
+offset_right = 259.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 2
 columns = 10
 
-[node name="Unit" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
+[node name="Unit" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit2" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
+[node name="Unit2" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit3" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
+[node name="Unit3" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit3"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit4" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
+[node name="Unit4" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit4"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit5" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
+[node name="Unit5" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit5"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit6" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
+[node name="Unit6" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit6"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit7" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
+[node name="Unit7" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit7"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit8" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
+[node name="Unit8" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit8"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit9" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
+[node name="Unit9" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit9"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit10" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
+[node name="Unit10" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
 layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit10"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit11" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit11"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit12" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit12"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit13" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit13"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit14" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit14"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit15" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit15"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit16" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit16"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit17" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit17"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit18" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit18"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit19" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit19"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
-
-[node name="Unit20" type="Control" parent="Inventory/Elements"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-
-[node name="background" type="TextureRect" parent="Inventory/Elements/Unit20"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_sk0gs")
-expand_mode = 1
 
 [node name="Shop" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -327.0
-offset_right = 44.0
-offset_bottom = 163.0
+offset_left = -244.5
+offset_right = 244.5
+offset_bottom = 196.0
 grow_horizontal = 2
 
 [node name="Background" type="TextureRect" parent="Shop"]
@@ -392,21 +159,21 @@ autowrap_mode = 0
 
 [node name="unit boosters" type="HBoxContainer" parent="Shop"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -229.0
-offset_top = 11.0
-offset_right = -11.0
-offset_bottom = 144.0
-grow_horizontal = 0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -60.0
+offset_right = 242.0
+offset_bottom = 73.0
+grow_vertical = 2
 alignment = 1
 
-[node name="Control" type="Control" parent="Shop/unit boosters"]
+[node name="Booster 1" type="Control" parent="Shop/unit boosters"]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Shop/unit boosters/Control"]
+[node name="background" type="TextureRect" parent="Shop/unit boosters/Booster 1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -416,7 +183,7 @@ grow_vertical = 2
 texture = ExtResource("3_ifbat")
 expand_mode = 1
 
-[node name="TextureRect" type="TextureRect" parent="Shop/unit boosters/Control"]
+[node name="TextureRect" type="TextureRect" parent="Shop/unit boosters/Booster 1"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -427,7 +194,7 @@ offset_bottom = 103.0
 grow_horizontal = 2
 texture = ExtResource("3_p51am")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Shop/unit boosters/Control"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Shop/unit boosters/Booster 1"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -444,11 +211,11 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Control2" type="Control" parent="Shop/unit boosters"]
+[node name="Booster 2" type="Control" parent="Shop/unit boosters"]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Shop/unit boosters/Control2"]
+[node name="background" type="TextureRect" parent="Shop/unit boosters/Booster 2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -458,7 +225,7 @@ grow_vertical = 2
 texture = ExtResource("3_ifbat")
 expand_mode = 1
 
-[node name="TextureRect" type="TextureRect" parent="Shop/unit boosters/Control2"]
+[node name="TextureRect" type="TextureRect" parent="Shop/unit boosters/Booster 2"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -469,7 +236,7 @@ offset_bottom = 103.0
 grow_horizontal = 2
 texture = ExtResource("3_p51am")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Shop/unit boosters/Control2"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Shop/unit boosters/Booster 2"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -486,11 +253,11 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Control3" type="Control" parent="Shop/unit boosters"]
+[node name="Booster 3" type="Control" parent="Shop/unit boosters"]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Shop/unit boosters/Control3"]
+[node name="background" type="TextureRect" parent="Shop/unit boosters/Booster 3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -500,7 +267,7 @@ grow_vertical = 2
 texture = ExtResource("3_ifbat")
 expand_mode = 1
 
-[node name="TextureRect" type="TextureRect" parent="Shop/unit boosters/Control3"]
+[node name="TextureRect" type="TextureRect" parent="Shop/unit boosters/Booster 3"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -511,7 +278,7 @@ offset_bottom = 103.0
 grow_horizontal = 2
 texture = ExtResource("3_p51am")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Shop/unit boosters/Control3"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Shop/unit boosters/Booster 3"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -528,24 +295,26 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Souls" type="Control" parent="."]
+[node name="Souls" type="Control" parent="Shop"]
 anchors_preset = 0
-offset_left = 629.0
-offset_top = 19.0
-offset_right = 696.0
-offset_bottom = 140.0
+offset_left = 255.0
+offset_top = 41.0
+offset_right = 319.0
+offset_bottom = 174.0
 
-[node name="background" type="TextureRect" parent="Souls"]
+[node name="background" type="TextureRect" parent="Shop/Souls"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 2.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("5_mls6b")
 expand_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Souls"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop/Souls"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -557,11 +326,11 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Ames 1" type="Control" parent="Souls/VBoxContainer"]
-custom_minimum_size = Vector2(60, 20)
+[node name="Ames 1" type="Control" parent="Shop/Souls/VBoxContainer"]
+custom_minimum_size = Vector2(55, 22)
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Souls/VBoxContainer/Ames 1"]
+[node name="background" type="TextureRect" parent="Shop/Souls/VBoxContainer/Ames 1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -571,14 +340,14 @@ grow_vertical = 2
 texture = ExtResource("3_ifbat")
 expand_mode = 1
 
-[node name="Container" type="Control" parent="Souls/VBoxContainer/Ames 1"]
+[node name="Container" type="Control" parent="Shop/Souls/VBoxContainer/Ames 1"]
 anchors_preset = 0
 offset_left = 4.0
 offset_top = 2.0
 offset_right = 145.0
 offset_bottom = 17.0
 
-[node name="TextureRect" type="TextureRect" parent="Souls/VBoxContainer/Ames 1/Container"]
+[node name="TextureRect" type="TextureRect" parent="Shop/Souls/VBoxContainer/Ames 1/Container"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -589,7 +358,7 @@ texture = ExtResource("6_iduf6")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Souls/VBoxContainer/Ames 1/Container"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Shop/Souls/VBoxContainer/Ames 1/Container"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -607,11 +376,11 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Ames 2" type="Control" parent="Souls/VBoxContainer"]
-custom_minimum_size = Vector2(60, 20)
+[node name="Ames 2" type="Control" parent="Shop/Souls/VBoxContainer"]
+custom_minimum_size = Vector2(55, 22)
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Souls/VBoxContainer/Ames 2"]
+[node name="background" type="TextureRect" parent="Shop/Souls/VBoxContainer/Ames 2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -621,14 +390,14 @@ grow_vertical = 2
 texture = ExtResource("3_ifbat")
 expand_mode = 1
 
-[node name="Container" type="Control" parent="Souls/VBoxContainer/Ames 2"]
+[node name="Container" type="Control" parent="Shop/Souls/VBoxContainer/Ames 2"]
 anchors_preset = 0
 offset_left = 4.0
 offset_top = 2.0
 offset_right = 145.0
 offset_bottom = 17.0
 
-[node name="TextureRect" type="TextureRect" parent="Souls/VBoxContainer/Ames 2/Container"]
+[node name="TextureRect" type="TextureRect" parent="Shop/Souls/VBoxContainer/Ames 2/Container"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -639,7 +408,7 @@ texture = ExtResource("6_iduf6")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Souls/VBoxContainer/Ames 2/Container"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Shop/Souls/VBoxContainer/Ames 2/Container"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -657,11 +426,11 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Ames 3" type="Control" parent="Souls/VBoxContainer"]
-custom_minimum_size = Vector2(60, 20)
+[node name="Ames 3" type="Control" parent="Shop/Souls/VBoxContainer"]
+custom_minimum_size = Vector2(55, 22)
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Souls/VBoxContainer/Ames 3"]
+[node name="background" type="TextureRect" parent="Shop/Souls/VBoxContainer/Ames 3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -671,14 +440,14 @@ grow_vertical = 2
 texture = ExtResource("3_ifbat")
 expand_mode = 1
 
-[node name="Container" type="Control" parent="Souls/VBoxContainer/Ames 3"]
+[node name="Container" type="Control" parent="Shop/Souls/VBoxContainer/Ames 3"]
 anchors_preset = 0
 offset_left = 4.0
 offset_top = 2.0
 offset_right = 145.0
 offset_bottom = 17.0
 
-[node name="TextureRect" type="TextureRect" parent="Souls/VBoxContainer/Ames 3/Container"]
+[node name="TextureRect" type="TextureRect" parent="Shop/Souls/VBoxContainer/Ames 3/Container"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -689,7 +458,7 @@ texture = ExtResource("6_iduf6")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Souls/VBoxContainer/Ames 3/Container"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Shop/Souls/VBoxContainer/Ames 3/Container"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -707,11 +476,11 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Ames 4" type="Control" parent="Souls/VBoxContainer"]
-custom_minimum_size = Vector2(60, 20)
+[node name="Ames 4" type="Control" parent="Shop/Souls/VBoxContainer"]
+custom_minimum_size = Vector2(55, 22)
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Souls/VBoxContainer/Ames 4"]
+[node name="background" type="TextureRect" parent="Shop/Souls/VBoxContainer/Ames 4"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -721,14 +490,14 @@ grow_vertical = 2
 texture = ExtResource("3_ifbat")
 expand_mode = 1
 
-[node name="Container" type="Control" parent="Souls/VBoxContainer/Ames 4"]
+[node name="Container" type="Control" parent="Shop/Souls/VBoxContainer/Ames 4"]
 anchors_preset = 0
 offset_left = 4.0
 offset_top = 2.0
 offset_right = 145.0
 offset_bottom = 17.0
 
-[node name="TextureRect" type="TextureRect" parent="Souls/VBoxContainer/Ames 4/Container"]
+[node name="TextureRect" type="TextureRect" parent="Shop/Souls/VBoxContainer/Ames 4/Container"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -739,7 +508,7 @@ texture = ExtResource("6_iduf6")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Souls/VBoxContainer/Ames 4/Container"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Shop/Souls/VBoxContainer/Ames 4/Container"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -757,11 +526,11 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Ames 5" type="Control" parent="Souls/VBoxContainer"]
-custom_minimum_size = Vector2(60, 20)
+[node name="Ames 5" type="Control" parent="Shop/Souls/VBoxContainer"]
+custom_minimum_size = Vector2(55, 22)
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="Souls/VBoxContainer/Ames 5"]
+[node name="background" type="TextureRect" parent="Shop/Souls/VBoxContainer/Ames 5"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -771,14 +540,14 @@ grow_vertical = 2
 texture = ExtResource("3_ifbat")
 expand_mode = 1
 
-[node name="Container" type="Control" parent="Souls/VBoxContainer/Ames 5"]
+[node name="Container" type="Control" parent="Shop/Souls/VBoxContainer/Ames 5"]
 anchors_preset = 0
 offset_left = 4.0
 offset_top = 2.0
 offset_right = 145.0
 offset_bottom = 17.0
 
-[node name="TextureRect" type="TextureRect" parent="Souls/VBoxContainer/Ames 5/Container"]
+[node name="TextureRect" type="TextureRect" parent="Shop/Souls/VBoxContainer/Ames 5/Container"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -789,7 +558,7 @@ texture = ExtResource("6_iduf6")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Souls/VBoxContainer/Ames 5/Container"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Shop/Souls/VBoxContainer/Ames 5/Container"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -807,14 +576,14 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Totems explanation" type="Control" parent="."]
+[node name="Totems explanation" type="Control" parent="Shop"]
 anchors_preset = 0
-offset_left = 701.0
-offset_top = 8.0
-offset_right = 844.0
-offset_bottom = 152.0
+offset_left = 329.0
+offset_top = 11.0
+offset_right = 472.0
+offset_bottom = 180.0
 
-[node name="TextureRect" type="TextureRect" parent="Totems explanation"]
+[node name="TextureRect" type="TextureRect" parent="Shop/Totems explanation"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -824,7 +593,7 @@ grow_vertical = 2
 texture = ExtResource("7_fitm1")
 expand_mode = 1
 
-[node name="Content" type="Control" parent="Totems explanation"]
+[node name="Content" type="Control" parent="Shop/Totems explanation"]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -838,7 +607,7 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.799995, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Totems explanation/Content"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop/Totems explanation/Content"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -850,14 +619,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 2
 
-[node name="Base title" type="Label" parent="Totems explanation/Content/VBoxContainer"]
+[node name="Base title" type="Label" parent="Shop/Totems explanation/Content/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Base totem"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="base explanation" type="Label" parent="Totems explanation/Content/VBoxContainer"]
+[node name="base explanation" type="Label" parent="Shop/Totems explanation/Content/VBoxContainer"]
 custom_minimum_size = Vector2(0, 34.515)
 layout_mode = 2
 theme_override_constants/line_spacing = 0
@@ -868,14 +637,14 @@ vertical_alignment = 3
 autowrap_mode = 3
 clip_text = true
 
-[node name="Upgrade title" type="Label" parent="Totems explanation/Content/VBoxContainer"]
+[node name="Upgrade title" type="Label" parent="Shop/Totems explanation/Content/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Totem Upgrade "
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Upgrade explanation" type="Label" parent="Totems explanation/Content/VBoxContainer"]
+[node name="Upgrade explanation" type="Label" parent="Shop/Totems explanation/Content/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_constants/line_spacing = -1
@@ -1109,281 +878,8 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "99"
 
-[node name="Hovered Entity Infos" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 26.0
-offset_top = -100.0
-offset_right = 119.0
-grow_vertical = 0
-
-[node name="background" type="TextureRect" parent="Hovered Entity Infos"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("13_4n0cs")
-expand_mode = 1
-
-[node name="Content" type="Control" parent="Hovered Entity Infos"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 7.0
-offset_top = 4.0
-offset_right = -6.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Name" type="Label" parent="Hovered Entity Infos/Content"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -41.0
-offset_top = 2.0
-offset_right = 41.0
-offset_bottom = 25.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(0.65098, 0.329412, 1, 1)
-theme_override_font_sizes/font_size = 13
-text = "Cheumvalier"
-
-[node name="Stats" type="GridContainer" parent="Hovered Entity Infos/Content"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 7.0
-offset_top = -42.0
-offset_right = 77.0
-offset_bottom = -4.0
-grow_vertical = 0
-columns = 2
-
-[node name="Stat" type="Control" parent="Hovered Entity Infos/Content/Stats"]
-custom_minimum_size = Vector2(33, 10)
-layout_mode = 2
-
-[node name="Icon" type="TextureRect" parent="Hovered Entity Infos/Content/Stats/Stat"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -4.6875
-offset_right = 10.0
-offset_bottom = 4.6875
-grow_vertical = 2
-texture = ExtResource("14_p1j4c")
-expand_mode = 5
-stretch_mode = 5
-
-[node name="value" type="Label" parent="Hovered Entity Infos/Content/Stats/Stat"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -21.0
-offset_top = -6.5
-offset_right = 1.17996
-offset_bottom = 6.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0.631373, 0.447059, 1)
-theme_override_font_sizes/font_size = 9
-text = "7555"
-vertical_alignment = 1
-clip_text = true
-
-[node name="Stat2" type="Control" parent="Hovered Entity Infos/Content/Stats"]
-custom_minimum_size = Vector2(33, 10)
-layout_mode = 2
-
-[node name="Icon" type="TextureRect" parent="Hovered Entity Infos/Content/Stats/Stat2"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -4.6875
-offset_right = 10.0
-offset_bottom = 4.6875
-grow_vertical = 2
-texture = ExtResource("14_p1j4c")
-expand_mode = 5
-stretch_mode = 5
-
-[node name="value" type="Label" parent="Hovered Entity Infos/Content/Stats/Stat2"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -21.0
-offset_top = -6.5
-offset_right = 1.17996
-offset_bottom = 6.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0.631373, 0.447059, 1)
-theme_override_font_sizes/font_size = 9
-text = "7555"
-vertical_alignment = 1
-clip_text = true
-
-[node name="Stat3" type="Control" parent="Hovered Entity Infos/Content/Stats"]
-custom_minimum_size = Vector2(33, 10)
-layout_mode = 2
-
-[node name="Icon" type="TextureRect" parent="Hovered Entity Infos/Content/Stats/Stat3"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -4.6875
-offset_right = 10.0
-offset_bottom = 4.6875
-grow_vertical = 2
-texture = ExtResource("14_p1j4c")
-expand_mode = 5
-stretch_mode = 5
-
-[node name="value" type="Label" parent="Hovered Entity Infos/Content/Stats/Stat3"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -21.0
-offset_top = -6.5
-offset_right = 1.17996
-offset_bottom = 6.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0.631373, 0.447059, 1)
-theme_override_font_sizes/font_size = 9
-text = "7555"
-vertical_alignment = 1
-clip_text = true
-
-[node name="Stat4" type="Control" parent="Hovered Entity Infos/Content/Stats"]
-custom_minimum_size = Vector2(33, 10)
-layout_mode = 2
-
-[node name="Icon" type="TextureRect" parent="Hovered Entity Infos/Content/Stats/Stat4"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -4.6875
-offset_right = 10.0
-offset_bottom = 4.6875
-grow_vertical = 2
-texture = ExtResource("14_p1j4c")
-expand_mode = 5
-stretch_mode = 5
-
-[node name="value" type="Label" parent="Hovered Entity Infos/Content/Stats/Stat4"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -21.0
-offset_top = -6.5
-offset_right = 1.17996
-offset_bottom = 6.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0.631373, 0.447059, 1)
-theme_override_font_sizes/font_size = 9
-text = "7555"
-vertical_alignment = 1
-clip_text = true
-
-[node name="Stat5" type="Control" parent="Hovered Entity Infos/Content/Stats"]
-custom_minimum_size = Vector2(33, 10)
-layout_mode = 2
-
-[node name="Icon" type="TextureRect" parent="Hovered Entity Infos/Content/Stats/Stat5"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -4.6875
-offset_right = 10.0
-offset_bottom = 4.6875
-grow_vertical = 2
-texture = ExtResource("14_p1j4c")
-expand_mode = 5
-stretch_mode = 5
-
-[node name="value" type="Label" parent="Hovered Entity Infos/Content/Stats/Stat5"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -21.0
-offset_top = -6.5
-offset_right = 1.17996
-offset_bottom = 6.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0.631373, 0.447059, 1)
-theme_override_font_sizes/font_size = 9
-text = "7555"
-vertical_alignment = 1
-clip_text = true
-
-[node name="Stat6" type="Control" parent="Hovered Entity Infos/Content/Stats"]
-custom_minimum_size = Vector2(33, 10)
-layout_mode = 2
-
-[node name="Icon" type="TextureRect" parent="Hovered Entity Infos/Content/Stats/Stat6"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -4.6875
-offset_right = 10.0
-offset_bottom = 4.6875
-grow_vertical = 2
-texture = ExtResource("14_p1j4c")
-expand_mode = 5
-stretch_mode = 5
-
-[node name="value" type="Label" parent="Hovered Entity Infos/Content/Stats/Stat6"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -21.0
-offset_top = -6.5
-offset_right = 1.17996
-offset_bottom = 6.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0.631373, 0.447059, 1)
-theme_override_font_sizes/font_size = 9
-text = "7555"
-vertical_alignment = 1
-clip_text = true
-
 [node name="Booster opening" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

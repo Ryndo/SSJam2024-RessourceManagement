@@ -1,81 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://diax2qngj56ll"]
+[gd_scene load_steps=5 format=3 uid="uid://diax2qngj56ll"]
 
 [ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameplayLoop.gd" id="1_qks3d"]
-[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateDefeat.gd" id="2_5hbsq"]
-[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateVictory.gd" id="3_n3shy"]
-[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateEndRound.gd" id="4_3n2xd"]
-[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStatePreparation.gd" id="5_u5aix"]
-[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateRound.gd" id="6_i77cy"]
-[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateMainMenu.gd" id="7_f5bto"]
+[ext_resource type="PackedScene" uid="uid://b3he800yd52st" path="res://Scenes/MainMenu.tscn" id="2_o483f"]
+[ext_resource type="PackedScene" uid="uid://c85wabaulvp1t" path="res://Scenes/Preparation.tscn" id="3_hf1td"]
+[ext_resource type="PackedScene" uid="uid://brnv337xh3kle" path="res://Scenes/Gameplay.tscn" id="4_rjwr5"]
 
 [node name="GameplayLoop" type="Node3D"]
 script = ExtResource("1_qks3d")
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Play game" type="Button" parent="Control"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="ready for round" type="Button" parent="Control"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="show round result" type="Button" parent="Control"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="currency gain" type="Button" parent="Control"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="Go to preparation" type="Button" parent="Control"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="show Victory" type="Button" parent="Control"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="show Defeat" type="Button" parent="Control"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="Original totem is dead" type="Button" parent="Control"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="Defeat state" type="Node" parent="."]
-script = ExtResource("2_5hbsq")
-
-[node name="Victory state" type="Node" parent="."]
-script = ExtResource("3_n3shy")
-
-[node name="End round state" type="Node" parent="."]
-script = ExtResource("4_3n2xd")
-
-[node name="Preparation state" type="Node" parent="."]
-script = ExtResource("5_u5aix")
-
-[node name="Round state" type="Node" parent="."]
-script = ExtResource("6_i77cy")
-
-[node name="Menu state" type="Node" parent="."]
-script = ExtResource("7_f5bto")
-
-[connection signal="pressed" from="Control/Play game" to="Menu state" method="StartNewGame"]
-[connection signal="pressed" from="Control/ready for round" to="Preparation state" method="ReadyForRound"]
-[connection signal="pressed" from="Control/show round result" to="Round state" method="EnnemiesAreAllDead"]
-[connection signal="pressed" from="Control/Original totem is dead" to="Round state" method="OriginalTotemIsDead"]
+MainMenuScene = ExtResource("2_o483f")
+PreparationScene = ExtResource("3_hf1td")
+RoundScene = ExtResource("4_rjwr5")

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://brnv337xh3kle"]
+[gd_scene load_steps=8 format=3 uid="uid://brnv337xh3kle"]
 
-[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateRound.gd" id="1_yiqul"]
-[ext_resource type="Script" path="res://Scripts/Entities/Totems/OriginalTotem.gd" id="3_nd00a"]
-[ext_resource type="Script" path="res://Scripts/Systems/WaveManager.gd" id="4_ptjio"]
-[ext_resource type="PackedScene" uid="uid://c5v6yh6ynhp25" path="res://Prefabs/Entities/Ally.tscn" id="9_26c0i"]
+[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateRound.gd" id="1_kotkf"]
+[ext_resource type="PackedScene" uid="uid://bevvxty3dkl32" path="res://Prefabs/Entities/base_totem.tscn" id="2_0gw1i"]
+[ext_resource type="Script" path="res://Scripts/Systems/Wave/WaveManager.gd" id="2_x0hem"]
+[ext_resource type="PackedScene" uid="uid://dhycq6i13tw41" path="res://Prefabs/ground_boundary.tscn" id="4_u7xwd"]
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/OriginalTotem.gd" id="5_vuewb"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_rbaku"]
 vertices = PackedVector3Array(-60.1719, 1, -46.75, -60.1719, 1, -140, -111.922, 1, -140, -111.922, 1, -46.5, 60.0781, 1, -47.25, 168.078, 1, -47.25, 168.078, 1, -140, 60.0781, 1, -140, -40.1719, 101, -135.75, -40.1719, 101, -55.5, 40.0781, 101, -55.5, 40.0781, 101, -135.75, -39.9219, 1, -135.5, -39.9219, 1, -55.75, 39.8281, 1, -55.75, 39.8281, 1, -135.5, 168.078, 1, -47.25, 60.0781, 1, -47.25, 60.0781, 1, -45.25, 168.078, 1, -47.25, 60.0781, 1, -45.25, 56.3281, 1, -38.5, 168.078, 1, -47.25, 56.3281, 1, -38.5, 50.3281, 1, -35.5, 48.3281, 1, 140, 168.078, 1, 140, 50.3281, 1, -35.5, 48.3281, 1, -35.5, 48.3281, 1, 140, -60.1719, 1, -45.25, -60.1719, 1, -46.75, -111.922, 1, -46.5, -57.1719, 1, -39.25, -60.1719, 1, -45.25, -111.922, 1, -46.5, -50.4219, 1, -35.5, -57.1719, 1, -39.25, -111.922, 1, -46.5, -111.922, 1, 140, 48.3281, 1, 140, 48.3281, 1, -35.5, -50.4219, 1, -35.5, -111.922, 1, 140)
@@ -13,27 +14,31 @@ agent_radius = 10.0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h40kb"]
 albedo_color = Color(0.0862745, 0.168627, 0, 1)
 
-[node name="Round" type="Node3D"]
-script = ExtResource("1_yiqul")
+[node name="Round" type="Node3D" node_paths=PackedStringArray("waveManager")]
+script = ExtResource("1_kotkf")
+waveManager = NodePath("wave manager")
+
+[node name="base Totem" parent="." instance=ExtResource("2_0gw1i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.2118, 0.500015, 44.0703)
 
 [node name="wave manager" type="Node" parent="." node_paths=PackedStringArray("spawningArea", "initialTotem", "delayBetweenStep")]
-script = ExtResource("4_ptjio")
+script = ExtResource("2_x0hem")
 spawningArea = NodePath("../spawn area")
 initialTotem = NodePath("../Totem")
 delayBetweenStep = NodePath("Time bewteen wave steps")
 
 [node name="Time bewteen wave steps" type="Timer" parent="wave manager"]
+one_shot = true
 
-[node name="Ally" parent="." instance=ExtResource("9_26c0i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.2932, 1.5, 46.1396)
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.991671, 0.0602673, -0.113825, 0, 0.883766, 0.46793, 0.128796, -0.464033, 0.876405, 0, 100, 200)
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(0.705872, 0.279045, -0.65106, 0, 0.919135, 0.393942, 0.70834, -0.278072, 0.648791, -79.32, 114.26, 126.44)
 current = true
 fov = 70.0
-near = 0.001
+size = 350.0
+near = 0.002
+far = 8000.0
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera"]
 light_color = Color(0.411765, 0.321569, 1, 1)
 light_energy = 3.264
 light_volumetric_fog_energy = 0.0
@@ -41,9 +46,13 @@ light_volumetric_fog_energy = 0.0
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_rbaku")
 
+[node name="Ground boundary" parent="NavigationRegion3D" instance=ExtResource("4_u7xwd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
 [node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.0781, 0, 0)
 use_collision = true
+collision_layer = 8
 size = Vector3(300, 1, 300)
 material = SubResource("StandardMaterial3D_h40kb")
 
@@ -75,8 +84,8 @@ size = Vector3(10, 1, 10)
 
 [node name="Totem" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 154.259, 0, 86.7505)
-script = ExtResource("3_nd00a")
-Health = 10
+script = ExtResource("5_vuewb")
+Health = 20
 
 [node name="model" type="CSGCylinder3D" parent="Totem"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5, 0)
@@ -85,6 +94,9 @@ collision_layer = 64
 collision_mask = 0
 radius = 6.0
 height = 20.0
+
+[node name="Ground boundary" parent="." instance=ExtResource("4_u7xwd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [connection signal="allEnnemiesAreDead" from="wave manager" to="." method="EnnemiesAreAllDead"]
 [connection signal="timeout" from="wave manager/Time bewteen wave steps" to="wave manager" method="SpawnStep"]

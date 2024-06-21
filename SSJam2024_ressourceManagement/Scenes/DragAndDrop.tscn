@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://q6l1yip2l4ap"]
+[gd_scene load_steps=6 format=3 uid="uid://q6l1yip2l4ap"]
 
 [ext_resource type="Script" path="res://Scripts/Systems/DragAndDrop.gd" id="1_3fxh1"]
+[ext_resource type="PackedScene" uid="uid://dhycq6i13tw41" path="res://Prefabs/ground_boundary.tscn" id="2_7243e"]
 [ext_resource type="PackedScene" uid="uid://c5v6yh6ynhp25" path="res://Prefabs/Entities/Ally.tscn" id="2_ndibk"]
+[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateMainMenu.gd" id="4_5v35b"]
 [ext_resource type="Script" path="res://Scripts/UI/Inventory/Ally/InventoryAllyButton.gd" id="4_lil22"]
-
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_vi1ne"]
 
 [node name="DragAndDrop" type="Node3D" node_paths=PackedStringArray("startDraggingDelay")]
 script = ExtResource("1_3fxh1")
 startDraggingDelay = NodePath("Timer")
+
+[node name="Ground boundary" parent="." instance=ExtResource("2_7243e")]
 
 [node name="Entities" type="Node3D" parent="."]
 
@@ -60,6 +62,21 @@ action_mode = 0
 text = "UNIT"
 script = ExtResource("4_lil22")
 
+[node name="Swith to preparation pahse" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0031
+anchor_bottom = 1.0031
+offset_left = 462.0
+offset_top = -40.1426
+offset_right = 523.0
+offset_bottom = -9.14258
+grow_vertical = 0
+mouse_filter = 1
+action_mode = 0
+text = "Start"
+script = ExtResource("4_5v35b")
+
 [node name="Panel" type="Panel" parent="Control"]
 layout_mode = 1
 anchors_preset = 2
@@ -71,11 +88,5 @@ offset_right = 102.0
 offset_bottom = 2.0
 grow_vertical = 0
 
-[node name="Ground boundary" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.31092, 0)
-collision_layer = 32
-
-[node name="ground Boundary" type="CollisionShape3D" parent="Ground boundary"]
-shape = SubResource("WorldBoundaryShape3D_vi1ne")
-
 [connection signal="timeout" from="Timer" to="." method="ActivateDrag"]
+[connection signal="pressed" from="Control/Swith to preparation pahse" to="Control/Swith to preparation pahse" method="StartNewGame"]

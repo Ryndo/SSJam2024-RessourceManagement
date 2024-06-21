@@ -2,7 +2,7 @@ class_name EntityDragAndDrop extends Node3D
 
 @export var startDraggingDelay : Timer
 @export var shape : CollisionShape3D
-var EntityDragged : Entity
+var EntityDragged 
 var colliderDragged : CollisionShape3D
 
 var DragOrigin : GameData.DragOrigin
@@ -10,12 +10,13 @@ var draggingStartPosition
 var isDraggingActivated = false
 var isDragging : bool = false
 
+var onSuccess
+var onFailure
 
 func _ready():	
 	InputSignal.PickEntity.connect(StartDrag)
 	InputSignal.Drag.connect(Dragging)
-	InputSignal.EndDrag.connect(EndDrag)
-	
+	InputSignal.EndDrag.connect(EndDrag)	
 	
 func ColisionDelayStart() :
 	var rayCollision = CastRayFromMouseScreenPosition()
@@ -24,17 +25,20 @@ func ColisionDelayStart() :
 		if object != null and object is Ally:
 			startDraggingDelay.start()
 			
-func StartDrag(rayResult,origin) :
+func StartDrag(rayResult,origin,_onSucces,_onFailure) :
 	if rayResult != null : 
-		var object : Node3D = CheckForAlly(rayResult.collider)
-		if object != null and object is Ally:
-			colliderDragged = rayResult.collider.get_node("Collider")
+		var object : Node3D = CheckForPickable(rayResult.collider)
+		if object == null : 
+			return
+		if object is Ally or object is TotemBase:
 			EntityDragged = object
 			EntityDragged.Disable()
 			isDragging = true
-			colliderDragged.disabled = true
 			DragOrigin = origin
 			draggingStartPosition = EntityDragged.global_position
+			onSuccess = _onSucces
+			onFailure = _onFailure
+		#if object is TotemBase :
 			
 func Dragging(rayResult) :
 	if !isDragging :
@@ -48,12 +52,17 @@ func EndDrag(rayResult) :
 	isDraggingActivated = false
 	if !isDragging :
 		return
-	if rayResult == null or !rayResult.has("position") or !CheckIfSpaceIsFree(rayResult.position,EntityDragged.Movement.collider.shape.radius) :		#not a valid position to end drag
+	if rayResult == null or !rayResult.has("position") : 		#not a valid position to end drag
+		CancelDrag()		
+	elif EntityDragged is Ally and !CheckIfSpaceIsFree(rayResult.position,EntityDragged.Movement.collider.shape.radius) :
+		CancelDrag()		
+	elif EntityDragged is TotemBase and !CheckIfSpaceIsFree(rayResult.position,EntityDragged.collider.shape.radius) :
 		CancelDrag()		
 	else : 
 		EntityDragged.Setup()
+		if onSuccess :
+			onSuccess.call()
 	isDragging = false	
-	colliderDragged.disabled = false
 	EntityDragged = null
 		
 func CastRayFromMouseScreenPosition() :
@@ -69,13 +78,13 @@ func CastRayFromMouseScreenPosition() :
 func ActivateDrag() :
 	isDraggingActivated = true
 	
-func CheckForAlly(collider) :
+func CheckForPickable(collider) :
 	var parent = collider.get_parent()
 	if parent == null :
 		return null
 	var grandParent = parent.get_parent()
 	if grandParent != null :
-		if grandParent is Ally :
+		if grandParent is Ally or grandParent is TotemBase:
 			return grandParent
 	return null
 
@@ -92,3 +101,6 @@ func CancelDrag() :
 	else : 
 		var tween = create_tween()
 		tween.tween_property(EntityDragged, "global_position", draggingStartPosition, .3).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+		EntityDragged.Setup()
+	if onFailure :
+		onFailure.call()

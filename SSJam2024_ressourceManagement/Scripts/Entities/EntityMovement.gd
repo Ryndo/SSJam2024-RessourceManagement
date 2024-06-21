@@ -7,6 +7,7 @@ class_name EntityMovement
 
 func Setup() :
 	collider.disabled = false
+func Activate() :
 	Agent.avoidance_enabled = true
 	set_physics_process(true)
 	

@@ -1,17 +1,27 @@
 extends Node
 
 signal StartNewGame
-
+signal StartNewGameFromLost
+signal StartNewGameFromWin
 signal ReadyForNextRound
-
 signal RoundEnded
-
-signal EndRoundEventsResolved
-
+signal RoundFinishEventsResolved
 signal AllWavesCleared
-
 signal OriginalTotemIsDead
-
 signal QuitTheGame
-
 signal GoToMainMenu
+signal GoToMainMenuFromLost
+signal GoToMainMenuFromWin
+
+signal StartPreparation
+signal StartNewRound
+signal TriggerEndRoundEvents
+
+signal SetupNewRound 
+
+signal EndMainMenu
+signal EndPreparation
+signal EndVictory
+signal EndDefeat
+signal EndRoundPhase
+signal EndRoundResult

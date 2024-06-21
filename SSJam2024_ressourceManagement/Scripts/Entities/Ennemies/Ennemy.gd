@@ -1,14 +1,14 @@
 extends Entity
 
-var InitialTotem : Node3D
+var originalTotem : Node3D
 
-func SetupTargetTotem(initialTotem) :
-	InitialTotem = initialTotem
-	PathFinding.SetTarget(initialTotem)
+func SetupTargetTotem(_originalTotem) :
+	originalTotem = _originalTotem
+	PathFinding.SetTarget(originalTotem)
 	
 func TargetingTargetChanged(oldTarget, newTarget) :
 	if newTarget == null :
-		super.TargetingTargetChanged(oldTarget,InitialTotem)
+		super.TargetingTargetChanged(oldTarget,originalTotem)
 		return
 	super.TargetingTargetChanged(oldTarget,newTarget)
 

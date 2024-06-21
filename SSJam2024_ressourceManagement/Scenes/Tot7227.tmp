@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://uvym6yvxpugj"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/GenericBaseTotem.gd" id="1_0d2p1"]
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/TotemStats.gd" id="2_0hm2a"]
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/TotemAbility.gd" id="2_3p7uo"]
+[ext_resource type="Script" path="res://Scripts/Entities/EntityTargeting.gd" id="3_d5sqh"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6dqxm"]
+height = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yji5j"]
+height = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2lc5h"]
+height = 1.0
+
+[node name="Totems" type="Node3D"]
+
+[node name="base Totem" type="Node3D" parent="." node_paths=PackedStringArray("Stats", "Collider", "Targeting", "AbilityArea")]
+script = ExtResource("1_0d2p1")
+Stats = NodePath("TotemStats")
+Collider = NodePath("StaticBody3D")
+Targeting = NodePath("Targeting")
+AbilityArea = NodePath("Ability area")
+
+[node name="TotemStats" type="Node" parent="base Totem"]
+script = ExtResource("2_0hm2a")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="base Totem"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="base Totem/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CylinderShape3D_6dqxm")
+
+[node name="Targeting" type="Node3D" parent="base Totem" node_paths=PackedStringArray("rangeShape", "resetTargetingTimer")]
+script = ExtResource("3_d5sqh")
+rangeShape = NodePath("Area3D/CollisionShape3D")
+resetTargetingTimer = NodePath("Timer")
+
+[node name="Area3D" type="Area3D" parent="base Totem/Targeting"]
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="base Totem/Targeting/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CylinderShape3D_yji5j")
+
+[node name="Timer" type="Timer" parent="base Totem/Targeting"]
+wait_time = 0.5
+
+[node name="Ability area" type="Node3D" parent="base Totem" node_paths=PackedStringArray("areaOfEffect")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("2_3p7uo")
+areaOfEffect = NodePath("Area3D/CollisionShape3D")
+
+[node name="Area3D" type="Area3D" parent="base Totem/Ability area"]
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="base Totem/Ability area/Area3D"]
+shape = SubResource("CylinderShape3D_2lc5h")
+
+[connection signal="body_entered" from="base Totem/Ability area/Area3D" to="base Totem/Ability area" method="EntityEnterArea"]
+[connection signal="body_exited" from="base Totem/Ability area/Area3D" to="base Totem/Ability area" method="EntityExitArea"]

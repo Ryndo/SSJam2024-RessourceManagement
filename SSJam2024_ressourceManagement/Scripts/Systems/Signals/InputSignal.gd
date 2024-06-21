@@ -1,6 +1,6 @@
 extends Node
 
-signal PickEntity(mouseScreenToWorldrayResult)
+signal PickEntity(mouseScreenToWorldrayResult,onSucces : Callable,onFailure : Callable)
 
 signal Drag(mouseScreenToWorldrayResult)
 

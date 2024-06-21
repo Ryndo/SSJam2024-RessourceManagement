@@ -15,6 +15,8 @@ signal targetChanged(oldTarget, newTarget)
 func Setup(body,range) :
 	collider = body
 	rangeShape.shape.radius = range
+	
+func Activate() :
 	rangeShape.disabled = false
 	isTargetingOff = false
 	
