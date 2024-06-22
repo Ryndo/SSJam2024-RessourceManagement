@@ -4,11 +4,14 @@ class_name Ally extends Entity
 
 var stopTargeting = false
 
+func _ready() :
+	GameLoopSignals.StartNewRound.connect(Activate)
+	
+
 func Setup():
-	super.Setup()
-	GameLoopSignals.StartNewRound.is_connected(Activate)
 	#GameLoopSignals.EndRoundPhase.connect(Disable)
 	followRange.Setup(Stats.FollowRange,global_position,Movement)
+	super.Setup()
 	
 func EnterFollowRange(entity):
 	stopTargeting = false

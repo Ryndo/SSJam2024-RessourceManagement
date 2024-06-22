@@ -7,7 +7,7 @@ func _unhandled_input(event):
 	#Attempt to start dragging an entity
 	if GameLoop.currentGameState == GameData.GameplayLoopState.Preparation :
 		if Input.is_action_just_pressed("LeftClick") :
-			var rayResult = Raycaster.CastRayFromMouseScreenPosition()
+			var rayResult = Raycaster.CastRayFromMouseScreenPosition(16)
 			if rayResult != null and rayResult.has("position") :
 				InputSignal.PickEntity.emit(rayResult,GameData.DragOrigin.World,null,null)
 				actionsCurrentlyPressed.append("Drag")

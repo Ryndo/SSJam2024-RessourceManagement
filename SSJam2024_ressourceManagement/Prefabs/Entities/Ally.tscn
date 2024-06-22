@@ -42,6 +42,10 @@ PathFinding = NodePath("Pathfinding")
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("2_5lslk")
+FollowRange = 120.0
+SouldDropAmount = 1
+AggroRange = 70.0
+AttackRange = 30.0
 MovementSpeed = 80.0
 AttackDamage = 8.0
 AttackSpeed = 1.0

@@ -62,7 +62,6 @@ func IsInAttackRange(entity) :
 func ReceiveAttack(damageAmount) :
 	#Calculate damage reduction
 	takeDamage.emit(damageAmount)
-	print(damageAmount)
 	
 func SetAttackSpeed(attackSpeed) :
 	attackCooldown.wait_time = 1 / attackSpeed

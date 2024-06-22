@@ -12,11 +12,14 @@ var isDragging : bool = false
 
 var onSuccess
 var onFailure
+var snapTween : Tween
+var isSnapping = false
 
 func _ready():	
 	InputSignal.PickEntity.connect(StartDrag)
 	InputSignal.Drag.connect(Dragging)
 	InputSignal.EndDrag.connect(EndDrag)	
+	#snapTween.pause()
 	
 func ColisionDelayStart() :
 	var rayCollision = CastRayFromMouseScreenPosition()
@@ -45,8 +48,12 @@ func Dragging(rayResult) :
 		return
 	if rayResult == null or !rayResult.has("position") :
 		return
-	var tween = create_tween()
-	tween.tween_property(EntityDragged, "global_position", rayResult.position, .3).set_ease(Tween.EASE_IN_OUT)
+	if EntityDragged is TotemBase and TotemSnap():
+		return
+	if snapTween :
+		snapTween.kill()
+	snapTween = create_tween()
+	snapTween.tween_property(EntityDragged, "global_position", rayResult.position, .3).set_ease(Tween.EASE_IN_OUT)
 
 func EndDrag(rayResult) :
 	isDraggingActivated = false
@@ -54,10 +61,10 @@ func EndDrag(rayResult) :
 		return
 	if rayResult == null or !rayResult.has("position") : 		#not a valid position to end drag
 		CancelDrag()		
-	elif EntityDragged is Ally and !CheckIfSpaceIsFree(rayResult.position,EntityDragged.Movement.collider.shape.radius) :
+	elif EntityDragged is Ally and !CheckIfSpaceIsFree(rayResult.position,EntityDragged.Movement.collider.shape.radius,134) :
 		CancelDrag()		
-	elif EntityDragged is TotemBase and !CheckIfSpaceIsFree(rayResult.position,EntityDragged.collider.shape.radius) :
-		CancelDrag()		
+	elif EntityDragged is TotemBase :
+		TotemEndDrag(rayResult)
 	else : 
 		EntityDragged.Setup()
 		if onSuccess :
@@ -88,11 +95,16 @@ func CheckForPickable(collider) :
 			return grandParent
 	return null
 
-func CheckIfSpaceIsFree(position,radius) :
-	var castResults  = Raycaster.ShapeCastWorld(EntityDragged.transform,6,radius)
+func CheckIfSpaceIsFree(position,radius,layerMask) :
+	var castResults  = Raycaster.ShapeCastWorld(EntityDragged.transform,layerMask,radius)
+	var draggedBody
+	if EntityDragged is Entity :
+		draggedBody = EntityDragged.Movement
+	elif EntityDragged is TotemBase :
+		draggedBody = EntityDragged.Body
 	for body in castResults :
 		if body != null :
-			if body.collider != EntityDragged.Movement :
+			if body.collider != draggedBody :
 				return false
 	return true
 func CancelDrag() :
@@ -104,3 +116,24 @@ func CancelDrag() :
 		EntityDragged.Setup()
 	if onFailure :
 		onFailure.call()
+		
+func TotemSnap() :
+	var totemRay = Raycaster.CastRayFromMouseScreenPosition(128)
+	if totemRay != null and totemRay.has("position") :
+		if snapTween :
+			snapTween.kill()
+		snapTween = create_tween()
+		snapTween.tween_property(EntityDragged, "global_position", totemRay.collider.get_parent().UpgradePosition.global_position, .15)
+		return true
+	return false
+
+func TotemEndDrag(rayResult) :
+	var totemRay = Raycaster.CastRayFromMouseScreenPosition(128)
+	if totemRay != null and rayResult.has("position") :
+		totemRay.collider.get_parent().AttachUpgrade(EntityDragged)
+	elif !CheckIfSpaceIsFree(rayResult.position,EntityDragged.collider.shape.radius,6) :
+		CancelDrag()	
+	else :	
+		EntityDragged.Setup()
+		if onSuccess :
+			onSuccess.call()

@@ -12,9 +12,7 @@ var disabled = true
 
 signal entityDied(entity)
 
-func _ready():
-	pass
-	
+
 func Setup() :
 	Movement.collider.disabled = false
 	Targeting.Setup(Movement,Stats.AggroRange)
@@ -55,7 +53,7 @@ func _physics_process(delta):
 func TargetingTargetChanged(oldTarget, newTarget) :
 	if oldTarget != null :
 		oldTarget.get_parent().entityDied.disconnect(DropTarget)
-	if newTarget !=null and newTarget.get_parent() is Entity:
+	if newTarget !=null and newTarget.get_parent() is Entity and !newTarget.get_parent().entityDied.is_connected(DropTarget):
 		newTarget.get_parent().entityDied.connect(DropTarget)
 	PathFinding.SetTarget(newTarget)
 

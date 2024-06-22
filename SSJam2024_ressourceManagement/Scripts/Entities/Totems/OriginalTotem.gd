@@ -6,7 +6,6 @@ signal OriginalTotemIsDead
 
 		
 func TakeDamage(amount) :
-	print(Health)
 	Health -= amount
 	if Health > 0 :
 		return

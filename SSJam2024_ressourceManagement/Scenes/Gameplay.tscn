@@ -21,10 +21,19 @@ waveManager = NodePath("wave manager")
 [node name="base Totem" parent="." instance=ExtResource("2_0gw1i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.2118, 0.500015, 44.0703)
 
+[node name="base Totem2" parent="." node_paths=PackedStringArray("Stats", "Targeting", "AbilityArea") instance=ExtResource("2_0gw1i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.2118, 0.500015, 88.1879)
+Stats = NodePath("../base Totem/TotemStats")
+Targeting = NodePath("../base Totem/Targeting")
+AbilityArea = NodePath("../base Totem/Ability area")
+
+[node name="base Totem3" parent="." instance=ExtResource("2_0gw1i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 60.8125)
+
 [node name="wave manager" type="Node" parent="." node_paths=PackedStringArray("spawningArea", "initialTotem", "delayBetweenStep")]
 script = ExtResource("2_x0hem")
 spawningArea = NodePath("../spawn area")
-initialTotem = NodePath("../Totem")
+initialTotem = NodePath("../Original totem")
 delayBetweenStep = NodePath("Time bewteen wave steps")
 
 [node name="Time bewteen wave steps" type="Timer" parent="wave manager"]
@@ -39,7 +48,7 @@ near = 0.002
 far = 8000.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera"]
-light_color = Color(0.411765, 0.321569, 1, 1)
+light_color = Color(0.847059, 0.898039, 0, 1)
 light_energy = 3.264
 light_volumetric_fog_energy = 0.0
 
@@ -82,12 +91,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 flip_faces = true
 size = Vector3(10, 1, 10)
 
-[node name="Totem" type="Node3D" parent="."]
+[node name="Original totem" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 154.259, 0, 86.7505)
 script = ExtResource("5_vuewb")
 Health = 20
 
-[node name="model" type="CSGCylinder3D" parent="Totem"]
+[node name="model" type="CSGCylinder3D" parent="Original totem"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5, 0)
 use_collision = true
 collision_layer = 64
@@ -100,4 +109,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [connection signal="allEnnemiesAreDead" from="wave manager" to="." method="EnnemiesAreAllDead"]
 [connection signal="timeout" from="wave manager/Time bewteen wave steps" to="wave manager" method="SpawnStep"]
-[connection signal="OriginalTotemIsDead" from="Totem" to="." method="OriginalTotemIsDead"]
+[connection signal="OriginalTotemIsDead" from="Original totem" to="." method="OriginalTotemIsDead"]

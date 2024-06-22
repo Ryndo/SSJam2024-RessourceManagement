@@ -28,7 +28,6 @@ func EntityExitArea(body):
 		entity.entityDied.disconnect(RemoveFromEntitiesInArea)
 
 func RemoveFromEntitiesInArea(entity) :
-	print(entity)
 	if entitiesInArea.has(entity) :
 		entitiesInArea.remove_at(entitiesInArea.find(entity))
 		entity.entityDied.disconnect(RemoveFromEntitiesInArea)
