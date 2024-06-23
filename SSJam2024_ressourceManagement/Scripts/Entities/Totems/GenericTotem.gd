@@ -7,6 +7,7 @@ class_name TotemBase extends Node3D
 @export var AbilityArea : BaseTotemAbility
 @export var UpgradePosition : Node3D
 @export var PickupCollider : CollisionShape3D
+@export var upgrade : TotemUpgrade
 
 var upgrades : Array[TotemBase]
 var activated = false
@@ -17,7 +18,7 @@ func _ready():
 	pass
 	
 func Setup() :
-	print("setup")
+	print(name)
 	Targeting.Setup(Body,Stats.AbilityRange)
 	AbilityArea.Setup(Stats.AbilityRange,Stats.AbilitySpeed,Stats.AbilityPower)
 	PickupCollider.disabled = false
@@ -27,15 +28,17 @@ func Disable() :
 	activated = false
 	PickupCollider.disabled = true
 	collider.disabled = true
+	AbilityArea.Disable()
 	
 func Activate() :
 	if !isAnUpgrade :
 		activated = true
+		AbilityArea.Activate()
 	
 func _process(delta):
-	if activated and !isAnUpgrade:
-		print(self)
+	if activated and !isAnUpgrade and !AbilityArea.isInCooldown:
 		AbilityArea.TriggerAbility()
+		TriggerUpgradeAbilities()
 
 func AttachUpgrade(totem) :
 	upgrades.append(totem)
@@ -43,7 +46,14 @@ func AttachUpgrade(totem) :
 	UpgradePosition.global_position = totem.UpgradePosition.global_position
 	totem.reparent(UpgradePosition)
 	totem.IsAnUpgrade()
+	totem.upgrade.ApplyUpgrade(self)
+	
 	
 func IsAnUpgrade() :
 	isAnUpgrade = true
 	Disable()
+	
+func TriggerUpgradeAbilities() :
+	var entities = AbilityArea.GetEntitiesInArea()
+	for upgrade in upgrades :
+		upgrade.upgrade.TriggerAbility(entities)

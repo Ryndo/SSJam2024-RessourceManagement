@@ -1,7 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://brnv337xh3kle"]
 
 [ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStateRound.gd" id="1_kotkf"]
-[ext_resource type="PackedScene" uid="uid://bevvxty3dkl32" path="res://Prefabs/Entities/base_totem.tscn" id="2_0gw1i"]
 [ext_resource type="Script" path="res://Scripts/Systems/Wave/WaveManager.gd" id="2_x0hem"]
 [ext_resource type="PackedScene" uid="uid://dhycq6i13tw41" path="res://Prefabs/ground_boundary.tscn" id="4_u7xwd"]
 [ext_resource type="Script" path="res://Scripts/Entities/Totems/OriginalTotem.gd" id="5_vuewb"]
@@ -14,21 +13,11 @@ agent_radius = 10.0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h40kb"]
 albedo_color = Color(0.0862745, 0.168627, 0, 1)
 
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_vi1ne"]
+
 [node name="Round" type="Node3D" node_paths=PackedStringArray("waveManager")]
 script = ExtResource("1_kotkf")
 waveManager = NodePath("wave manager")
-
-[node name="base Totem" parent="." instance=ExtResource("2_0gw1i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.2118, 0.500015, 44.0703)
-
-[node name="base Totem2" parent="." node_paths=PackedStringArray("Stats", "Targeting", "AbilityArea") instance=ExtResource("2_0gw1i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.2118, 0.500015, 88.1879)
-Stats = NodePath("../base Totem/TotemStats")
-Targeting = NodePath("../base Totem/Targeting")
-AbilityArea = NodePath("../base Totem/Ability area")
-
-[node name="base Totem3" parent="." instance=ExtResource("2_0gw1i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 60.8125)
 
 [node name="wave manager" type="Node" parent="." node_paths=PackedStringArray("spawningArea", "initialTotem", "delayBetweenStep")]
 script = ExtResource("2_x0hem")
@@ -40,11 +29,13 @@ delayBetweenStep = NodePath("Time bewteen wave steps")
 one_shot = true
 
 [node name="Camera" type="Camera3D" parent="."]
-transform = Transform3D(0.705872, 0.279045, -0.65106, 0, 0.919135, 0.393942, 0.70834, -0.278072, 0.648791, -79.32, 114.26, 126.44)
+transform = Transform3D(0.760406, 0.436248, -0.481114, 0, 0.740805, 0.671721, 0.649448, -0.51078, 0.563312, -258.275, 467.626, 300)
+keep_aspect = 0
+projection = 1
 current = true
 fov = 70.0
-size = 350.0
-near = 0.002
+size = 1000.0
+near = 0.001
 far = 8000.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera"]
@@ -87,7 +78,7 @@ omni_attenuation = -0.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.302, 0.5, 68.024)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="spawn area"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -208.413, 0.5, 225.548)
 flip_faces = true
 size = Vector3(10, 1, 10)
 
@@ -104,8 +95,12 @@ collision_mask = 0
 radius = 6.0
 height = 20.0
 
-[node name="Ground boundary" parent="." instance=ExtResource("4_u7xwd")]
+[node name="Ground boundary" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 32
+
+[node name="ground Boundary" type="CollisionShape3D" parent="Ground boundary"]
+shape = SubResource("WorldBoundaryShape3D_vi1ne")
 
 [connection signal="allEnnemiesAreDead" from="wave manager" to="." method="EnnemiesAreAllDead"]
 [connection signal="timeout" from="wave manager/Time bewteen wave steps" to="wave manager" method="SpawnStep"]

@@ -7,6 +7,7 @@ class_name Entity
 @export var Combat : EntityCombat
 @export var Targeting : EntityTargeting
 @export var PathFinding : EntityPathfinding
+@export var Loot : EntityLoot
 
 var disabled = true
 
@@ -18,7 +19,8 @@ func Setup() :
 	Targeting.Setup(Movement,Stats.AggroRange)
 	Combat.Setup(Movement,Stats.AttackRange,Stats.AttackSpeed)
 	Movement.Setup()
-
+	Loot.Setup(Stats.LootType,Stats.LootQuantity,Stats.EntityType)
+	
 func Activate() :
 	Targeting.Activate()
 	Combat.Activate()
@@ -30,7 +32,6 @@ func Disable() :
 	Targeting.Disable()
 	Combat.Disable()
 	Movement.Disable()
-	
 	
 
 func _physics_process(delta):
@@ -51,7 +52,7 @@ func _physics_process(delta):
 	Movement.Move(nextPathPoint,Stats.MovementSpeed)
 	
 func TargetingTargetChanged(oldTarget, newTarget) :
-	if oldTarget != null :
+	if oldTarget != null and oldTarget.get_parent().entityDied.is_connected(DropTarget) :
 		oldTarget.get_parent().entityDied.disconnect(DropTarget)
 	if newTarget !=null and newTarget.get_parent() is Entity and !newTarget.get_parent().entityDied.is_connected(DropTarget):
 		newTarget.get_parent().entityDied.connect(DropTarget)
@@ -78,6 +79,7 @@ func OnHealthChanged() :
 		KillEntity()
 
 func KillEntity() :
+	Loot.DropLoot()
 	entityDied.emit(self)
 	call_deferred("Disable")
 	queue_free()

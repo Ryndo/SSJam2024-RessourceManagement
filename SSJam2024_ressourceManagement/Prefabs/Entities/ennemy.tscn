@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://k12wgaoarf73"]
+[gd_scene load_steps=13 format=3 uid="uid://k12wgaoarf73"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/Ennemy.gd" id="1_0y0wc"]
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/EnnemyStats.gd" id="2_pueam"]
@@ -6,11 +6,13 @@
 [ext_resource type="Script" path="res://Scripts/Entities/EntityTargeting.gd" id="4_rhsq8"]
 [ext_resource type="Script" path="res://Scripts/Entities/Ennemies/EnnemyCombat.gd" id="5_gwwej"]
 [ext_resource type="Script" path="res://Scripts/Entities/EntityPathfinding.gd" id="6_iywmj"]
+[ext_resource type="Script" path="res://Scripts/Entities/EntityLoot.gd" id="7_5hbdo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5812g"]
 albedo_color = Color(0.8, 0, 0.207843, 1)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_76t3y"]
+resource_local_to_scene = true
 height = 5.0
 radius = 2.5
 
@@ -24,13 +26,14 @@ height = 5.0
 height = 11.1328
 radius = 4.25046
 
-[node name="Ennemy" type="Node3D" node_paths=PackedStringArray("Stats", "Movement", "Combat", "Targeting", "PathFinding")]
+[node name="Ennemy" type="Node3D" node_paths=PackedStringArray("Stats", "Movement", "Combat", "Targeting", "PathFinding", "Loot")]
 script = ExtResource("1_0y0wc")
 Stats = NodePath("Stats")
 Movement = NodePath("Movement")
 Combat = NodePath("Movement/EntityCombat")
 Targeting = NodePath("Movement/EntityTargeting")
 PathFinding = NodePath("Pathfinding")
+Loot = NodePath("EntityLoot")
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("2_pueam")
@@ -42,6 +45,8 @@ MovementSpeed = 50.0
 AttackDamage = 5.0
 AttackSpeed = 5.0
 Health = 3.0
+LootQuantity = 1
+MinimumMovementSpeed = 20.0
 
 [node name="Movement" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Agent", "collider")]
 collision_layer = 2
@@ -114,6 +119,9 @@ Agent = NodePath("../Movement/Agent")
 [node name="RefreshPathTimer" type="Timer" parent="Pathfinding"]
 wait_time = 0.05
 autostart = true
+
+[node name="EntityLoot" type="Node" parent="."]
+script = ExtResource("7_5hbdo")
 
 [connection signal="isInRangeOfAttack" from="Movement/EntityCombat" to="." method="EntityInRangeOfAttack"]
 [connection signal="isOutofRangeOfAttack" from="Movement/EntityCombat" to="." method="OutOfAttackRange"]

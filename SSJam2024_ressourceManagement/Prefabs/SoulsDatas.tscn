@@ -1,0 +1,112 @@
+[gd_scene load_steps=3 format=3 uid="uid://dp1mmfbnv5n0k"]
+
+[ext_resource type="Script" path="res://Scripts/Game datas/SoulsDatas.gd" id="1_piypk"]
+[ext_resource type="Script" path="res://Resources/Souls/SoulAssets.gd" id="2_b8jo7"]
+
+[node name="SoulsDatas" type="Node" node_paths=PackedStringArray("souls")]
+script = ExtResource("1_piypk")
+souls = [NodePath("red soul"), NodePath("blue soul"), NodePath("yelow soul"), NodePath("purple soul"), NodePath("Green soul")]
+
+[node name="red soul" type="Node" parent="." node_paths=PackedStringArray("baseText", "upgradeText")]
+script = ExtResource("2_b8jo7")
+type = 4
+TotemType = 2
+baseText = NodePath("base text")
+upgradeText = NodePath("upgrade text")
+
+[node name="base text" type="Label" parent="red soul"]
+visible = false
+offset_right = 317.0
+offset_bottom = 135.0
+text = "texte pour totem de base rouge plutot fort.
+taper taper"
+
+[node name="upgrade text" type="Label" parent="red soul"]
+visible = false
+offset_right = 317.0
+offset_bottom = 135.0
+text = "texte pour totem de base rouge plutot fort.
+taper taper"
+
+[node name="blue soul" type="Node" parent="." node_paths=PackedStringArray("baseText", "upgradeText")]
+script = ExtResource("2_b8jo7")
+TotemType = 3
+baseText = NodePath("base text2")
+upgradeText = NodePath("upgrade text2")
+
+[node name="base text2" type="Label" parent="blue soul"]
+visible = false
+offset_right = 334.0
+offset_bottom = 135.0
+text = "texte pour totem de base rouge plutot fort.
+taper taper"
+
+[node name="upgrade text2" type="Label" parent="blue soul"]
+visible = false
+offset_right = 334.0
+offset_bottom = 135.0
+text = "texte pour totem de base rouge plutot fort.
+taper taper"
+
+[node name="yelow soul" type="Node" parent="." node_paths=PackedStringArray("baseText", "upgradeText")]
+script = ExtResource("2_b8jo7")
+type = 2
+TotemType = 4
+baseText = NodePath("base text3")
+upgradeText = NodePath("upgrade text3")
+
+[node name="base text3" type="Label" parent="yelow soul"]
+visible = false
+offset_right = 334.0
+offset_bottom = 135.0
+text = "texte pour totem de base rouge plutot fort.
+taper taper"
+
+[node name="upgrade text3" type="Label" parent="yelow soul"]
+visible = false
+offset_right = 334.0
+offset_bottom = 135.0
+text = "texte pour totem de base rouge plutot fort.
+taper taper"
+
+[node name="purple soul" type="Node" parent="." node_paths=PackedStringArray("baseText", "upgradeText")]
+script = ExtResource("2_b8jo7")
+type = 1
+TotemType = 5
+baseText = NodePath("base text3")
+upgradeText = NodePath("upgrade text3")
+
+[node name="base text3" type="Label" parent="purple soul"]
+visible = false
+offset_right = 334.0
+offset_bottom = 135.0
+text = "texte pour totem de base rouge plutot fort.
+taper taper"
+
+[node name="upgrade text3" type="Label" parent="purple soul"]
+visible = false
+offset_right = 334.0
+offset_bottom = 135.0
+text = "texte pour totem de base rouge plutot fort.
+taper taper"
+
+[node name="Green soul" type="Node" parent="." node_paths=PackedStringArray("baseText", "upgradeText")]
+script = ExtResource("2_b8jo7")
+type = 3
+TotemType = 6
+baseText = NodePath("base text4")
+upgradeText = NodePath("upgrade text4")
+
+[node name="base text4" type="Label" parent="Green soul"]
+visible = false
+offset_right = 334.0
+offset_bottom = 135.0
+text = "texte pour totem de base rouge plutot fort.
+taper taper"
+
+[node name="upgrade text4" type="Label" parent="Green soul"]
+visible = false
+offset_right = 334.0
+offset_bottom = 135.0
+text = "texte pour totem de base rouge plutot fort.
+taper taper"

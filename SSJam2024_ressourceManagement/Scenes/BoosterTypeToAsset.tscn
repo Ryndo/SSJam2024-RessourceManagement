@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cm2h7etoaciqq"]
+
+[ext_resource type="Script" path="res://Scripts/UI/Shop/BoosterTypeToAssets.gd" id="1_rlvkt"]
+[ext_resource type="Resource" uid="uid://bcjnla3clsy8f" path="res://Resources/MeleeBoosterAsset.tres" id="2_26f76"]
+
+[node name="BoosterTypeToAsset" type="Node"]
+script = ExtResource("1_rlvkt")
+Assets = Array[Resource("res://Scripts/UI/Shop/BoosterAsset.gd")]([ExtResource("2_26f76")])

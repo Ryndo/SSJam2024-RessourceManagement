@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c5v6yh6ynhp25"]
+[gd_scene load_steps=15 format=3 uid="uid://c5v6yh6ynhp25"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Allies/Ally.gd" id="1_racca"]
 [ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyStats.gd" id="2_5lslk"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/Entities/EntityPathfinding.gd" id="5_fk8mt"]
 [ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyCombat.gd" id="7_o65pa"]
 [ext_resource type="Script" path="res://Scripts/Entities/Allies/AllyFollowRange.gd" id="7_x2l42"]
+[ext_resource type="Script" path="res://Scripts/Entities/EntityLoot.gd" id="8_5i8ym"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_56qqp"]
 height = 5.0
@@ -28,10 +29,11 @@ height = 11.1328
 radius = 4.25046
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_epkvn"]
+resource_local_to_scene = true
 height = 5.0
 radius = 3.0
 
-[node name="Ally" type="Node3D" node_paths=PackedStringArray("followRange", "Stats", "Movement", "Combat", "Targeting", "PathFinding")]
+[node name="Ally" type="Node3D" node_paths=PackedStringArray("followRange", "Stats", "Movement", "Combat", "Targeting", "PathFinding", "Loot")]
 script = ExtResource("1_racca")
 followRange = NodePath("Follow range")
 Stats = NodePath("Stats")
@@ -39,6 +41,7 @@ Movement = NodePath("Movement")
 Combat = NodePath("Movement/Combat")
 Targeting = NodePath("Movement/EntityTargeting")
 PathFinding = NodePath("Pathfinding")
+Loot = NodePath("EntityLoot")
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("2_5lslk")
@@ -50,6 +53,8 @@ MovementSpeed = 80.0
 AttackDamage = 8.0
 AttackSpeed = 1.0
 Health = 20.0
+LootType = 1
+LootQuantity = 1
 
 [node name="Movement" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Agent", "collider")]
 collision_layer = 4
@@ -137,6 +142,9 @@ FollowArea = NodePath("shape")
 [node name="shape" type="CollisionShape3D" parent="Follow range"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CylinderShape3D_epkvn")
+
+[node name="EntityLoot" type="Node" parent="."]
+script = ExtResource("8_5i8ym")
 
 [connection signal="body_entered" from="Movement/EntityTargeting" to="Movement/EntityTargeting" method="_on_body_entered"]
 [connection signal="body_exited" from="Movement/EntityTargeting" to="Movement/EntityTargeting" method="_on_body_exited"]

@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://bevvxty3dkl32"]
+[gd_scene load_steps=10 format=3 uid="uid://bevvxty3dkl32"]
 
-[ext_resource type="Script" path="res://Scripts/Entities/Totems/GenericBaseTotem.gd" id="1_0jabu"]
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/GenericTotem.gd" id="1_6ad68"]
 [ext_resource type="Script" path="res://Scripts/Entities/Totems/TotemStats.gd" id="2_85nos"]
 [ext_resource type="Script" path="res://Scripts/Entities/EntityTargeting.gd" id="3_gqfcn"]
 [ext_resource type="Script" path="res://Scripts/Entities/Totems/TotemAbility.gd" id="4_oh1gt"]
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/TotemGenericUpgrade.gd" id="5_youih"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_6dqxm"]
+resource_local_to_scene = true
 height = 5.0
 radius = 6.375
 
@@ -14,13 +16,16 @@ height = 6.0
 radius = 7.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_yji5j"]
+resource_local_to_scene = true
 height = 4.0
+radius = 40.581
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_2lc5h"]
+resource_local_to_scene = true
 height = 4.0
 
-[node name="base Totem" type="Node3D" node_paths=PackedStringArray("Stats", "Body", "collider", "Targeting", "AbilityArea", "UpgradePosition", "PickupCollider")]
-script = ExtResource("1_0jabu")
+[node name="base Totem" type="Node3D" node_paths=PackedStringArray("Stats", "Body", "collider", "Targeting", "AbilityArea", "UpgradePosition", "PickupCollider", "upgrade")]
+script = ExtResource("1_6ad68")
 Stats = NodePath("TotemStats")
 Body = NodePath("Collider")
 collider = NodePath("Collider/Colider shape")
@@ -28,6 +33,7 @@ Targeting = NodePath("Targeting")
 AbilityArea = NodePath("Ability area")
 UpgradePosition = NodePath("Upgrade position")
 PickupCollider = NodePath("Collider/PickUp collider/Collider")
+upgrade = NodePath("TotemUpgrade")
 
 [node name="TotemStats" type="Node" parent="."]
 script = ExtResource("2_85nos")
@@ -76,6 +82,7 @@ triggerCooldown = NodePath("ability cooldown")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ability area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = SubResource("CylinderShape3D_2lc5h")
+disabled = true
 
 [node name="ability cooldown" type="Timer" parent="Ability area"]
 one_shot = true
@@ -87,6 +94,10 @@ radius = 3.0
 [node name="Upgrade position" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
+[node name="TotemUpgrade" type="Node" parent="."]
+script = ExtResource("5_youih")
+
+[connection signal="valueChanged" from="TotemStats" to="." method="Setup"]
 [connection signal="body_entered" from="Ability area" to="Ability area" method="EntityEnterArea"]
 [connection signal="body_exited" from="Ability area" to="Ability area" method="EntityExitArea"]
 [connection signal="timeout" from="Ability area/ability cooldown" to="Ability area" method="TriggerCooldownRefresh"]

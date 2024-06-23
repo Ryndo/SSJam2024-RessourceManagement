@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3bk7ar45pegw"]
+
+[ext_resource type="Texture2D" uid="uid://bu0brsoyqj4h6" path="res://Sprites/UI_Vector/Red/button_square_flat.svg" id="1_r2q7d"]
+[ext_resource type="Script" path="res://Scripts/UI/Waves infos/EnnemyInfosUI.gd" id="1_v4ndl"]
+[ext_resource type="Texture2D" uid="uid://da1abh8l70ss7" path="res://Sprites/UI_Vector/Blue/button_round_depth_line.svg" id="2_53bj4"]
+
+[node name="Ennemy 1" type="Control" node_paths=PackedStringArray("Icon", "Quantity")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_v4ndl")
+Icon = NodePath("TextureRect")
+Quantity = NodePath("Amount")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_r2q7d")
+expand_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 48.0
+offset_bottom = -5.0
+grow_vertical = 2
+texture = ExtResource("2_53bj4")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="Amount" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "99"

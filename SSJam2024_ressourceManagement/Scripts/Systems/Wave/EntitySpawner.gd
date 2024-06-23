@@ -2,6 +2,7 @@ extends Node3D
 
 @export var AllyEntity : PackedScene
 @export var EnnemyEntity : PackedScene
+@export var Totem : PackedScene
 
 var importedSpawnWaveInfos
 var counter = 0
@@ -20,6 +21,8 @@ func PickEntityFromType(type) :
 			return AllyEntity
 		GameData.EntityType.Ennemy :
 			return EnnemyEntity
+		GameData.EntityType.RedTotem :
+			return Totem
 		_ :
 			return null
 

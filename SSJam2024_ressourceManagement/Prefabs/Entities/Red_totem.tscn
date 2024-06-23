@@ -1,0 +1,103 @@
+[gd_scene load_steps=11 format=3 uid="uid://bvvay3xom8b0g"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/GenericTotem.gd" id="1_hcbod"]
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/TotemStats.gd" id="2_xmt30"]
+[ext_resource type="Script" path="res://Scripts/Entities/EntityTargeting.gd" id="3_uiggy"]
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/TotemAbility.gd" id="4_aepdd"]
+[ext_resource type="Script" path="res://Scripts/Entities/Totems/Upgrades/RedUpgrade.gd" id="5_r81dd"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6dqxm"]
+height = 5.0
+radius = 6.375
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7jtdc"]
+height = 6.0
+radius = 7.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yji5j"]
+height = 4.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2lc5h"]
+height = 4.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_unhal"]
+transparency = 1
+albedo_color = Color(0.654902, 0, 0.313726, 0.815686)
+
+[node name="base Totem" type="Node3D" node_paths=PackedStringArray("Stats", "Body", "collider", "Targeting", "AbilityArea", "UpgradePosition", "PickupCollider", "upgrade")]
+script = ExtResource("1_hcbod")
+Stats = NodePath("TotemStats")
+Body = NodePath("Collider")
+collider = NodePath("Collider/Colider shape")
+Targeting = NodePath("Targeting")
+AbilityArea = NodePath("Ability area")
+UpgradePosition = NodePath("Upgrade position")
+PickupCollider = NodePath("Collider/PickUp collider/Collider")
+upgrade = NodePath("TotemUpgrade")
+
+[node name="TotemStats" type="Node" parent="."]
+script = ExtResource("2_xmt30")
+AbilityRange = 35
+AbilitySpeed = 1.0
+AbilityPower = 56.0
+
+[node name="Collider" type="StaticBody3D" parent="."]
+collision_layer = 128
+collision_mask = 0
+
+[node name="Colider shape" type="CollisionShape3D" parent="Collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031, 2.5, 0.013)
+shape = SubResource("CylinderShape3D_6dqxm")
+
+[node name="PickUp collider" type="StaticBody3D" parent="Collider"]
+collision_layer = 16
+collision_mask = 0
+
+[node name="Collider" type="CollisionShape3D" parent="Collider/PickUp collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("CylinderShape3D_7jtdc")
+
+[node name="Targeting" type="Area3D" parent="." node_paths=PackedStringArray("rangeShape", "resetTargetingTimer")]
+collision_layer = 0
+collision_mask = 6
+script = ExtResource("3_uiggy")
+rangeShape = NodePath("CollisionShape3D")
+resetTargetingTimer = NodePath("Timer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Targeting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_yji5j")
+
+[node name="Timer" type="Timer" parent="Targeting"]
+wait_time = 0.5
+
+[node name="Ability area" type="Area3D" parent="." node_paths=PackedStringArray("areaOfEffect", "triggerCooldown")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 0
+collision_mask = 6
+script = ExtResource("4_aepdd")
+areaOfEffect = NodePath("CollisionShape3D")
+triggerCooldown = NodePath("ability cooldown")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ability area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_2lc5h")
+disabled = true
+
+[node name="ability cooldown" type="Timer" parent="Ability area"]
+one_shot = true
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+radius = 3.0
+material = SubResource("StandardMaterial3D_unhal")
+
+[node name="Upgrade position" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="TotemUpgrade" type="Node" parent="."]
+script = ExtResource("5_r81dd")
+
+[connection signal="body_entered" from="Ability area" to="Ability area" method="EntityEnterArea"]
+[connection signal="body_exited" from="Ability area" to="Ability area" method="EntityExitArea"]
+[connection signal="timeout" from="Ability area/ability cooldown" to="Ability area" method="TriggerCooldownRefresh"]

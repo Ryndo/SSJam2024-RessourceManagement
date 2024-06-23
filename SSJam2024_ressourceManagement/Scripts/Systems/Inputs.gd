@@ -10,7 +10,6 @@ func _unhandled_input(event):
 			var rayResult = Raycaster.CastRayFromMouseScreenPosition(16)
 			if rayResult != null and rayResult.has("position") :
 				InputSignal.PickEntity.emit(rayResult,GameData.DragOrigin.World,null,null)
-				actionsCurrentlyPressed.append("Drag")
 			return
 			
 		#Attempt to keep dragging an entity
@@ -21,8 +20,7 @@ func _unhandled_input(event):
 		#End dragging 	
 		if Input.is_action_just_released("LeftClick") :
 			var index = actionsCurrentlyPressed.find("Drag")
-			if index == -1 :
-				return
 			var rayResult = Raycaster.CastRayFromMouseScreenPosition(8)
 			InputSignal.EndDrag.emit(rayResult)
+
 

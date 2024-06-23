@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://1rhbib6nlmgm"]
+
+[ext_resource type="Script" path="res://Scripts/UI/Shop/BoosterOpening.gd" id="1_h5fx7"]
+[ext_resource type="PackedScene" uid="uid://che06mhwcyley" path="res://Prefabs/BoosterOpeningCard.tscn" id="2_0vsst"]
+
+[node name="Booster opening" type="Control" node_paths=PackedStringArray("cardsUI")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -387.0
+offset_top = -200.5
+offset_right = 387.0
+offset_bottom = 200.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h5fx7")
+cardsUI = [NodePath("Units/Unit 1"), NodePath("Units/Card"), NodePath("Units/Card2")]
+
+[node name="Units" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Unit 1" parent="Units" instance=ExtResource("2_0vsst")]
+layout_mode = 2
+
+[node name="Card" parent="Units" instance=ExtResource("2_0vsst")]
+layout_mode = 2
+
+[node name="Card2" parent="Units" instance=ExtResource("2_0vsst")]
+layout_mode = 2
+
+[connection signal="CardPicked" from="Units/Unit 1" to="." method="CardPicked"]
+[connection signal="CardPicked" from="Units/Card" to="." method="CardPicked"]
+[connection signal="CardPicked" from="Units/Card2" to="." method="CardPicked"]

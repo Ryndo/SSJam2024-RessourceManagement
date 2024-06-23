@@ -1,13 +1,9 @@
-extends Control
+class_name Inventory extends Control
 
 @export var Elements : Array[InventoryElement]
 
 func _ready():
-	PlayerItems.AddItemToInventory(GameData.EntityType.Ally)
-	PlayerItems.AddItemToInventory(GameData.EntityType.Ally)
-	PlayerItems.AddItemToInventory(GameData.EntityType.Ally)
-	Setup()
-	
+	PlayerItems.InventoryChanged.connect(Setup)	
 
 func Setup() :
 	var playerInventory = PlayerItems.GetInventory()

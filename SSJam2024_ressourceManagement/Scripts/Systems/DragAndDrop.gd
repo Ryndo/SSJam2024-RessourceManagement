@@ -56,6 +56,7 @@ func Dragging(rayResult) :
 	snapTween.tween_property(EntityDragged, "global_position", rayResult.position, .3).set_ease(Tween.EASE_IN_OUT)
 
 func EndDrag(rayResult) :
+	print(typeof(EntityDragged))
 	isDraggingActivated = false
 	if !isDragging :
 		return
@@ -116,6 +117,8 @@ func CancelDrag() :
 		EntityDragged.Setup()
 	if onFailure :
 		onFailure.call()
+	onSuccess = null
+	onFailure = null
 		
 func TotemSnap() :
 	var totemRay = Raycaster.CastRayFromMouseScreenPosition(128)
@@ -137,3 +140,5 @@ func TotemEndDrag(rayResult) :
 		EntityDragged.Setup()
 		if onSuccess :
 			onSuccess.call()
+	onSuccess = null
+	onFailure = null

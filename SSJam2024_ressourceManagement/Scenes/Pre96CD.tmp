@@ -1,0 +1,733 @@
+[gd_scene load_steps=22 format=3 uid="uid://c85wabaulvp1t"]
+
+[ext_resource type="Script" path="res://Scripts/Systems/Game loop/GameStatePreparation.gd" id="1_36ro4"]
+[ext_resource type="Texture2D" uid="uid://vr0ro3hw3aye" path="res://Sprites/UI_Vector/Blue/button_rectangle_gloss.svg" id="1_76jup"]
+[ext_resource type="Texture2D" uid="uid://b3e7j7kxatk7f" path="res://Sprites/UI_Vector/Red/button_rectangle_depth_flat.svg" id="1_yruc2"]
+[ext_resource type="Texture2D" uid="uid://csehygnxnyey2" path="res://Sprites/icon.svg" id="2_o1df4"]
+[ext_resource type="Script" path="res://Scripts/UI/Inventory.gd" id="2_y0wr7"]
+[ext_resource type="Texture2D" uid="uid://c603kkka5dgwe" path="res://Sprites/UI_Vector/Green/button_rectangle_depth_flat.svg" id="3_ifbat"]
+[ext_resource type="Texture2D" uid="uid://dwmtqbq7k3ygd" path="res://Sprites/UI_Vector/Blue/button_square_depth_border.svg" id="3_p51am"]
+[ext_resource type="PackedScene" uid="uid://cp7l3i72yo7u6" path="res://Scenes/PreparationPhase/InventoryElement.tscn" id="4_fwo55"]
+[ext_resource type="Script" path="res://Scripts/UI/Shop/ShopUI.gd" id="5_eet7f"]
+[ext_resource type="Texture2D" uid="uid://c07oepnt4x60b" path="res://Sprites/UI_Vector/Yellow/button_square_flat.svg" id="5_mls6b"]
+[ext_resource type="Script" path="res://Scripts/UI/Shop/GoldDisplay.gd" id="7_4ntds"]
+[ext_resource type="Texture2D" uid="uid://cn72iktu1jlh7" path="res://Sprites/UI_Vector/Green/button_square_flat.svg" id="7_fitm1"]
+[ext_resource type="Texture2D" uid="uid://dla0mgvgqs5g3" path="res://Sprites/UI_Vector/Blue/button_rectangle_depth_flat.svg" id="8_pokyo"]
+[ext_resource type="PackedScene" uid="uid://bf60aw5e2hd06" path="res://CardBooster.tscn" id="9_4jipp"]
+[ext_resource type="Script" path="res://Scripts/UI/Shop/SoulsUI.gd" id="12_4e5e2"]
+[ext_resource type="PackedScene" uid="uid://b0h3jtlde4tkq" path="res://soul.tscn" id="14_xv0nu"]
+[ext_resource type="Texture2D" uid="uid://bhc4hn1h2o0r1" path="res://Sprites/UI_Vector/Red/button_square_line.svg" id="15_hlw1r"]
+[ext_resource type="Script" path="res://Scripts/UI/Shop/Souls/SoulsTooltip.gd" id="15_jyvpv"]
+[ext_resource type="Texture2D" uid="uid://bkaon2irl2k3y" path="res://Sprites/UI_Vector/Red/button_round_flat.svg" id="16_t7ahb"]
+[ext_resource type="Script" path="res://Scripts/UI/Waves infos/WaveInfosUI.gd" id="17_dms3a"]
+[ext_resource type="PackedScene" uid="uid://d3bk7ar45pegw" path="res://Prefabs/EnnemyInfoUI.tscn" id="19_wqy3a"]
+
+[node name="Preparation phase" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_36ro4")
+
+[node name="Inventory" type="Control" parent="." node_paths=PackedStringArray("Elements")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -275.0
+offset_top = -81.0
+offset_right = 275.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
+script = ExtResource("2_y0wr7")
+Elements = [NodePath("content/Elements/Unit"), NodePath("content/Elements/Unit2"), NodePath("content/Elements/Unit3"), NodePath("content/Elements/Unit4"), NodePath("content/Elements/Unit5"), NodePath("content/Elements/Unit6"), NodePath("content/Elements/Unit7"), NodePath("content/Elements/Unit8"), NodePath("content/Elements/Unit9"), NodePath("content/Elements/Unit10")]
+
+[node name="background" type="TextureRect" parent="Inventory"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_yruc2")
+expand_mode = 1
+
+[node name="content" type="Control" parent="Inventory"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 5.0
+offset_right = -12.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Elements" type="GridContainer" parent="Inventory/content"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -259.0
+offset_top = -25.0
+offset_right = 259.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+columns = 10
+
+[node name="Unit" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
+layout_mode = 2
+
+[node name="Unit2" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
+layout_mode = 2
+
+[node name="Unit3" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
+layout_mode = 2
+
+[node name="Unit4" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
+layout_mode = 2
+
+[node name="Unit5" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
+layout_mode = 2
+
+[node name="Unit6" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
+layout_mode = 2
+
+[node name="Unit7" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
+layout_mode = 2
+
+[node name="Unit8" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
+layout_mode = 2
+
+[node name="Unit9" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
+layout_mode = 2
+
+[node name="Unit10" parent="Inventory/content/Elements" instance=ExtResource("4_fwo55")]
+layout_mode = 2
+
+[node name="Shop" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -244.5
+offset_right = 244.5
+offset_bottom = 196.0
+grow_horizontal = 2
+script = ExtResource("5_eet7f")
+
+[node name="Background" type="TextureRect" parent="Shop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_76jup")
+expand_mode = 1
+
+[node name="Golds" type="HSplitContainer" parent="Shop"]
+layout_mode = 2
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 95.0
+offset_bottom = 32.0
+scale = Vector2(1.01503, 1)
+collapsed = true
+script = ExtResource("7_4ntds")
+
+[node name="TextureRect" type="TextureRect" parent="Shop/Golds"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("2_o1df4")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="value" type="RichTextLabel" parent="Shop/Golds"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "99999"
+fit_content = true
+autowrap_mode = 0
+
+[node name="unit boosters" type="HBoxContainer" parent="Shop"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -60.0
+offset_right = 242.0
+offset_bottom = 73.0
+grow_vertical = 2
+alignment = 1
+
+[node name="Booster 1" parent="Shop/unit boosters" instance=ExtResource("9_4jipp")]
+layout_mode = 2
+
+[node name="Booster 2" type="Control" parent="Shop/unit boosters"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+
+[node name="background" type="TextureRect" parent="Shop/unit boosters/Booster 2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ifbat")
+expand_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="Shop/unit boosters/Booster 2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_right = 32.0
+offset_bottom = 103.0
+grow_horizontal = 2
+texture = ExtResource("3_p51am")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Shop/unit boosters/Booster 2"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.5
+offset_top = -23.0
+offset_right = 22.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "PRICE"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Booster 3" type="Control" parent="Shop/unit boosters"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+
+[node name="background" type="TextureRect" parent="Shop/unit boosters/Booster 3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ifbat")
+expand_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="Shop/unit boosters/Booster 3"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_right = 32.0
+offset_bottom = 103.0
+grow_horizontal = 2
+texture = ExtResource("3_p51am")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Shop/unit boosters/Booster 3"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.5
+offset_top = -23.0
+offset_right = 22.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "PRICE"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Souls" type="Control" parent="Shop" node_paths=PackedStringArray("Elements")]
+anchors_preset = 0
+offset_left = 255.0
+offset_top = 41.0
+offset_right = 319.0
+offset_bottom = 174.0
+script = ExtResource("12_4e5e2")
+Elements = [NodePath("VBoxContainer/Soul 1"), NodePath("VBoxContainer/Soul 2"), NodePath("VBoxContainer/Soul 3"), NodePath("VBoxContainer/Soul 4"), NodePath("VBoxContainer/Soul 5")]
+
+[node name="background" type="TextureRect" parent="Shop/Souls"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_mls6b")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop/Souls"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -3.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Soul 1" parent="Shop/Souls/VBoxContainer" instance=ExtResource("14_xv0nu")]
+layout_mode = 2
+
+[node name="Soul 2" parent="Shop/Souls/VBoxContainer" instance=ExtResource("14_xv0nu")]
+layout_mode = 2
+
+[node name="Soul 3" parent="Shop/Souls/VBoxContainer" instance=ExtResource("14_xv0nu")]
+layout_mode = 2
+
+[node name="Soul 4" parent="Shop/Souls/VBoxContainer" instance=ExtResource("14_xv0nu")]
+layout_mode = 2
+
+[node name="Soul 5" parent="Shop/Souls/VBoxContainer" instance=ExtResource("14_xv0nu")]
+layout_mode = 2
+
+[node name="Totems tooltip" type="Control" parent="Shop" node_paths=PackedStringArray("baseTotemLabel", "upgradeTotemLabel")]
+anchors_preset = 0
+offset_left = 329.0
+offset_top = 11.0
+offset_right = 472.0
+offset_bottom = 180.0
+script = ExtResource("15_jyvpv")
+baseTotemLabel = NodePath("Content/VBoxContainer/base tooltip")
+upgradeTotemLabel = NodePath("Content/VBoxContainer/Upgrade tooltip")
+
+[node name="TextureRect" type="TextureRect" parent="Shop/Totems tooltip"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_fitm1")
+expand_mode = 1
+
+[node name="Content" type="Control" parent="Shop/Totems tooltip"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 22.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.799995, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop/Totems tooltip/Content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+
+[node name="Base title" type="Label" parent="Shop/Totems tooltip/Content/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Base totem"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="base tooltip" type="Label" parent="Shop/Totems tooltip/Content/VBoxContainer"]
+custom_minimum_size = Vector2(0, 34.515)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "explication surla base zaijiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
+horizontal_alignment = 1
+vertical_alignment = 3
+autowrap_mode = 3
+clip_text = true
+
+[node name="Upgrade title" type="Label" parent="Shop/Totems tooltip/Content/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Totem Upgrade "
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Upgrade tooltip" type="Label" parent="Shop/Totems tooltip/Content/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_constants/line_spacing = -1
+theme_override_font_sizes/font_size = 12
+text = "Explication a propos de ce que ca fait un upgrade de ce type là"
+horizontal_alignment = 3
+vertical_alignment = 3
+autowrap_mode = 3
+clip_text = true
+
+[node name="Next wave informations" type="Control" parent="." node_paths=PackedStringArray("ennemiesUI")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -161.0
+offset_right = 107.0
+offset_bottom = 161.0
+grow_vertical = 2
+script = ExtResource("17_dms3a")
+ennemiesUI = [NodePath("Control/Ennemies informations/VBoxContainer/Ennemy 1"), NodePath("Control/Ennemies informations/VBoxContainer/Ennemy 2"), NodePath("Control/Ennemies informations/VBoxContainer/Ennemy 3"), NodePath("Control/Ennemies informations/VBoxContainer/Ennemy 4")]
+
+[node name="background" type="TextureRect" parent="Next wave informations"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_pokyo")
+expand_mode = 4
+
+[node name="Title" type="RichTextLabel" parent="Next wave informations"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 9.0
+offset_bottom = 45.0
+grow_horizontal = 2
+text = "Next wave"
+
+[node name="Control" type="Control" parent="Next wave informations"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Ennemies informations" type="Control" parent="Next wave informations/Control"]
+anchors_preset = 0
+offset_left = 6.0
+offset_top = -16.0
+offset_right = 102.0
+offset_bottom = 227.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Next wave informations/Control/Ennemies informations"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Ennemy 1" parent="Next wave informations/Control/Ennemies informations/VBoxContainer" instance=ExtResource("19_wqy3a")]
+layout_mode = 2
+
+[node name="Ennemy 2" parent="Next wave informations/Control/Ennemies informations/VBoxContainer" node_paths=PackedStringArray("Icon", "Quantity") instance=ExtResource("19_wqy3a")]
+layout_mode = 2
+Icon = NodePath("../Ennemy 1/TextureRect")
+Quantity = NodePath("../Ennemy 1/Amount")
+
+[node name="Ennemy 3" parent="Next wave informations/Control/Ennemies informations/VBoxContainer" node_paths=PackedStringArray("Icon", "Quantity") instance=ExtResource("19_wqy3a")]
+layout_mode = 2
+Icon = NodePath("../Ennemy 1/TextureRect")
+Quantity = NodePath("../Ennemy 1/Amount")
+
+[node name="Ennemy 4" parent="Next wave informations/Control/Ennemies informations/VBoxContainer" node_paths=PackedStringArray("Icon", "Quantity") instance=ExtResource("19_wqy3a")]
+layout_mode = 2
+Icon = NodePath("../Ennemy 1/TextureRect")
+Quantity = NodePath("../Ennemy 1/Amount")
+
+[node name="Booster opening" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -387.0
+offset_top = -200.5
+offset_right = 387.0
+offset_bottom = 200.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Units" type="HBoxContainer" parent="Booster opening"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Unit 1" type="Control" parent="Booster opening/Units"]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 2
+
+[node name="background" type="TextureRect" parent="Booster opening/Units/Unit 1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_hlw1r")
+expand_mode = 1
+
+[node name="Content" type="Control" parent="Booster opening/Units/Unit 1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 51.0
+offset_right = -25.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="TextureRect" parent="Booster opening/Units/Unit 1/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 8.0
+offset_top = 0.5
+offset_right = -8.0
+offset_bottom = 155.5
+grow_horizontal = 2
+texture = ExtResource("16_t7ahb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Booster opening/Units/Unit 1/Content"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 1.0
+offset_right = -7.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Unit name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="Booster opening/Units/Unit 1/Content"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 38.0
+offset_right = -8.0
+offset_bottom = 139.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Description of the unit is written in this text box"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Unit 2" type="Control" parent="Booster opening/Units"]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 2
+
+[node name="background" type="TextureRect" parent="Booster opening/Units/Unit 2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_hlw1r")
+expand_mode = 1
+
+[node name="Content" type="Control" parent="Booster opening/Units/Unit 2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 51.0
+offset_right = -25.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="TextureRect" parent="Booster opening/Units/Unit 2/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 8.0
+offset_top = 0.5
+offset_right = -8.0
+offset_bottom = 155.5
+grow_horizontal = 2
+texture = ExtResource("16_t7ahb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Booster opening/Units/Unit 2/Content"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 1.0
+offset_right = -7.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Unit name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="Booster opening/Units/Unit 2/Content"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 38.0
+offset_right = -8.0
+offset_bottom = 139.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Description of the unit is written in this text box"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Unit 3" type="Control" parent="Booster opening/Units"]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 2
+
+[node name="background" type="TextureRect" parent="Booster opening/Units/Unit 3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_hlw1r")
+expand_mode = 1
+
+[node name="Content" type="Control" parent="Booster opening/Units/Unit 3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 51.0
+offset_right = -25.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="TextureRect" parent="Booster opening/Units/Unit 3/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 8.0
+offset_top = 0.5
+offset_right = -8.0
+offset_bottom = 155.5
+grow_horizontal = 2
+texture = ExtResource("16_t7ahb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Booster opening/Units/Unit 3/Content"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 1.0
+offset_right = -7.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Unit name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="Booster opening/Units/Unit 3/Content"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 38.0
+offset_right = -8.0
+offset_bottom = 139.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Description of the unit is written in this text box"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Ready button" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -157.0
+offset_top = 15.0
+offset_right = -10.0
+offset_bottom = 66.0
+grow_horizontal = 0
+
+[node name="Button" type="Button" parent="Ready button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_pressed_color = Color(0.188235, 0.521569, 0.501961, 1)
+text = "READY"
+
+[connection signal="mouse_exited" from="Shop/Souls/background" to="Shop/Totems tooltip" method="HideToolTip"]
+[connection signal="pressed" from="Ready button/Button" to="." method="ReadyForRound"]

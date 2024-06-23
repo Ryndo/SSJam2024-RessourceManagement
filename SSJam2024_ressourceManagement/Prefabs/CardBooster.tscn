@@ -1,0 +1,75 @@
+[gd_scene load_steps=6 format=3 uid="uid://bf60aw5e2hd06"]
+
+[ext_resource type="Script" path="res://Scripts/UI/Shop/CardBooster.gd" id="1_yig3e"]
+[ext_resource type="Texture2D" uid="uid://c603kkka5dgwe" path="res://Sprites/UI_Vector/Green/button_rectangle_depth_flat.svg" id="2_a72ll"]
+[ext_resource type="Resource" uid="uid://bcjnla3clsy8f" path="res://Resources/MeleeBoosterAsset.tres" id="2_ieli5"]
+[ext_resource type="Texture2D" uid="uid://dwmtqbq7k3ygd" path="res://Sprites/UI_Vector/Blue/button_square_depth_border.svg" id="3_ekrmg"]
+[ext_resource type="Texture2D" uid="uid://bigkg2ke48pad" path="res://Sprites/UI_Vector/Yellow/button_rectangle_line.svg" id="4_t32uj"]
+
+[node name="Booster 1" type="Control" node_paths=PackedStringArray("price", "boosterButton")]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 70.0
+offset_bottom = 141.0
+script = ExtResource("1_yig3e")
+price = NodePath("RichTextLabel")
+boosterButton = NodePath("TextureButton")
+Infos = ExtResource("2_ieli5")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_a72ll")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.5
+offset_top = -23.0
+offset_right = 22.5
+grow_horizontal = 2
+grow_vertical = 0
+bbcode_enabled = true
+text = "[center]9[\\center]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="booster image" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ekrmg")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -66.5
+offset_right = 34.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("4_t32uj")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="pressed" from="TextureButton" to="." method="Pressed"]

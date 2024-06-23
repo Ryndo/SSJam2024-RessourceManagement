@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://camqdbxji8yve"]
+
+[ext_resource type="PackedScene" uid="uid://g6ngeotomq3d" path="res://HealthUI.tscn" id="1_slblh"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ly6v3"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ta8fh"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_ly6v3")
+
+[sub_resource type="QuadMesh" id="QuadMesh_opw3r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ymhd3"]
+size = Vector3(1, 1, 0.0165405)
+
+[node name="WorldUi" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_ta8fh")
+mesh = SubResource("QuadMesh_opw3r")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.00332642)
+shape = SubResource("BoxShape3D_ymhd3")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(225, 225)
+
+[node name="Control" parent="SubViewport" instance=ExtResource("1_slblh")]

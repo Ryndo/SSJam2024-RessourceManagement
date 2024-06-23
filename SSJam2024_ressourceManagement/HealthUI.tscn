@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://g6ngeotomq3d"]
+
+[ext_resource type="Texture2D" uid="uid://bckdgl0xgny54" path="res://Sprites/UI_Vector/Extra/icon_repeat_outline.svg" id="1_s4viy"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 225.0
+offset_bottom = 225.0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -112.5
+offset_top = -100.0
+offset_right = 112.5
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 87.0
+fill_mode = 4
+texture_progress = ExtResource("1_s4viy")

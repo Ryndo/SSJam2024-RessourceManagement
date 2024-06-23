@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://myqcqcws518l"]
 
 [ext_resource type="Script" path="res://Scripts/Systems/EntityTypeToAsset.gd" id="1_ay52q"]
-[ext_resource type="Resource" uid="uid://b8mdgcmxdi1us" path="res://Resources/AllyAssets.tres" id="2_x6lw3"]
-[ext_resource type="Resource" uid="uid://dyqu8dm0xd6rq" path="res://Resources/EnnemyAssets.tres" id="3_no7lk"]
+[ext_resource type="Resource" uid="uid://b8mdgcmxdi1us" path="res://Resources/AllyAssets.tres" id="2_vvlvg"]
+[ext_resource type="Resource" uid="uid://dyqu8dm0xd6rq" path="res://Resources/EnnemyAssets.tres" id="3_nye68"]
 
 [node name="EntityTypeToAsset" type="Control"]
 layout_mode = 3
@@ -12,4 +12,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ay52q")
-Assets = Array[Resource("res://Scripts/Systems/EntityAssets.gd")]([ExtResource("2_x6lw3"), ExtResource("3_no7lk")])
+Assets = Array[Resource("res://Scripts/Systems/EntityAssets.gd")]([ExtResource("2_vvlvg"), ExtResource("3_nye68")])

@@ -1,0 +1,89 @@
+[gd_scene load_steps=3 format=3 uid="uid://che06mhwcyley"]
+
+[ext_resource type="Script" path="res://Scripts/UI/Shop/CardUI.gd" id="1_4cp2h"]
+[ext_resource type="Texture2D" uid="uid://bhc4hn1h2o0r1" path="res://Sprites/UI_Vector/Red/button_square_line.svg" id="1_mjgvq"]
+
+[node name="Card" type="Control" node_paths=PackedStringArray("cardImage", "cardName", "description")]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_4cp2h")
+cardImage = NodePath("Content/Icon")
+cardName = NodePath("Content/Name")
+description = NodePath("Content/Description")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_mjgvq")
+expand_mode = 1
+
+[node name="Content" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 51.0
+offset_right = -25.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="TextureButton" parent="Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 8.0
+offset_top = 0.5
+offset_right = -8.0
+offset_bottom = 155.5
+grow_horizontal = 2
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Content"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 1.0
+offset_right = -7.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Unit name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="Content"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 38.0
+offset_right = -8.0
+offset_bottom = 139.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Description of the unit is written in this text box"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="pressed" from="TextureButton" to="." method="ChooseCard"]

@@ -55,6 +55,7 @@ func SwitchToPreparation() :
 	var scene  = preload("res://Scenes/Preparation.tscn").instantiate()
 	get_node("/root/GameScenes").add_child(scene)
 	scene.owner = get_node("/root/GameScenes")
+	GameLoopSignals.StartPreparation.emit()
 	
 func SwitchToPreparationFromEndRound() :
 	var scene  = preload("res://Scenes/RoudResult.tscn").instantiate()
